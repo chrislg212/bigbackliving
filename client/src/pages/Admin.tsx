@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -177,25 +177,6 @@ function ReviewsTab() {
     },
   });
 
-  const updateCuisinesMutation = useMutation({
-    mutationFn: async ({ id, cuisineIds }: { id: number; cuisineIds: number[] }) => {
-      return apiRequest("PUT", `/api/reviews/${id}/cuisines`, { cuisineIds });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
-      toast({ title: "Cuisines updated" });
-    },
-  });
-
-  const updateNycCategoriesMutation = useMutation({
-    mutationFn: async ({ id, categoryIds }: { id: number; categoryIds: number[] }) => {
-      return apiRequest("PUT", `/api/reviews/${id}/nyc-categories`, { categoryIds });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
-      toast({ title: "NYC categories updated" });
-    },
-  });
 
   const handleOpenDialog = (review?: Review) => {
     if (review) {
@@ -560,8 +541,6 @@ function ReviewsTab() {
                   deleteMutation.mutate(review.id);
                 }
               }}
-              onUpdateCuisines={(cuisineIds) => updateCuisinesMutation.mutate({ id: review.id, cuisineIds })}
-              onUpdateNycCategories={(categoryIds) => updateNycCategoriesMutation.mutate({ id: review.id, categoryIds })}
             />
           ))}
         </div>
@@ -578,8 +557,6 @@ function ReviewCard({
   onToggleExpand,
   onEdit,
   onDelete,
-  onUpdateCuisines,
-  onUpdateNycCategories,
 }: {
   review: Review;
   cuisines: Cuisine[];
@@ -588,9 +565,8 @@ function ReviewCard({
   onToggleExpand: () => void;
   onEdit: () => void;
   onDelete: () => void;
-  onUpdateCuisines: (ids: number[]) => void;
-  onUpdateNycCategories: (ids: number[]) => void;
 }) {
+  const { toast } = useToast();
   const { data: reviewCuisines = [] } = useQuery<Cuisine[]>({
     queryKey: ["/api/reviews", review.id, "cuisines"],
   });
@@ -599,28 +575,71 @@ function ReviewCard({
     queryKey: ["/api/reviews", review.id, "nyc-categories"],
   });
 
-  const [selectedCuisines, setSelectedCuisines] = useState<number[]>([]);
-  const [selectedNycCategories, setSelectedNycCategories] = useState<number[]>([]);
-
-  useState(() => {
-    setSelectedCuisines(reviewCuisines.map(c => c.id));
-    setSelectedNycCategories(reviewNycCategories.map(c => c.id));
+  const updateCuisinesMutation = useMutation({
+    mutationFn: async (cuisineIds: number[]) => {
+      return apiRequest("PUT", `/api/reviews/${review.id}/cuisines`, { cuisineIds });
+    },
+    onMutate: async (newCuisineIds) => {
+      await queryClient.cancelQueries({ queryKey: ["/api/reviews", review.id, "cuisines"] });
+      const previousCuisines = queryClient.getQueryData<Cuisine[]>(["/api/reviews", review.id, "cuisines"]);
+      const newCuisines = cuisines.filter(c => newCuisineIds.includes(c.id));
+      queryClient.setQueryData(["/api/reviews", review.id, "cuisines"], newCuisines);
+      return { previousCuisines };
+    },
+    onSuccess: () => {
+      toast({ title: "Cuisines updated" });
+    },
+    onError: (_error, _newIds, context) => {
+      if (context?.previousCuisines) {
+        queryClient.setQueryData(["/api/reviews", review.id, "cuisines"], context.previousCuisines);
+      }
+      toast({ title: "Failed to update cuisines", variant: "destructive" });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/reviews", review.id, "cuisines"] });
+    },
   });
 
+  const updateNycCategoriesMutation = useMutation({
+    mutationFn: async (categoryIds: number[]) => {
+      return apiRequest("PUT", `/api/reviews/${review.id}/nyc-categories`, { categoryIds });
+    },
+    onMutate: async (newCategoryIds) => {
+      await queryClient.cancelQueries({ queryKey: ["/api/reviews", review.id, "nyc-categories"] });
+      const previousCategories = queryClient.getQueryData<NycEatsCategory[]>(["/api/reviews", review.id, "nyc-categories"]);
+      const newCategories = nycCategories.filter(c => newCategoryIds.includes(c.id));
+      queryClient.setQueryData(["/api/reviews", review.id, "nyc-categories"], newCategories);
+      return { previousCategories };
+    },
+    onSuccess: () => {
+      toast({ title: "NYC categories updated" });
+    },
+    onError: (_error, _newIds, context) => {
+      if (context?.previousCategories) {
+        queryClient.setQueryData(["/api/reviews", review.id, "nyc-categories"], context.previousCategories);
+      }
+      toast({ title: "Failed to update NYC categories", variant: "destructive" });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/reviews", review.id, "nyc-categories"] });
+    },
+  });
+
+  const displayedCuisineIds = reviewCuisines.map(c => c.id);
+  const displayedNycCategoryIds = reviewNycCategories.map(c => c.id);
+
   const toggleCuisine = (cuisineId: number) => {
-    const newIds = selectedCuisines.includes(cuisineId)
-      ? selectedCuisines.filter(id => id !== cuisineId)
-      : [...selectedCuisines, cuisineId];
-    setSelectedCuisines(newIds);
-    onUpdateCuisines(newIds);
+    const newIds = displayedCuisineIds.includes(cuisineId)
+      ? displayedCuisineIds.filter(id => id !== cuisineId)
+      : [...displayedCuisineIds, cuisineId];
+    updateCuisinesMutation.mutate(newIds);
   };
 
   const toggleNycCategory = (categoryId: number) => {
-    const newIds = selectedNycCategories.includes(categoryId)
-      ? selectedNycCategories.filter(id => id !== categoryId)
-      : [...selectedNycCategories, categoryId];
-    setSelectedNycCategories(newIds);
-    onUpdateNycCategories(newIds);
+    const newIds = displayedNycCategoryIds.includes(categoryId)
+      ? displayedNycCategoryIds.filter(id => id !== categoryId)
+      : [...displayedNycCategoryIds, categoryId];
+    updateNycCategoriesMutation.mutate(newIds);
   };
 
   return (
@@ -690,7 +709,7 @@ function ReviewCard({
                   cuisines.map((cuisine) => (
                     <Badge
                       key={cuisine.id}
-                      variant={selectedCuisines.includes(cuisine.id) ? "default" : "outline"}
+                      variant={displayedCuisineIds.includes(cuisine.id) ? "default" : "outline"}
                       className="cursor-pointer"
                       onClick={() => toggleCuisine(cuisine.id)}
                       data-testid={`badge-cuisine-${cuisine.id}`}
@@ -711,7 +730,7 @@ function ReviewCard({
                   nycCategories.map((category) => (
                     <Badge
                       key={category.id}
-                      variant={selectedNycCategories.includes(category.id) ? "default" : "outline"}
+                      variant={displayedNycCategoryIds.includes(category.id) ? "default" : "outline"}
                       className="cursor-pointer"
                       onClick={() => toggleNycCategory(category.id)}
                       data-testid={`badge-nyc-${category.id}`}
@@ -1421,66 +1440,73 @@ function TopTenListCard({
   onDelete: () => void;
 }) {
   const { toast } = useToast();
-  const [listItems, setListItems] = useState<{ reviewId: number; rank: number }[]>([]);
 
   const { data: items = [] } = useQuery<{ review: Review; rank: number }[]>({
     queryKey: ["/api/top-ten-lists", list.id, "items"],
     enabled: isExpanded,
   });
 
-  useState(() => {
-    if (items.length > 0) {
-      setListItems(items.map(item => ({ reviewId: item.review.id, rank: item.rank })));
-    }
-  });
-
   const updateItemsMutation = useMutation({
-    mutationFn: async (items: { reviewId: number; rank: number }[]) => {
-      return apiRequest("PUT", `/api/top-ten-lists/${list.id}/items`, { items });
+    mutationFn: async (itemsData: { reviewId: number; rank: number }[]) => {
+      return apiRequest("PUT", `/api/top-ten-lists/${list.id}/items`, { items: itemsData });
+    },
+    onMutate: async (newItems) => {
+      await queryClient.cancelQueries({ queryKey: ["/api/top-ten-lists", list.id, "items"] });
+      const previousItems = queryClient.getQueryData<{ review: Review; rank: number }[]>(["/api/top-ten-lists", list.id, "items"]);
+      const newQueryData = newItems.map(item => {
+        const review = reviews.find(r => r.id === item.reviewId);
+        return { review: review!, rank: item.rank };
+      }).filter(item => item.review);
+      queryClient.setQueryData(["/api/top-ten-lists", list.id, "items"], newQueryData);
+      return { previousItems };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/top-ten-lists", list.id, "items"] });
       toast({ title: "List items updated" });
     },
-    onError: () => {
+    onError: (_error, _newItems, context) => {
+      if (context?.previousItems) {
+        queryClient.setQueryData(["/api/top-ten-lists", list.id, "items"], context.previousItems);
+      }
       toast({ title: "Failed to update list items", variant: "destructive" });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/top-ten-lists", list.id, "items"] });
     },
   });
 
+  const displayedItems = items.map(item => ({ reviewId: item.review.id, rank: item.rank }));
+
   const addReviewToList = (reviewId: number) => {
-    const nextRank = listItems.length + 1;
+    const nextRank = displayedItems.length + 1;
     if (nextRank > 10) {
       toast({ title: "Maximum 10 items allowed", variant: "destructive" });
       return;
     }
-    const newItems = [...listItems, { reviewId, rank: nextRank }];
-    setListItems(newItems);
+    const newItems = [...displayedItems, { reviewId, rank: nextRank }];
     updateItemsMutation.mutate(newItems);
   };
 
   const removeReviewFromList = (reviewId: number) => {
-    const newItems = listItems
+    const newItems = displayedItems
       .filter(item => item.reviewId !== reviewId)
       .map((item, idx) => ({ ...item, rank: idx + 1 }));
-    setListItems(newItems);
     updateItemsMutation.mutate(newItems);
   };
 
   const moveItem = (reviewId: number, direction: "up" | "down") => {
-    const idx = listItems.findIndex(item => item.reviewId === reviewId);
+    const idx = displayedItems.findIndex(item => item.reviewId === reviewId);
     if (idx === -1) return;
     if (direction === "up" && idx === 0) return;
-    if (direction === "down" && idx === listItems.length - 1) return;
+    if (direction === "down" && idx === displayedItems.length - 1) return;
 
-    const newItems = [...listItems];
+    const newItems = [...displayedItems];
     const swapIdx = direction === "up" ? idx - 1 : idx + 1;
     [newItems[idx], newItems[swapIdx]] = [newItems[swapIdx], newItems[idx]];
     const reranked = newItems.map((item, i) => ({ ...item, rank: i + 1 }));
-    setListItems(reranked);
     updateItemsMutation.mutate(reranked);
   };
 
-  const availableReviews = reviews.filter(r => !listItems.some(item => item.reviewId === r.id));
+  const availableReviews = reviews.filter(r => !displayedItems.some(item => item.reviewId === r.id));
 
   return (
     <Card data-testid={`card-list-${list.id}`}>
@@ -1508,12 +1534,12 @@ function TopTenListCard({
         <CardContent className="pt-0">
           <div className="space-y-4">
             <div>
-              <Label className="text-sm font-medium mb-2 block">Current Items ({listItems.length}/10)</Label>
-              {listItems.length === 0 ? (
+              <Label className="text-sm font-medium mb-2 block">Current Items ({displayedItems.length}/10)</Label>
+              {displayedItems.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No items in this list yet</p>
               ) : (
                 <div className="space-y-2">
-                  {listItems
+                  {displayedItems
                     .sort((a, b) => a.rank - b.rank)
                     .map((item) => {
                       const review = reviews.find(r => r.id === item.reviewId);
@@ -1538,7 +1564,7 @@ function TopTenListCard({
                               size="icon"
                               variant="ghost"
                               onClick={() => moveItem(item.reviewId, "down")}
-                              disabled={item.rank === listItems.length}
+                              disabled={item.rank === displayedItems.length}
                             >
                               <ChevronDown className="w-4 h-4" />
                             </Button>
@@ -1557,7 +1583,7 @@ function TopTenListCard({
               )}
             </div>
 
-            {listItems.length < 10 && availableReviews.length > 0 && (
+            {displayedItems.length < 10 && availableReviews.length > 0 && (
               <div>
                 <Label className="text-sm font-medium mb-2 block">Add Review</Label>
                 <Select onValueChange={(value) => addReviewToList(parseInt(value))}>

@@ -2,18 +2,7 @@ import { Link } from "wouter";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "./StarRating";
-
-export interface Review {
-  id: string;
-  slug: string;
-  name: string;
-  cuisine: string;
-  location: string;
-  rating: number;
-  excerpt: string;
-  image: string;
-  priceRange: string;
-}
+import type { Review } from "@shared/schema";
 
 interface ReviewCardProps {
   review: Review;
@@ -21,6 +10,8 @@ interface ReviewCardProps {
 }
 
 export default function ReviewCard({ review, variant = "default" }: ReviewCardProps) {
+  const imageUrl = review.image || "";
+
   if (variant === "featured") {
     return (
       <Link href={`/review/${review.slug}`}>
@@ -30,7 +21,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
         >
           <div className="aspect-[16/9] overflow-hidden relative">
             <img
-              src={review.image}
+              src={imageUrl}
               alt={review.name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               data-testid={`review-image-${review.id}`}
@@ -74,7 +65,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
         >
           <div className="w-32 h-32 flex-shrink-0 overflow-hidden">
             <img
-              src={review.image}
+              src={imageUrl}
               alt={review.name}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -104,7 +95,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
       >
         <div className="aspect-[4/3] overflow-hidden">
           <img
-            src={review.image}
+            src={imageUrl}
             alt={review.name}
             className="w-full h-full object-cover"
             data-testid={`review-image-${review.id}`}
