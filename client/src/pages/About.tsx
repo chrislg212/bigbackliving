@@ -1,6 +1,7 @@
 import { Mail, MapPin, Utensils, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PageHeader from "@/components/PageHeader";
+import AnimatedSection from "@/components/AnimatedSection";
 
 export default function About() {
   const ratingBreakdown = [
@@ -43,7 +44,7 @@ export default function About() {
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div>
+          <AnimatedSection animation="fade-in-left">
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-6">
               Our Philosophy
             </h2>
@@ -67,87 +68,100 @@ export default function About() {
                 sharing food.
               </p>
             </div>
-          </div>
+          </AnimatedSection>
 
           <div className="space-y-6">
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-md bg-primary/10">
-                    <Utensils className="w-5 h-5 text-primary" />
+            <AnimatedSection animation="fade-in-right" delay={100}>
+              <Card className="border-0 shadow-sm card-hover-lift">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-md bg-primary/10">
+                      <Utensils className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
+                        Our Mission
+                      </h3>
+                      <p className="font-sans text-sm text-muted-foreground">
+                        To guide food lovers toward exceptional dining experiences
+                        through honest, thoughtful, and beautifully presented
+                        reviews.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
-                      Our Mission
-                    </h3>
-                    <p className="font-sans text-sm text-muted-foreground">
-                      To guide food lovers toward exceptional dining experiences
-                      through honest, thoughtful, and beautifully presented
-                      reviews.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
 
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-md bg-primary/10">
-                    <MapPin className="w-5 h-5 text-primary" />
+            <AnimatedSection animation="fade-in-right" delay={200}>
+              <Card className="border-0 shadow-sm card-hover-lift">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-md bg-primary/10">
+                      <MapPin className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
+                        Where We Review
+                      </h3>
+                      <p className="font-sans text-sm text-muted-foreground">
+                        Based in New York City, we explore restaurants across all
+                        five boroughs and beyond, from neighborhood favorites to
+                        destination dining.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
-                      Where We Review
-                    </h3>
-                    <p className="font-sans text-sm text-muted-foreground">
-                      Based in New York City, we explore restaurants across all
-                      five boroughs and beyond, from neighborhood favorites to
-                      destination dining.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
 
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-md bg-primary/10">
-                    <Mail className="w-5 h-5 text-primary" />
+            <AnimatedSection animation="fade-in-right" delay={300}>
+              <Card className="border-0 shadow-sm card-hover-lift">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-md bg-primary/10">
+                      <Mail className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
+                        Get in Touch
+                      </h3>
+                      <p className="font-sans text-sm text-muted-foreground mb-2">
+                        Have a restaurant you think we should visit? We'd love to
+                        hear from you.
+                      </p>
+                      <a
+                        href="mailto:hello@thepalate.com"
+                        className="font-sans text-sm text-primary hover:underline"
+                        data-testid="contact-email"
+                      >
+                        hello@thepalate.com
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
-                      Get in Touch
-                    </h3>
-                    <p className="font-sans text-sm text-muted-foreground mb-2">
-                      Have a restaurant you think we should visit? We'd love to
-                      hear from you.
-                    </p>
-                    <a
-                      href="mailto:hello@thepalate.com"
-                      className="font-sans text-sm text-primary hover:underline"
-                      data-testid="contact-email"
-                    >
-                      hello@thepalate.com
-                    </a>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
       <section className="bg-card border-t border-primary/10" data-testid="how-we-rate-section">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground text-center mb-12">
-            How We Rate
-          </h2>
+          <AnimatedSection animation="fade-in-up">
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground text-center mb-12">
+              How We Rate
+            </h2>
+          </AnimatedSection>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16">
-            {ratingBreakdown.map((item) => (
-              <div key={item.label} className="text-center">
+            {ratingBreakdown.map((item, index) => (
+              <AnimatedSection 
+                key={item.label} 
+                animation="scale-in" 
+                delay={100 + index * 100}
+                className="text-center"
+              >
                 <div className="flex justify-center mb-3">
                   <Star className="w-6 h-6 fill-primary text-primary" />
                 </div>
@@ -157,19 +171,23 @@ export default function About() {
                 <div className="font-sans text-sm text-muted-foreground uppercase tracking-wider">
                   {item.label}
                 </div>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
 
           <div className="border-t border-primary/10 pt-12">
-            <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground text-center mb-10">
-              Our Rating Criteria
-            </h3>
+            <AnimatedSection animation="fade-in-up" delay={500}>
+              <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground text-center mb-10">
+                Our Rating Criteria
+              </h3>
+            </AnimatedSection>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {ratingCriteria.map((criterion, index) => (
-                <div
+                <AnimatedSection
                   key={criterion.name}
+                  animation="fade-in-up"
+                  delay={600 + index * 100}
                   className={`${index === ratingCriteria.length - 1 && ratingCriteria.length % 3 !== 0 ? "md:col-span-2 lg:col-span-1" : ""}`}
                 >
                   <h4 className="font-serif text-lg font-semibold text-foreground mb-2">
@@ -178,7 +196,7 @@ export default function About() {
                   <p className="font-sans text-sm text-muted-foreground leading-relaxed">
                     {criterion.description}
                   </p>
-                </div>
+                </AnimatedSection>
               ))}
             </div>
           </div>

@@ -1,0 +1,79 @@
+Please redesign several areas of the site with full creative autonomy, while keeping the overall brand identity, colors, typography, and premium editorial tone consistent.
+
+You have permission to:
+- Design unique layouts for different sections
+- Choose animation styles
+- Choose hover interactions and motion patterns
+- Modify card structures, grid layouts, and hero sections
+- Add subtle movement, transitions, and depth to enhance user experience
+- Make design decisions independently as long as they align with the site’s current aesthetic
+
+DO NOT change navigation structure, page routing, or existing text unless needed for layout.
+
+------------------------------------
+1. GLOBAL EXPERIENCE UPGRADE
+------------------------------------
+• Add a site-wide animation system:
+  - fade-in on scroll
+  - slide-up for text blocks
+  - staggered image reveals
+  - soft zoom hover effects for cards
+  - parallax scroll for hero images
+• Add improved button interactions with gentle lift, gold accent shift, and arrow animation.
+• Enhance nav interactions with animated gold underlines and slight brightness changes.
+
+Keep animations elegant and minimal — premium editorial quality.
+
+------------------------------------
+2. CONTENT PAGE UPGRADE
+------------------------------------
+Redesign the “Content” page with only two tabs:
+- Instagram
+- TikTok
+
+You may redesign these however you think best:
+• Add platform-specific styling
+• Use unique hover animations for each platform
+• Add visual previews, mock feed cards, or animated tiles
+• Implement motion that fits social-media energy but still matches the site’s aesthetic
+
+------------------------------------
+3. UNIQUE LAYOUTS PER CATEGORY
+------------------------------------
+Redesign the page layout and review presentation style for each major section so they are NOT identical:
+
+• NYC Eats  
+• Cuisines  
+• Top 10 Lists  
+• College Budget Eats (Under $20)
+
+Each section should have:
+- A unique hero style (image, shape, gradient, animation)
+- A distinct card layout (grids, staggered cards, mixed-size image tiles, or editorial columns)
+- Different hover styles and motion patterns
+- Slightly different spacing and hierarchy
+
+Give each category its own personality while keeping the site cohesive.
+
+Examples (you may choose your own approach):
+- NYC Eats → energetic, city-style layout with animated map pins or staggered masonry grid.
+- Cuisines → image-based tiles with subtle zoom and a global culinary vibe.
+- Top 10 Lists → editorial magazine style with strong hierarchy and feature hero.
+- Budget Eats → playful, bold design with price highlights and cheerful animations.
+
+------------------------------------
+4. TOP 10 LIST SUB-PAGE IMPROVEMENT
+------------------------------------
+Make each Top 10 sub-page visually distinct:
+• Featured hero card  
+• Unique background overlays  
+• Animated list item reveal  
+• Optional numbered badges or floating decorations  
+
+------------------------------------
+5. IMPLEMENT & APPLY DESIGNS
+------------------------------------
+Apply changes across all related files.  
+Ensure everything works across desktop and mobile.
+
+Use your full autonomy to design, animate, and style these pages for maximum visual appeal and professionalism.

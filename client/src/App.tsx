@@ -14,6 +14,7 @@ import NYCEats from "@/pages/rankings/NYCEats";
 import Cuisines from "@/pages/rankings/Cuisines";
 import CuisineReviews from "@/pages/rankings/CuisineReviews";
 import Top10Lists from "@/pages/rankings/Top10Lists";
+import Top10Detail from "@/pages/rankings/Top10Detail";
 import CollegeBudget from "@/pages/rankings/CollegeBudget";
 import NotFound from "@/pages/not-found";
 
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/rankings/cuisines" component={Cuisines} />
       <Route path="/cuisines/:cuisine" component={CuisineReviews} />
       <Route path="/rankings/top-10" component={Top10Lists} />
+      <Route path="/top-10/:slug" component={Top10Detail} />
       <Route path="/rankings/college-budget" component={CollegeBudget} />
       <Route path="/content" component={Content} />
       <Route path="/about" component={About} />

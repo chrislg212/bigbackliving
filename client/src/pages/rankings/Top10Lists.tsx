@@ -1,6 +1,6 @@
 import { Link } from "wouter";
-import { ArrowRight } from "lucide-react";
-import PageHeader from "@/components/PageHeader";
+import { ArrowRight, Award, List } from "lucide-react";
+import AnimatedSection from "@/components/AnimatedSection";
 
 import dateNightImage from "@assets/stock_images/romantic_candlelit_d_a4a26dad.jpg";
 import brunchImage from "@assets/stock_images/brunch_table_with_eg_e4c89727.jpg";
@@ -14,46 +14,52 @@ interface TopList {
   description: string;
   slug: string;
   image: string;
+  accent: string;
 }
 
 export default function Top10Lists() {
-  // todo: remove mock functionality - fetch from API
   const lists: TopList[] = [
     {
       title: "Top 10 Date Night Spots",
       description: "Romantic restaurants perfect for a special evening with someone you love",
       slug: "date-night",
       image: dateNightImage,
+      accent: "from-rose-600",
     },
     {
       title: "Top 10 Brunch Spots",
       description: "The best places to start your weekend mornings in style",
       slug: "brunch",
       image: brunchImage,
+      accent: "from-amber-600",
     },
     {
       title: "Top 10 Hidden Gems",
       description: "Under-the-radar restaurants worth discovering",
       slug: "hidden-gems",
       image: hiddenGemsImage,
+      accent: "from-emerald-600",
     },
     {
       title: "Top 10 Rooftop Dining",
       description: "Stunning views paired with exceptional food",
       slug: "rooftop",
       image: rooftopImage,
+      accent: "from-sky-600",
     },
     {
       title: "Top 10 Tasting Menus",
       description: "Multi-course culinary experiences that tell a story",
       slug: "tasting-menus",
       image: tastingMenuImage,
+      accent: "from-violet-600",
     },
     {
       title: "Top 10 Late Night Eats",
       description: "Where to satisfy those midnight cravings",
       slug: "late-night",
       image: lateNightImage,
+      accent: "from-indigo-600",
     },
   ];
 
@@ -62,70 +68,128 @@ export default function Top10Lists() {
 
   return (
     <div className="min-h-screen" data-testid="top10-page">
-      <PageHeader
-        title="Top 10 Lists"
-        subtitle="Curated collections to guide your next great meal"
-        variant={1}
-      />
+      <section className="relative bg-card border-b border-primary/10 overflow-hidden">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `repeating-linear-gradient(45deg, hsl(var(--primary)) 0, hsl(var(--primary)) 1px, transparent 0, transparent 50%)`,
+            backgroundSize: '20px 20px',
+          }} />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+          <AnimatedSection animation="fade-in-up" className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
+              <List className="w-4 h-4" />
+              <span className="font-sans text-sm font-medium">Editorial Picks</span>
+            </div>
+            
+            <h1 className="font-serif text-5xl md:text-6xl font-semibold text-foreground mb-4">
+              Top 10 Lists
+            </h1>
+            
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
+            </div>
+            
+            <p className="font-sans text-lg text-muted-foreground max-w-2xl mx-auto">
+              Curated collections to guide your next great meal. Each list is carefully crafted by our editorial team.
+            </p>
+          </AnimatedSection>
+        </div>
+      </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <Link href={`/top-10/${heroList.slug}`} data-testid="hero-card">
-          <div className="group relative w-full aspect-[21/9] md:aspect-[3/1] rounded-md overflow-hidden cursor-pointer mb-8 md:mb-12">
-            <img
-              src={heroList.image}
-              alt={heroList.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-            <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12 lg:px-16">
-              <span className="font-sans text-xs md:text-sm font-medium text-primary uppercase tracking-wider mb-3">
-                Featured List
-              </span>
-              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-3 md:mb-4 max-w-xl">
-                {heroList.title}
-              </h2>
-              <p className="font-sans text-sm md:text-base text-white/80 mb-6 max-w-lg hidden sm:block">
-                {heroList.description}
-              </p>
-              <span className="inline-flex items-center gap-2 font-sans text-sm md:text-base font-medium text-primary group-hover:gap-3 transition-all duration-300">
-                View List
-                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-              </span>
-            </div>
+        <AnimatedSection animation="fade-in-up" className="mb-10">
+          <div className="flex items-center gap-3 mb-2">
+            <Award className="w-5 h-5 text-primary" />
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">
+              Featured List
+            </h2>
           </div>
-        </Link>
+        </AnimatedSection>
+
+        <AnimatedSection animation="scale-in" delay={100}>
+          <Link href={`/top-10/${heroList.slug}`} data-testid="hero-card">
+            <div className="group relative w-full aspect-[21/9] md:aspect-[3/1] rounded-lg overflow-hidden cursor-pointer mb-12 md:mb-16 card-hover-lift gold-glow-hover">
+              <img
+                src={heroList.image}
+                alt={heroList.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-r ${heroList.accent}/80 via-black/60 to-black/30`} />
+              
+              <div className="absolute top-6 left-6 md:top-8 md:left-8">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
+                  <Award className="w-3 h-3" />
+                  <span className="font-sans text-xs font-medium uppercase tracking-wider">Featured</span>
+                </div>
+              </div>
+              
+              <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12 lg:px-16">
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 max-w-xl transition-transform duration-300 group-hover:translate-x-2">
+                  {heroList.title}
+                </h2>
+                <p className="font-sans text-sm md:text-base text-white/80 mb-6 max-w-lg hidden sm:block">
+                  {heroList.description}
+                </p>
+                <span className="inline-flex items-center gap-2 font-sans text-sm md:text-base font-medium text-primary group-hover:gap-4 transition-all duration-300">
+                  View Complete List
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 arrow-hover-right" />
+                </span>
+              </div>
+            </div>
+          </Link>
+        </AnimatedSection>
+
+        <AnimatedSection animation="fade-in-up" delay={200} className="mb-8">
+          <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground">
+            More Lists to Explore
+          </h3>
+        </AnimatedSection>
 
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           data-testid="top10-grid"
         >
-          {gridLists.map((list) => (
-            <Link
+          {gridLists.map((list, index) => (
+            <AnimatedSection
               key={list.slug}
-              href={`/top-10/${list.slug}`}
-              data-testid={`list-card-${list.slug}`}
+              animation="fade-in-up"
+              delay={300 + index * 100}
             >
-              <div className="group relative aspect-[4/3] rounded-md overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300">
-                <img
-                  src={list.image}
-                  alt={list.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 transition-opacity duration-300 group-hover:from-black/85 group-hover:via-black/50" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <h3 className="font-serif text-xl md:text-2xl font-semibold text-white mb-2">
-                    {list.title}
-                  </h3>
-                  <p className="font-sans text-sm text-white/75 mb-4 line-clamp-2">
-                    {list.description}
-                  </p>
-                  <span className="inline-flex items-center gap-1 font-sans text-sm font-medium text-primary group-hover:gap-2 transition-all duration-300">
-                    View List
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
+              <Link
+                href={`/top-10/${list.slug}`}
+                data-testid={`list-card-${list.slug}`}
+              >
+                <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer shadow-sm card-hover-lift">
+                  <img
+                    src={list.image}
+                    alt={list.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${list.accent}/70 via-black/50 to-black/20 transition-all duration-300 group-hover:via-black/60`} />
+                  
+                  <div className="absolute top-4 left-4">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                      <span className="font-serif text-sm font-bold text-white">10</span>
+                    </div>
+                  </div>
+                  
+                  <div className="absolute inset-0 flex flex-col justify-end p-6">
+                    <h3 className="font-serif text-xl md:text-2xl font-bold text-white mb-2 transition-transform duration-300 group-hover:translate-x-1">
+                      {list.title}
+                    </h3>
+                    <p className="font-sans text-sm text-white/70 mb-4 line-clamp-2">
+                      {list.description}
+                    </p>
+                    <span className="inline-flex items-center gap-1 font-sans text-sm font-medium text-primary group-hover:gap-2 transition-all duration-300">
+                      View List
+                      <ArrowRight className="w-4 h-4 arrow-hover-right" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </AnimatedSection>
           ))}
         </div>
       </section>

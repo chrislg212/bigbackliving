@@ -4,7 +4,8 @@ interface StarRatingProps {
   rating: number;
   maxRating?: number;
   showNumeric?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
+  light?: boolean;
 }
 
 export default function StarRating({
@@ -12,18 +13,33 @@ export default function StarRating({
   maxRating = 5,
   showNumeric = true,
   size = "md",
+  light = false,
 }: StarRatingProps) {
   const sizeClasses = {
+    xs: "w-2.5 h-2.5",
     sm: "w-3 h-3",
     md: "w-4 h-4",
     lg: "w-5 h-5",
   };
 
   const textSizes = {
+    xs: "text-[10px]",
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
   };
+
+  const starColor = light 
+    ? "fill-primary text-primary" 
+    : "fill-primary text-primary";
+  
+  const emptyColor = light 
+    ? "fill-none text-white/40" 
+    : "fill-none text-muted-foreground/40";
+  
+  const textColor = light 
+    ? "text-white" 
+    : "text-foreground";
 
   return (
     <div className="flex items-center gap-1" data-testid="star-rating">
@@ -36,9 +52,7 @@ export default function StarRating({
             <Star
               key={index}
               className={`${sizeClasses[size]} ${
-                filled || halfFilled
-                  ? "fill-primary text-primary"
-                  : "fill-none text-muted-foreground/40"
+                filled || halfFilled ? starColor : emptyColor
               }`}
               data-testid={`star-${index + 1}`}
             />
@@ -47,7 +61,7 @@ export default function StarRating({
       </div>
       {showNumeric && (
         <span
-          className={`${textSizes[size]} font-medium text-foreground ml-1`}
+          className={`${textSizes[size]} font-medium ${textColor} ml-1`}
           data-testid="rating-numeric"
         >
           {rating.toFixed(1)}
