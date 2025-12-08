@@ -47,7 +47,6 @@ export default function NYCEats() {
               alt="NYC food scene" 
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-background via-background/60 to-transparent" />
           </div>
           
           <div className="bg-background relative order-2 md:order-1">
