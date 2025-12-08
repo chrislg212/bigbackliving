@@ -23,7 +23,7 @@ export default function PageHeader({
               alt="" 
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/50 to-transparent" />
           </div>
         )}
         

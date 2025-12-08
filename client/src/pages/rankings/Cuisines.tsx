@@ -50,7 +50,7 @@ export default function Cuisines() {
               alt="World cuisines" 
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/50 to-transparent" />
           </div>
           
           <div className="bg-background relative order-2 md:order-1">
