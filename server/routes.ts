@@ -56,7 +56,11 @@ export async function registerRoutes(
       if (isNaN(id)) {
         return res.status(400).json({ error: "Invalid review ID" });
       }
-      const review = await storage.updateReview(id, req.body);
+      const parsed = insertReviewSchema.partial().safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const review = await storage.updateReview(id, parsed.data);
       if (!review) {
         return res.status(404).json({ error: "Review not found" });
       }

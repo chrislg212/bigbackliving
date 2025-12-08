@@ -10,6 +10,7 @@ import Reviews from "@/pages/Reviews";
 import About from "@/pages/About";
 import Content from "@/pages/Content";
 import ReviewDetail from "@/pages/ReviewDetail";
+import Admin from "@/pages/Admin";
 import NYCEats from "@/pages/rankings/NYCEats";
 import Cuisines from "@/pages/rankings/Cuisines";
 import CuisineReviews from "@/pages/rankings/CuisineReviews";
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/content" component={Content} />
       <Route path="/about" component={About} />
       <Route path="/review/:slug" component={ReviewDetail} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

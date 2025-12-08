@@ -1,12 +1,32 @@
+import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import ReviewCard from "@/components/ReviewCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { mockReviews } from "@/data/mockReviews";
+import { Loader2 } from "lucide-react";
+import type { Review as DBReview } from "@shared/schema";
 
 export default function Home() {
-  // todo: remove mock functionality - fetch from API
-  const recentReviews = mockReviews.slice(0, 6);
+  const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
+    queryKey: ["/api/reviews"],
+  });
+
+  const reviews = dbReviews.length > 0 
+    ? dbReviews.map(r => ({
+        id: String(r.id),
+        slug: r.slug,
+        name: r.name,
+        cuisine: r.cuisine,
+        location: r.location,
+        rating: r.rating,
+        excerpt: r.excerpt,
+        image: r.image || "",
+        priceRange: r.priceRange,
+      }))
+    : mockReviews;
+
+  const recentReviews = reviews.slice(0, 6);
 
   return (
     <div data-testid="home-page">
@@ -26,14 +46,20 @@ export default function Home() {
           </p>
         </div>
 
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-          data-testid="reviews-grid"
-        >
-          {recentReviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : (
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+            data-testid="reviews-grid"
+          >
+            {recentReviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
+        )}
 
         <div className="text-center mt-12">
           <Link href="/reviews">

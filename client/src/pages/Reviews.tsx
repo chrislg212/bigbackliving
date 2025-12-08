@@ -1,13 +1,39 @@
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import ReviewCard from "@/components/ReviewCard";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import { mockReviews } from "@/data/mockReviews";
-import { Star, ArrowRight, Award } from "lucide-react";
+import { Star, ArrowRight, Award, Loader2 } from "lucide-react";
 import nycRestaurantsImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
+import type { Review as DBReview } from "@shared/schema";
 
 export default function Reviews() {
-  const reviews = mockReviews;
+  const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
+    queryKey: ["/api/reviews"],
+  });
+
+  const reviews = dbReviews.length > 0 
+    ? dbReviews.map(r => ({
+        id: String(r.id),
+        slug: r.slug,
+        name: r.name,
+        cuisine: r.cuisine,
+        location: r.location,
+        rating: r.rating,
+        excerpt: r.excerpt,
+        image: r.image || "",
+        priceRange: r.priceRange,
+      }))
+    : mockReviews;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen" data-testid="reviews-page">

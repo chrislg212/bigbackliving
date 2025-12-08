@@ -1,19 +1,72 @@
 import { useParams, Link } from "wouter";
-import { ArrowLeft, MapPin, DollarSign, Clock, Utensils } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft, MapPin, DollarSign, Clock, Utensils, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "@/components/StarRating";
 import ReviewCard from "@/components/ReviewCard";
 import { mockReviews, reviewDetails } from "@/data/mockReviews";
+import type { Review as DBReview } from "@shared/schema";
 
 export default function ReviewDetail() {
   const { slug } = useParams<{ slug: string }>();
 
-  // todo: remove mock functionality - fetch from API
-  const review = mockReviews.find((r) => r.slug === slug);
-  const details = slug ? reviewDetails[slug] : null;
-  const relatedReviews = mockReviews.filter((r) => r.slug !== slug).slice(0, 3);
+  const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
+    queryKey: ["/api/reviews"],
+  });
+
+  const dbReview = dbReviews.find((r) => r.slug === slug);
+  const mockReview = mockReviews.find((r) => r.slug === slug);
+  const mockDetails = slug ? reviewDetails[slug] : null;
+
+  const review = dbReview 
+    ? {
+        id: String(dbReview.id),
+        slug: dbReview.slug,
+        name: dbReview.name,
+        cuisine: dbReview.cuisine,
+        location: dbReview.location,
+        rating: dbReview.rating,
+        excerpt: dbReview.excerpt,
+        image: dbReview.image || "",
+        priceRange: dbReview.priceRange,
+      }
+    : mockReview;
+
+  const details = dbReview
+    ? {
+        fullReview: dbReview.fullReview || dbReview.excerpt,
+        highlights: dbReview.highlights || [],
+        atmosphere: dbReview.atmosphere || "",
+        mustTry: dbReview.mustTry || [],
+        visitDate: dbReview.visitDate || "",
+      }
+    : mockDetails;
+
+  const allReviews = dbReviews.length > 0 
+    ? dbReviews.map(r => ({
+        id: String(r.id),
+        slug: r.slug,
+        name: r.name,
+        cuisine: r.cuisine,
+        location: r.location,
+        rating: r.rating,
+        excerpt: r.excerpt,
+        image: r.image || "",
+        priceRange: r.priceRange,
+      }))
+    : mockReviews;
+  
+  const relatedReviews = allReviews.filter((r) => r.slug !== slug).slice(0, 3);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   if (!review || !details) {
     return (
@@ -142,58 +195,64 @@ export default function ReviewDetail() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Clock className="w-4 h-4 text-primary mt-1" />
-                    <div>
-                      <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
-                        Visited
-                      </div>
-                      <div className="font-sans text-sm text-foreground">
-                        {details.visitDate}
+                  {details.visitDate && (
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-4 h-4 text-primary mt-1" />
+                      <div>
+                        <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                          Visited
+                        </div>
+                        <div className="font-sans text-sm text-foreground">
+                          {details.visitDate}
+                        </div>
                       </div>
                     </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {details.mustTry && details.mustTry.length > 0 && (
+              <Card className="border-0 shadow-sm">
+                <CardContent className="p-6">
+                  <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
+                    Must Try
+                  </h3>
+                  <ul className="space-y-2">
+                    {details.mustTry.map((item) => (
+                      <li
+                        key={item}
+                        className="font-sans text-sm text-foreground flex items-center gap-2"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+
+            {details.highlights && details.highlights.length > 0 && (
+              <Card className="border-0 shadow-sm">
+                <CardContent className="p-6">
+                  <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
+                    Highlights
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {details.highlights.map((highlight) => (
+                      <Badge
+                        key={highlight}
+                        variant="secondary"
+                        className="font-sans text-xs"
+                      >
+                        {highlight}
+                      </Badge>
+                    ))}
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6">
-                <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
-                  Must Try
-                </h3>
-                <ul className="space-y-2">
-                  {details.mustTry.map((item) => (
-                    <li
-                      key={item}
-                      className="font-sans text-sm text-foreground flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6">
-                <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
-                  Highlights
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {details.highlights.map((highlight) => (
-                    <Badge
-                      key={highlight}
-                      variant="secondary"
-                      className="font-sans text-xs"
-                    >
-                      {highlight}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            )}
           </aside>
         </div>
       </section>
