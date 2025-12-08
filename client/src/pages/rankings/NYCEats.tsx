@@ -87,9 +87,8 @@ export default function NYCEats() {
           </AnimatedSection>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 from-background to-transparent bg-[#f9f8f5]" />
       </section>
-
       <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-20">
         <AnimatedSection animation="fade-in-up" className="mb-8">
           <div className="flex items-center gap-3 mb-2">
