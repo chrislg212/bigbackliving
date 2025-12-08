@@ -55,7 +55,7 @@ export default function NYCEats() {
               <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl" />
             </div>
             
-            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-12 md:py-20">
+            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-12 md:py-20 bg-[#d0cfcf]">
               <AnimatedSection animation="fade-in-up">
                 <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
                   New York City
