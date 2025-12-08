@@ -82,16 +82,16 @@ export default function CollegeBudget() {
 
         {budgetReviews.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-8">
-              {budgetReviews.slice(0, 2).map((review, index) => (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8">
+              {budgetReviews.slice(0, 3).map((review, index) => (
                 <AnimatedSection 
                   key={review.id} 
                   animation="fade-in-up" 
                   delay={100 + index * 100}
                 >
-                  <Card className="overflow-hidden border-0 shadow-md group cursor-pointer card-hover-lift">
-                    <div className="flex flex-col md:flex-row">
-                      <div className="md:w-2/5 aspect-[4/3] md:aspect-auto overflow-hidden relative">
+                  <Card className="overflow-hidden border-0 shadow-md group cursor-pointer card-hover-lift h-full">
+                    <div className="flex flex-col h-full">
+                      <div className="aspect-[4/3] overflow-hidden relative">
                         <img
                           src={review.image}
                           alt={review.name}
@@ -103,16 +103,18 @@ export default function CollegeBudget() {
                           </Badge>
                         </div>
                       </div>
-                      <CardContent className="md:w-3/5 p-6 flex flex-col justify-center">
-                        <span className="text-xs font-sans font-medium uppercase tracking-wider text-primary mb-2">
-                          {review.cuisine}
-                        </span>
-                        <h3 className="font-serif text-2xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                          {review.name}
-                        </h3>
-                        <p className="font-sans text-sm text-muted-foreground mb-3">
-                          {review.location}
-                        </p>
+                      <CardContent className="p-6 flex flex-col justify-between flex-1">
+                        <div>
+                          <span className="text-xs font-sans font-medium uppercase tracking-wider text-primary mb-2 block">
+                            {review.cuisine}
+                          </span>
+                          <h3 className="font-serif text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                            {review.name}
+                          </h3>
+                          <p className="font-sans text-sm text-muted-foreground mb-3">
+                            {review.location}
+                          </p>
+                        </div>
                         <p className="font-sans text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                           {review.excerpt}
                         </p>
@@ -127,7 +129,7 @@ export default function CollegeBudget() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
               data-testid="budget-reviews-grid"
             >
-              {budgetReviews.slice(2).map((review, index) => (
+              {budgetReviews.slice(3).map((review, index) => (
                 <AnimatedSection 
                   key={review.id} 
                   animation="fade-in-up" 

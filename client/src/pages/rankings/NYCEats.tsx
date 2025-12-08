@@ -19,7 +19,7 @@ const neighborhoods = [
 
 export default function NYCEats() {
   const reviews = mockReviews;
-  const featuredReviews = reviews.slice(0, 3);
+  const featuredReviews = reviews.slice(0, 6);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
