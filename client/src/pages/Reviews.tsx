@@ -31,7 +31,7 @@ export default function Reviews() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
           {reviews.slice(0, 3).map((review, index) => (
             <AnimatedSection key={review.id} animation="scale-in" delay={index * 100}>
-              <Link href={`/reviews/${review.slug}`} data-testid={`hero-review-${review.id}`}>
+              <Link href={`/review/${review.slug}`} data-testid={`hero-review-${review.id}`}>
                 <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
                   <img
                     src={review.image}

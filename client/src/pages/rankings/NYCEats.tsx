@@ -238,7 +238,7 @@ export default function NYCEats() {
               animation="fade-in-up" 
               delay={300 + index * 75}
             >
-              <Link href={`/reviews/${review.slug}`}>
+              <Link href={`/review/${review.slug}`}>
                 <Card 
                   className={`overflow-hidden border-0 cursor-pointer group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                     index % 3 === 0 

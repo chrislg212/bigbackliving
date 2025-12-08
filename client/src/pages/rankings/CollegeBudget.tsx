@@ -90,7 +90,7 @@ export default function CollegeBudget() {
                   animation="scale-in" 
                   delay={100 + index * 100}
                 >
-                  <Link href={`/reviews/${review.slug}`} data-testid={`hero-review-${review.id}`}>
+                  <Link href={`/review/${review.slug}`} data-testid={`hero-review-${review.id}`}>
                     <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
                       <img
                         src={review.image}
