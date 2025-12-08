@@ -32,7 +32,7 @@ Preferred communication style: Simple, everyday language.
 **State Management & Data Fetching**
 - TanStack Query (React Query) for server state management and caching
 - Custom query client configuration with disabled auto-refetching for static content
-- Mock data structure in place for development, prepared for API integration
+- Database API integration with mock data fallback for empty states
 
 **Form Handling**
 - React Hook Form with Zod schema validation via @hookform/resolvers
@@ -52,8 +52,8 @@ Preferred communication style: Simple, everyday language.
 
 **Storage Layer**
 - Interface-based storage design enabling easy swapping between implementations
-- Current implementation: In-memory storage (`MemStorage`) for development
-- Prepared for PostgreSQL migration using Drizzle ORM
+- PostgreSQL database integration via Drizzle ORM for reviews storage
+- Object storage service for image uploads via Replit App Storage
 
 **Development vs Production**
 - Development: Vite middleware integration for HMR and on-the-fly compilation
@@ -63,7 +63,8 @@ Preferred communication style: Simple, everyday language.
 ### Data Architecture
 
 **Database Schema (Drizzle ORM)**
-- PostgreSQL as the target database (configured but not yet connected)
+- PostgreSQL database connected and active
+- Reviews table: id, slug, name, cuisine, location, rating, excerpt, image, priceRange, fullReview, highlights, atmosphere, mustTry, visitDate
 - Schema-first approach with TypeScript types derived from Drizzle schemas
 - User table structure in place as foundation for authentication
 - Zod schemas generated from database schemas for runtime validation
