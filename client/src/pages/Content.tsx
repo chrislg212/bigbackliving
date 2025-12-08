@@ -5,6 +5,7 @@ import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Heart, MessageCircle, Share2, Bookmark, Play, Music, ExternalLink } from "lucide-react";
 import { SiInstagram, SiTiktok } from "react-icons/si";
+import foodPhotographyImage from "@assets/stock_images/food_photography_soc_438b2452.jpg";
 
 type Platform = "instagram" | "tiktok";
 
@@ -214,7 +215,7 @@ export default function Content() {
       <PageHeader
         title="Follow The Palate"
         subtitle="Behind the reviews, beyond the plates"
-        variant={1}
+        backgroundImage={foodPhotographyImage}
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">

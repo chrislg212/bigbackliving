@@ -4,6 +4,7 @@ import PageHeader from "@/components/PageHeader";
 import { mockReviews } from "@/data/mockReviews";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import internationalCuisineImage from "@assets/stock_images/international_cuisin_869e3bef.jpg";
 
 const cuisineNames: Record<string, string> = {
   italian: "Italian",
@@ -34,7 +35,7 @@ export default function CuisineReviews() {
       <PageHeader
         title={`${cuisineName} Reviews`}
         subtitle="Discover the best in authentic and innovative cooking"
-        variant={1}
+        backgroundImage={internationalCuisineImage}
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">

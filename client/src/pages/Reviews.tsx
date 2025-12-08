@@ -2,6 +2,7 @@ import ReviewCard from "@/components/ReviewCard";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import { mockReviews } from "@/data/mockReviews";
+import nycRestaurantsImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
 
 export default function Reviews() {
   const reviews = mockReviews;
@@ -11,7 +12,7 @@ export default function Reviews() {
       <PageHeader
         title="All Reviews"
         subtitle="Thoughtfully curated restaurant reviews across New York City"
-        variant={2}
+        backgroundImage={nycRestaurantsImage}
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">

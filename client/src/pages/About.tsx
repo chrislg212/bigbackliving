@@ -2,6 +2,7 @@ import { Mail, MapPin, Utensils, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
+import foodJournalismImage from "@assets/stock_images/food_journalism_culi_9e0224b8.jpg";
 
 export default function About() {
   const ratingBreakdown = [
@@ -39,7 +40,7 @@ export default function About() {
       <PageHeader
         title="About The Palate"
         subtitle="Stories, standards, and a passion for exceptional food"
-        variant={3}
+        backgroundImage={foodJournalismImage}
       />
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">

@@ -1,36 +1,31 @@
-import blurredBg1 from "@assets/stock_images/blurred_warm_golden__41317a8e.jpg";
-import blurredBg2 from "@assets/stock_images/soft_neutral_beige_c_bf21efcb.jpg";
-import blurredBg3 from "@assets/stock_images/light_subtle_white_g_315b1133.jpg";
-
 interface PageHeaderProps {
   title: string;
   subtitle: string;
-  variant?: 1 | 2 | 3;
+  backgroundImage?: string;
 }
-
-const backgrounds = [blurredBg1, blurredBg2, blurredBg3];
 
 export default function PageHeader({
   title,
   subtitle,
-  variant = 1,
+  backgroundImage,
 }: PageHeaderProps) {
-  const bgImage = backgrounds[variant - 1];
 
   return (
     <section
       className="relative bg-card border-b border-primary/10 overflow-hidden"
       data-testid="page-header"
     >
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(20px) saturate(0.4) brightness(1.05)",
-        }}
-      />
+      {backgroundImage && (
+        <div
+          className="absolute inset-0 opacity-25"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(25px) saturate(0.3) brightness(1.1)",
+          }}
+        />
+      )}
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="animate-fade-in-up">
