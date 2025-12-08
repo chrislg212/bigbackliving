@@ -751,6 +751,7 @@ function ReviewCard({
 function CuisinesTab() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCuisine, setEditingCuisine] = useState<Cuisine | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const { toast } = useToast();
 
   const { data: cuisines = [], isLoading } = useQuery<Cuisine[]>({
@@ -766,6 +767,49 @@ function CuisinesTab() {
       image: "",
     },
   });
+
+  const handleGetUploadParameters = async () => {
+    try {
+      const response = await fetch("/api/objects/upload", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL } = await response.json();
+      return { method: "PUT" as const, url: uploadURL };
+    } catch {
+      toast({ title: "Failed to initialize upload", variant: "destructive" });
+      throw new Error("Upload initialization failed");
+    }
+  };
+
+  const handleUploadComplete = async (result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) {
+          toast({ title: "Failed to process image", variant: "destructive" });
+          return;
+        }
+        const { normalizedPath } = await response.json();
+        if (!normalizedPath) {
+          toast({ title: "Failed to get image path", variant: "destructive" });
+          return;
+        }
+        setUploadedImageUrl(normalizedPath);
+        form.setValue("image", normalizedPath);
+        toast({ title: "Cover image uploaded successfully" });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+    }
+  };
 
   const createMutation = useMutation({
     mutationFn: async (data: CuisineFormData) => {
@@ -814,6 +858,7 @@ function CuisinesTab() {
   const handleOpenDialog = (cuisine?: Cuisine) => {
     if (cuisine) {
       setEditingCuisine(cuisine);
+      setUploadedImageUrl(cuisine.image || "");
       form.reset({
         name: cuisine.name,
         slug: cuisine.slug,
@@ -822,6 +867,7 @@ function CuisinesTab() {
       });
     } else {
       setEditingCuisine(null);
+      setUploadedImageUrl("");
       form.reset();
     }
     setIsDialogOpen(true);
@@ -909,6 +955,30 @@ function CuisinesTab() {
                   )}
                 />
 
+                <div className="space-y-2">
+                  <Label>Cover Image (Optional)</Label>
+                  <div className="flex items-center gap-3">
+                    {uploadedImageUrl && (
+                      <div className="w-20 h-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                        <img
+                          src={uploadedImageUrl}
+                          alt="Cover preview"
+                          className="w-full h-full object-cover"
+                          data-testid="cuisine-image-preview"
+                        />
+                      </div>
+                    )}
+                    <ObjectUploader
+                      maxFileSize={10485760}
+                      onGetUploadParameters={handleGetUploadParameters}
+                      onComplete={handleUploadComplete}
+                    >
+                      <Image className="w-4 h-4 mr-2" />
+                      {uploadedImageUrl ? "Change Cover" : "Upload Cover"}
+                    </ObjectUploader>
+                  </div>
+                </div>
+
                 <div className="flex justify-end gap-3">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                     Cancel
@@ -979,6 +1049,7 @@ function CuisinesTab() {
 function NycEatsTab() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<NycEatsCategory | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const { toast } = useToast();
 
   const { data: categories = [], isLoading } = useQuery<NycEatsCategory[]>({
@@ -994,6 +1065,49 @@ function NycEatsTab() {
       image: "",
     },
   });
+
+  const handleGetUploadParameters = async () => {
+    try {
+      const response = await fetch("/api/objects/upload", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL } = await response.json();
+      return { method: "PUT" as const, url: uploadURL };
+    } catch {
+      toast({ title: "Failed to initialize upload", variant: "destructive" });
+      throw new Error("Upload initialization failed");
+    }
+  };
+
+  const handleUploadComplete = async (result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) {
+          toast({ title: "Failed to process image", variant: "destructive" });
+          return;
+        }
+        const { normalizedPath } = await response.json();
+        if (!normalizedPath) {
+          toast({ title: "Failed to get image path", variant: "destructive" });
+          return;
+        }
+        setUploadedImageUrl(normalizedPath);
+        form.setValue("image", normalizedPath);
+        toast({ title: "Cover image uploaded successfully" });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+    }
+  };
 
   const createMutation = useMutation({
     mutationFn: async (data: NycCategoryFormData) => {
@@ -1042,6 +1156,7 @@ function NycEatsTab() {
   const handleOpenDialog = (category?: NycEatsCategory) => {
     if (category) {
       setEditingCategory(category);
+      setUploadedImageUrl(category.image || "");
       form.reset({
         name: category.name,
         slug: category.slug,
@@ -1050,6 +1165,7 @@ function NycEatsTab() {
       });
     } else {
       setEditingCategory(null);
+      setUploadedImageUrl("");
       form.reset();
     }
     setIsDialogOpen(true);
@@ -1137,6 +1253,30 @@ function NycEatsTab() {
                   )}
                 />
 
+                <div className="space-y-2">
+                  <Label>Cover Image (Optional)</Label>
+                  <div className="flex items-center gap-3">
+                    {uploadedImageUrl && (
+                      <div className="w-20 h-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                        <img
+                          src={uploadedImageUrl}
+                          alt="Cover preview"
+                          className="w-full h-full object-cover"
+                          data-testid="nyc-image-preview"
+                        />
+                      </div>
+                    )}
+                    <ObjectUploader
+                      maxFileSize={10485760}
+                      onGetUploadParameters={handleGetUploadParameters}
+                      onComplete={handleUploadComplete}
+                    >
+                      <Image className="w-4 h-4 mr-2" />
+                      {uploadedImageUrl ? "Change Cover" : "Upload Cover"}
+                    </ObjectUploader>
+                  </div>
+                </div>
+
                 <div className="flex justify-end gap-3">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                     Cancel
@@ -1208,6 +1348,7 @@ function TopTenListsTab() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingList, setEditingList] = useState<TopTenList | null>(null);
   const [selectedListId, setSelectedListId] = useState<number | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const { toast } = useToast();
 
   const { data: lists = [], isLoading } = useQuery<TopTenList[]>({
@@ -1227,6 +1368,49 @@ function TopTenListsTab() {
       image: "",
     },
   });
+
+  const handleGetUploadParameters = async () => {
+    try {
+      const response = await fetch("/api/objects/upload", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL } = await response.json();
+      return { method: "PUT" as const, url: uploadURL };
+    } catch {
+      toast({ title: "Failed to initialize upload", variant: "destructive" });
+      throw new Error("Upload initialization failed");
+    }
+  };
+
+  const handleUploadComplete = async (result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) {
+          toast({ title: "Failed to process image", variant: "destructive" });
+          return;
+        }
+        const { normalizedPath } = await response.json();
+        if (!normalizedPath) {
+          toast({ title: "Failed to get image path", variant: "destructive" });
+          return;
+        }
+        setUploadedImageUrl(normalizedPath);
+        form.setValue("image", normalizedPath);
+        toast({ title: "Cover image uploaded successfully" });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+    }
+  };
 
   const createMutation = useMutation({
     mutationFn: async (data: TopTenListFormData) => {
@@ -1275,6 +1459,7 @@ function TopTenListsTab() {
   const handleOpenDialog = (list?: TopTenList) => {
     if (list) {
       setEditingList(list);
+      setUploadedImageUrl(list.image || "");
       form.reset({
         name: list.name,
         slug: list.slug,
@@ -1283,6 +1468,7 @@ function TopTenListsTab() {
       });
     } else {
       setEditingList(null);
+      setUploadedImageUrl("");
       form.reset();
     }
     setIsDialogOpen(true);
@@ -1369,6 +1555,30 @@ function TopTenListsTab() {
                     </FormItem>
                   )}
                 />
+
+                <div className="space-y-2">
+                  <Label>Cover Image (Optional)</Label>
+                  <div className="flex items-center gap-3">
+                    {uploadedImageUrl && (
+                      <div className="w-20 h-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                        <img
+                          src={uploadedImageUrl}
+                          alt="Cover preview"
+                          className="w-full h-full object-cover"
+                          data-testid="list-image-preview"
+                        />
+                      </div>
+                    )}
+                    <ObjectUploader
+                      maxFileSize={10485760}
+                      onGetUploadParameters={handleGetUploadParameters}
+                      onComplete={handleUploadComplete}
+                    >
+                      <Image className="w-4 h-4 mr-2" />
+                      {uploadedImageUrl ? "Change Cover" : "Upload Cover"}
+                    </ObjectUploader>
+                  </div>
+                </div>
 
                 <div className="flex justify-end gap-3">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>

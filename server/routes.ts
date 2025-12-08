@@ -137,6 +137,28 @@ export async function registerRoutes(
     }
   });
 
+  // Generic public image upload with ACL policy
+  app.put("/api/public-images", async (req, res) => {
+    const imageUrl = req.body.imageUrl || req.body.imageURL;
+    if (!imageUrl) {
+      return res.status(400).json({ error: "imageUrl is required" });
+    }
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const normalizedPath = await objectStorageService.trySetObjectEntityAclPolicy(
+        imageUrl,
+        {
+          owner: "admin",
+          visibility: "public",
+        },
+      );
+      res.status(200).json({ normalizedPath });
+    } catch (error) {
+      console.error("Error setting public image:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Cuisines routes
   app.get("/api/cuisines", async (req, res) => {
     try {
