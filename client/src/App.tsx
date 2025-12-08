@@ -12,6 +12,7 @@ import Content from "@/pages/Content";
 import ReviewDetail from "@/pages/ReviewDetail";
 import NYCEats from "@/pages/rankings/NYCEats";
 import Cuisines from "@/pages/rankings/Cuisines";
+import CuisineReviews from "@/pages/rankings/CuisineReviews";
 import Top10Lists from "@/pages/rankings/Top10Lists";
 import CollegeBudget from "@/pages/rankings/CollegeBudget";
 import NotFound from "@/pages/not-found";
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/reviews" component={Reviews} />
       <Route path="/rankings/nyc-eats" component={NYCEats} />
       <Route path="/rankings/cuisines" component={Cuisines} />
+      <Route path="/cuisines/:cuisine" component={CuisineReviews} />
       <Route path="/rankings/top-10" component={Top10Lists} />
       <Route path="/rankings/college-budget" component={CollegeBudget} />
       <Route path="/content" component={Content} />

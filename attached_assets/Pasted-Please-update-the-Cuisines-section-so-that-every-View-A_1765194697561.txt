@@ -1,0 +1,42 @@
+Please update the Cuisines section so that every “View All” button becomes fully functional. 
+For each cuisine card, generate a dedicated page that lists all reviews for that cuisine using the same review-list layout/style already used on the site. 
+Example routes include:
+- /cuisines/steakhouse
+- /cuisines/french
+- /cuisines/spanish
+- /cuisines/pizza
+Each card’s “View All” link should take the user directly to its matching cuisine page.
+
+Next, redesign the entire Cuisines page using image-based tiles instead of plain white cards.
+Each cuisine tile should include:
+- A full-bleed cuisine photo as the background
+- A dark overlay (about 35–45%) for text readability
+- The cuisine name in bold on top of the image
+- The review count beneath the title
+- A “View All” link or button at the bottom
+All tiles should be clickable, visually consistent with the site’s theme, and use a modern grid layout. 
+Add a subtle hover effect such as a soft shadow or gentle image zoom. 
+Do not change page navigation or headings—only visually upgrade the cuisine cards.
+
+Also, redesign the “Top 10 Lists” page to use a more editorial, premium layout.
+
+1. Add a HERO CARD at the top:
+   - Full-width or large wide card with a background image and dark overlay
+   - Bold title (e.g., “Top 10 Date Night Spots”) plus a short subtitle
+   - A clear “View List →” button
+   - Entire card should be clickable
+   - Add a light zoom-on-hover animation
+
+2. Below the hero card, create a responsive grid for the remaining Top 10 lists:
+   - Use image-based cards for each list category
+   - Include the title, short description, and “View List →”
+   - Use 2 columns on mobile and 3 on desktop
+   - Apply rounded corners, consistent padding, and soft shadows
+   - Background images should have a subtle dark gradient for readability
+
+3. Improve UX with hover interactions:
+   - Cards should slightly lift, scale, or shadow on hover
+   - Make the entire card clickable rather than only the text link
+
+Ensure all typography, spacing, and colors match the rest of the site’s existing theme. 
+Do not modify the navigation bar or the page headings—only upgrade the layout, visuals, and clickable functionality.
