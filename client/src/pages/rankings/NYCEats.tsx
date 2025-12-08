@@ -39,53 +39,62 @@ export default function NYCEats() {
 
   return (
     <div className="min-h-screen" data-testid="nyc-eats-page">
-      <section className="relative bg-gradient-to-br from-foreground via-foreground/95 to-foreground overflow-hidden">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url(${nycFoodBgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(10px) saturate(0.7) brightness(0.95)",
-          opacity: 0.25,
-        }} />
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float animation-delay-200" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <AnimatedSection animation="fade-in-up" className="text-center">
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-4">New York City Eats</h1>
-            
-            <p className="font-sans text-base md:text-lg text-background/70 max-w-xl mx-auto mb-8">
-              The city that never sleeps, and neither do we. Discover the best restaurants across all five boroughs.
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              {neighborhoods.map((hood, index) => (
-                <Badge
-                  key={hood}
-                  variant="outline"
-                  className={`px-4 py-2 text-sm font-sans border-background/30 text-background/80 hover:bg-background/10 transition-colors cursor-pointer opacity-0 animate-fade-in-up stagger-${index + 1}`}
-                >
-                  <MapPin className="w-3 h-3 mr-1.5" />
-                  <span className="font-bold">{hood}</span>
-                </Badge>
-              ))}
+      <section className="border-b border-primary/10 overflow-hidden">
+        <div className="grid md:grid-cols-2">
+          <div className="relative h-56 md:h-auto md:min-h-[400px] order-1 md:order-2">
+            <img 
+              src={nycFoodBgImage} 
+              alt="NYC food scene" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-background via-background/60 to-transparent" />
+          </div>
+          
+          <div className="bg-background relative order-2 md:order-1">
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl" />
             </div>
+            
+            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-12 md:py-20">
+              <AnimatedSection animation="fade-in-up">
+                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+                  New York City
+                  <br />
+                  <span className="text-primary">Eats</span>
+                </h1>
+                
+                <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
+                
+                <p className="font-sans text-base md:text-lg text-muted-foreground mb-8">
+                  The city that never sleeps, and neither do we. Discover the best restaurants across all five boroughs.
+                </p>
 
-            <Button
-              variant="default"
-              size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
-              data-testid="explore-boroughs-btn"
-            >
-              <Navigation className="w-4 h-4 mr-2" />
-              Explore the Five Boroughs
-            </Button>
-          </AnimatedSection>
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {neighborhoods.map((hood, index) => (
+                    <Badge
+                      key={hood}
+                      variant="outline"
+                      className={`px-3 py-1.5 text-sm font-sans cursor-pointer opacity-0 animate-fade-in-up stagger-${index + 1}`}
+                    >
+                      <MapPin className="w-3 h-3 mr-1.5" />
+                      <span className="font-medium">{hood}</span>
+                    </Badge>
+                  ))}
+                </div>
+
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="transition-all duration-300"
+                  data-testid="explore-boroughs-btn"
+                >
+                  <Navigation className="w-4 h-4 mr-2" />
+                  Explore the Five Boroughs
+                </Button>
+              </AnimatedSection>
+            </div>
+          </div>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-16 from-background to-transparent bg-[#f9f8f5]" />
       </section>
       <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-20">
         <AnimatedSection animation="fade-in-up" className="mb-8">

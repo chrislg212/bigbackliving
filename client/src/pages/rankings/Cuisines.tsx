@@ -42,38 +42,41 @@ export default function Cuisines() {
 
   return (
     <div className="min-h-screen" data-testid="cuisines-page">
-      <section className="relative bg-card border-b border-primary/10 overflow-hidden">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url(${worldCuisineImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(12px) saturate(0.5) brightness(0.9)",
-          opacity: 0.3,
-        }} />
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-primary/15 rounded-full blur-3xl" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <AnimatedSection animation="fade-in-up" className="text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
-              <Globe className="w-4 h-4" />
-              <span className="font-sans text-sm font-medium">A World of Flavors</span>
+      <section className="border-b border-primary/10 overflow-hidden">
+        <div className="grid md:grid-cols-2">
+          <div className="relative h-48 md:h-auto md:min-h-[320px] order-1 md:order-2">
+            <img 
+              src={worldCuisineImage} 
+              alt="World cuisines" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-background via-background/60 to-transparent" />
+          </div>
+          
+          <div className="bg-background relative order-2 md:order-1">
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
             </div>
             
-            <h1 className="font-serif text-5xl md:text-6xl font-semibold text-foreground mb-4">
-              Cuisines
-            </h1>
-            
-            <div className="flex justify-center mb-6">
-              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
+            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-16 md:py-24">
+              <AnimatedSection animation="fade-in-up">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
+                  <Globe className="w-4 h-4" />
+                  <span className="font-sans text-sm font-medium">A World of Flavors</span>
+                </div>
+                
+                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">
+                  Cuisines
+                </h1>
+                
+                <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
+                
+                <p className="font-sans text-lg text-muted-foreground">
+                  Explore the world through exceptional cooking. Each cuisine tells a story of tradition, innovation, and passion.
+                </p>
+              </AnimatedSection>
             </div>
-            
-            <p className="font-sans text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explore the world through exceptional cooking. Each cuisine tells a story of tradition, innovation, and passion.
-            </p>
-          </AnimatedSection>
+          </div>
         </div>
       </section>
 

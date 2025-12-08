@@ -18,55 +18,59 @@ export default function CollegeBudget() {
 
   return (
     <div className="min-h-screen" data-testid="college-budget-page">
-      <section className="relative bg-gradient-to-br from-primary/10 via-background to-primary/5 overflow-hidden">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url(${budgetFoodImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(12px) saturate(0.5) brightness(0.9)",
-          opacity: 0.3,
-        }} />
-        <div className="absolute inset-0">
-          <div className="absolute top-10 right-20 w-20 h-20 border-4 border-primary/20 rounded-full animate-float" />
-          <div className="absolute bottom-20 left-10 w-32 h-32 border-4 border-primary/15 rounded-full animate-float animation-delay-300" />
-          <div className="absolute top-40 left-1/4 w-12 h-12 bg-primary/20 rounded-full animate-float animation-delay-500" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <AnimatedSection animation="fade-in-up" className="text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground mb-6 animate-pulse-gold">
-              <DollarSign className="w-4 h-4" />
-              <span className="font-sans text-sm font-bold">Under $20</span>
+      <section className="border-b border-primary/10 overflow-hidden">
+        <div className="grid md:grid-cols-2">
+          <div className="relative h-48 md:h-auto md:min-h-[380px] order-1 md:order-2">
+            <img 
+              src={budgetFoodImage} 
+              alt="Budget friendly food" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-background via-background/60 to-transparent" />
+          </div>
+          
+          <div className="bg-background relative order-2 md:order-1">
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
             </div>
             
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6">
-              College Budget
-              <br />
-              <span className="text-primary">Eats</span>
-            </h1>
-            
-            <p className="font-sans text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
-              Proof that amazing food doesn't require a trust fund. Every restaurant here serves exceptional meals for under $20.
-            </p>
+            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-12 md:py-16">
+              <AnimatedSection animation="fade-in-up">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground mb-6 animate-pulse-gold">
+                  <DollarSign className="w-4 h-4" />
+                  <span className="font-sans text-sm font-bold">Under $20</span>
+                </div>
+                
+                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+                  College Budget
+                  <br />
+                  <span className="text-primary">Eats</span>
+                </h1>
+                
+                <p className="font-sans text-lg text-muted-foreground mb-8">
+                  Proof that amazing food doesn't require a trust fund. Every restaurant here serves exceptional meals for under $20.
+                </p>
 
-            <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
-              {priceHighlights.map((item, index) => (
-                <AnimatedSection 
-                  key={item.label} 
-                  animation="scale-in" 
-                  delay={200 + index * 100}
-                >
-                  <Card className="border-0 bg-card/80 backdrop-blur shadow-sm">
-                    <CardContent className="p-4 text-center">
-                      <item.icon className="w-5 h-5 text-primary mx-auto mb-2" />
-                      <div className="font-serif text-2xl font-bold text-foreground">{item.value}</div>
-                      <div className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{item.label}</div>
-                    </CardContent>
-                  </Card>
-                </AnimatedSection>
-              ))}
+                <div className="grid grid-cols-3 gap-3">
+                  {priceHighlights.map((item, index) => (
+                    <AnimatedSection 
+                      key={item.label} 
+                      animation="scale-in" 
+                      delay={200 + index * 100}
+                    >
+                      <Card className="border-0 bg-card shadow-sm">
+                        <CardContent className="p-3 text-center">
+                          <item.icon className="w-4 h-4 text-primary mx-auto mb-1" />
+                          <div className="font-serif text-xl font-bold text-foreground">{item.value}</div>
+                          <div className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{item.label}</div>
+                        </CardContent>
+                      </Card>
+                    </AnimatedSection>
+                  ))}
+                </div>
+              </AnimatedSection>
             </div>
-          </AnimatedSection>
+          </div>
         </div>
       </section>
 
