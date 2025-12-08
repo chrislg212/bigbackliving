@@ -44,8 +44,8 @@ export default function NYCEats() {
           backgroundImage: `url(${nycFoodBgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "blur(12px) saturate(0.5) brightness(0.9)",
-          opacity: 0.35,
+          filter: "blur(10px) saturate(0.7) brightness(0.95)",
+          opacity: 0.25,
         }} />
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-float" />
