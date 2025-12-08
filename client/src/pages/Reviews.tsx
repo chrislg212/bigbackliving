@@ -78,7 +78,7 @@ export default function Reviews() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           data-testid="all-reviews-grid"
         >
-          {reviews.slice(3).map((review, index) => (
+          {reviews.map((review, index) => (
             <AnimatedSection 
               key={review.id} 
               animation="fade-in-up" 

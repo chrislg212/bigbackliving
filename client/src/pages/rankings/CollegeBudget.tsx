@@ -1,4 +1,5 @@
-import { DollarSign, Sparkles, TrendingUp, Utensils } from "lucide-react";
+import { Link } from "wouter";
+import { DollarSign, Sparkles, TrendingUp, Utensils, Star, ArrowRight } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import AnimatedSection from "@/components/AnimatedSection";
 import { mockReviews } from "@/data/mockReviews";
@@ -82,48 +83,60 @@ export default function CollegeBudget() {
 
         {budgetReviews.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
               {budgetReviews.slice(0, 3).map((review, index) => (
                 <AnimatedSection 
                   key={review.id} 
-                  animation="fade-in-up" 
+                  animation="scale-in" 
                   delay={100 + index * 100}
                 >
-                  <Card className="overflow-hidden border-0 shadow-md group cursor-pointer card-hover-lift h-full">
-                    <div className="flex flex-col h-full">
-                      <div className="aspect-[4/3] overflow-hidden relative">
-                        <img
-                          src={review.image}
-                          alt={review.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-primary text-primary-foreground font-bold text-lg px-3 py-1">
-                            {review.priceRange}
-                          </Badge>
-                        </div>
+                  <Link href={`/reviews/${review.slug}`} data-testid={`hero-review-${review.id}`}>
+                    <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
+                      <img
+                        src={review.image}
+                        alt={review.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+                      
+                      <div className="absolute top-4 left-4 flex items-center gap-2">
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary text-primary-foreground text-xs font-sans font-medium">
+                          <Star className="w-3 h-3 fill-current" />
+                          {review.rating}
+                        </span>
+                        <span className="px-2 py-1 rounded-full bg-white/20 backdrop-blur text-white text-xs font-sans font-bold">
+                          {review.priceRange}
+                        </span>
                       </div>
-                      <CardContent className="p-6 flex flex-col justify-between flex-1">
-                        <div>
-                          <span className="text-xs font-sans font-medium uppercase tracking-wider text-primary mb-2 block">
-                            {review.cuisine}
-                          </span>
-                          <h3 className="font-serif text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                            {review.name}
-                          </h3>
-                          <p className="font-sans text-sm text-muted-foreground mb-3">
-                            {review.location}
-                          </p>
-                        </div>
-                        <p className="font-sans text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                          {review.excerpt}
+                      
+                      <div className="absolute inset-0 flex flex-col justify-end p-6">
+                        <span className="text-xs font-sans font-medium uppercase tracking-wider text-primary mb-1">
+                          {review.cuisine}
+                        </span>
+                        <h3 className="font-serif text-xl md:text-2xl font-bold text-white mb-1 transition-transform duration-300 group-hover:translate-x-2">
+                          {review.name}
+                        </h3>
+                        <p className="font-sans text-sm text-white/70 mb-3">
+                          {review.location}
                         </p>
-                      </CardContent>
+                        <span className="inline-flex items-center gap-1 font-sans text-sm font-medium text-primary group-hover:gap-2 transition-all duration-300">
+                          Read Review
+                          <ArrowRight className="w-4 h-4" />
+                        </span>
+                      </div>
                     </div>
-                  </Card>
+                  </Link>
                 </AnimatedSection>
               ))}
             </div>
+
+            {budgetReviews.length > 3 && (
+              <AnimatedSection animation="fade-in-up" className="mb-8">
+                <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground">
+                  More Budget-Friendly Options
+                </h3>
+              </AnimatedSection>
+            )}
 
             <div
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
