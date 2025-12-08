@@ -1,7 +1,37 @@
-import { Mail, MapPin, Utensils } from "lucide-react";
+import { Mail, MapPin, Utensils, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function About() {
+  const ratingBreakdown = [
+    { score: "5.0", label: "Exceptional" },
+    { score: "4.0+", label: "Excellent" },
+    { score: "3.0+", label: "Good" },
+    { score: "< 3.0", label: "Fair" },
+  ];
+
+  const ratingCriteria = [
+    {
+      name: "Taste",
+      description: "Measures overall flavor, texture, balance, and execution.",
+    },
+    {
+      name: "Value",
+      description: "Evaluates how well the quality matches the price and whether the experience feels worth it.",
+    },
+    {
+      name: "Atmosphere",
+      description: "The vibe, comfort, and overall feel of dining at the location.",
+    },
+    {
+      name: "Service",
+      description: "Friendliness, attentiveness, and efficiency of the staff.",
+    },
+    {
+      name: "Marginal Bite Satisfaction",
+      description: "A unique metric that measures how consistently enjoyable each additional bite is. Does the dish stay satisfying from start to finish, or does enjoyment fade as you continue eating?",
+    },
+  ];
+
   return (
     <div className="min-h-screen" data-testid="about-page">
       <section className="bg-card border-b border-primary/10">
@@ -116,20 +146,19 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-card border-t border-primary/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-6">
+      <section className="bg-card border-t border-primary/10" data-testid="how-we-rate-section">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground text-center mb-12">
             How We Rate
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { score: "5.0", label: "Exceptional" },
-              { score: "4.0+", label: "Excellent" },
-              { score: "3.0+", label: "Good" },
-              { score: "< 3.0", label: "Fair" },
-            ].map((item) => (
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16">
+            {ratingBreakdown.map((item) => (
               <div key={item.label} className="text-center">
-                <div className="font-serif text-3xl font-bold text-primary mb-2">
+                <div className="flex justify-center mb-3">
+                  <Star className="w-6 h-6 fill-primary text-primary" />
+                </div>
+                <div className="font-serif text-3xl md:text-4xl font-bold text-primary mb-2">
                   {item.score}
                 </div>
                 <div className="font-sans text-sm text-muted-foreground uppercase tracking-wider">
@@ -137,6 +166,28 @@ export default function About() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="border-t border-primary/10 pt-12">
+            <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground text-center mb-10">
+              Our Rating Criteria
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {ratingCriteria.map((criterion, index) => (
+                <div
+                  key={criterion.name}
+                  className={`${index === ratingCriteria.length - 1 && ratingCriteria.length % 3 !== 0 ? "md:col-span-2 lg:col-span-1" : ""}`}
+                >
+                  <h4 className="font-serif text-lg font-semibold text-foreground mb-2">
+                    {criterion.name}
+                  </h4>
+                  <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+                    {criterion.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

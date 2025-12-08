@@ -1,17 +1,36 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const navLinks = [
+const mainNavLinks = [
   { href: "/", label: "Home" },
   { href: "/reviews", label: "Reviews" },
+];
+
+const rankingsLinks = [
+  { href: "/rankings/nyc-eats", label: "NYC Eats" },
+  { href: "/rankings/cuisines", label: "Cuisines" },
+  { href: "/rankings/top-10", label: "Top 10 Lists" },
+  { href: "/rankings/college-budget", label: "College Budget Eats (Under $20)" },
+];
+
+const afterRankingsLinks = [
+  { href: "/content", label: "Content" },
   { href: "/about", label: "About" },
 ];
 
 export default function Navigation() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const isRankingsActive = location.startsWith("/rankings");
 
   return (
     <header
@@ -27,7 +46,60 @@ export default function Navigation() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {mainNavLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <span
+                  className={`relative font-sans text-sm font-medium tracking-wide uppercase cursor-pointer transition-colors ${
+                    location === link.href
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary"
+                  }`}
+                  data-testid={`nav-${link.label.toLowerCase()}`}
+                >
+                  {link.label}
+                  {location === link.href && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary" />
+                  )}
+                </span>
+              </Link>
+            ))}
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={`relative font-sans text-sm font-medium tracking-wide uppercase cursor-pointer transition-colors flex items-center gap-1 ${
+                    isRankingsActive
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary"
+                  }`}
+                  data-testid="nav-rankings"
+                >
+                  Rankings
+                  <ChevronDown className="w-3 h-3" />
+                  {isRankingsActive && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary" />
+                  )}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {rankingsLinks.map((link) => (
+                  <DropdownMenuItem key={link.href} asChild>
+                    <Link href={link.href}>
+                      <span
+                        className={`w-full cursor-pointer ${
+                          location === link.href ? "text-primary" : ""
+                        }`}
+                        data-testid={`nav-rankings-${link.href.split("/").pop()}`}
+                      >
+                        {link.label}
+                      </span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {afterRankingsLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 <span
                   className={`relative font-sans text-sm font-medium tracking-wide uppercase cursor-pointer transition-colors ${
@@ -63,8 +135,45 @@ export default function Navigation() {
 
         {mobileMenuOpen && (
           <div className="md:hidden pb-4" data-testid="mobile-menu">
-            <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
+            <div className="flex flex-col gap-1">
+              {mainNavLinks.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  <span
+                    className={`block py-2 px-3 rounded-md font-sans text-sm font-medium uppercase cursor-pointer ${
+                      location === link.href
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground hover:bg-muted"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    data-testid={`mobile-nav-${link.label.toLowerCase()}`}
+                  >
+                    {link.label}
+                  </span>
+                </Link>
+              ))}
+
+              <div className="py-2 px-3">
+                <span className="font-sans text-xs font-medium uppercase text-muted-foreground tracking-wider">
+                  Rankings
+                </span>
+              </div>
+              {rankingsLinks.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  <span
+                    className={`block py-2 px-3 pl-6 rounded-md font-sans text-sm cursor-pointer ${
+                      location === link.href
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground hover:bg-muted"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    data-testid={`mobile-nav-rankings-${link.href.split("/").pop()}`}
+                  >
+                    {link.label}
+                  </span>
+                </Link>
+              ))}
+
+              {afterRankingsLinks.map((link) => (
                 <Link key={link.href} href={link.href}>
                   <span
                     className={`block py-2 px-3 rounded-md font-sans text-sm font-medium uppercase cursor-pointer ${

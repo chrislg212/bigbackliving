@@ -8,7 +8,12 @@ import Footer from "@/components/layout/Footer";
 import Home from "@/pages/Home";
 import Reviews from "@/pages/Reviews";
 import About from "@/pages/About";
+import Content from "@/pages/Content";
 import ReviewDetail from "@/pages/ReviewDetail";
+import NYCEats from "@/pages/rankings/NYCEats";
+import Cuisines from "@/pages/rankings/Cuisines";
+import Top10Lists from "@/pages/rankings/Top10Lists";
+import CollegeBudget from "@/pages/rankings/CollegeBudget";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +21,11 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/reviews" component={Reviews} />
+      <Route path="/rankings/nyc-eats" component={NYCEats} />
+      <Route path="/rankings/cuisines" component={Cuisines} />
+      <Route path="/rankings/top-10" component={Top10Lists} />
+      <Route path="/rankings/college-budget" component={CollegeBudget} />
+      <Route path="/content" component={Content} />
       <Route path="/about" component={About} />
       <Route path="/review/:slug" component={ReviewDetail} />
       <Route component={NotFound} />
