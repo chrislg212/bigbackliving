@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 import dateNightImage from "@assets/stock_images/romantic_candlelit_d_a4a26dad.jpg";
 import brunchImage from "@assets/stock_images/brunch_table_with_eg_e4c89727.jpg";
@@ -61,19 +62,11 @@ export default function Top10Lists() {
 
   return (
     <div className="min-h-screen" data-testid="top10-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            Top 10 Lists
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            Curated lists to help you find exactly what you're looking for.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="Top 10 Lists"
+        subtitle="Curated collections to guide your next great meal"
+        variant={1}
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <Link href={`/top-10/${heroList.slug}`} data-testid="hero-card">

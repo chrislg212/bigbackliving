@@ -1,4 +1,5 @@
 import ReviewCard from "@/components/ReviewCard";
+import PageHeader from "@/components/PageHeader";
 import { mockReviews } from "@/data/mockReviews";
 
 export default function Reviews() {
@@ -7,20 +8,11 @@ export default function Reviews() {
 
   return (
     <div className="min-h-screen" data-testid="reviews-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            All Reviews
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            Every restaurant we've visited, reviewed, and rated. Your
-            comprehensive guide to exceptional dining.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="All Reviews"
+        subtitle="Thoughtfully curated restaurant reviews across New York City"
+        variant={2}
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div

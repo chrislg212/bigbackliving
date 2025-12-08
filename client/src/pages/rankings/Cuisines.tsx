@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import PageHeader from "@/components/PageHeader";
 import { mockReviews } from "@/data/mockReviews";
 
 import italianImage from "@assets/stock_images/italian_pasta_dish_w_817916d1.jpg";
@@ -38,19 +39,11 @@ export default function Cuisines() {
 
   return (
     <div className="min-h-screen" data-testid="cuisines-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            Cuisines
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            Explore our reviews organized by cuisine type. Find your next favorite dish.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="Cuisines"
+        subtitle="Explore the world through exceptional cooking"
+        variant={3}
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div

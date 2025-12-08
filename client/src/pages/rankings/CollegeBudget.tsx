@@ -1,4 +1,5 @@
 import ReviewCard from "@/components/ReviewCard";
+import PageHeader from "@/components/PageHeader";
 import { mockReviews } from "@/data/mockReviews";
 import { Badge } from "@/components/ui/badge";
 
@@ -8,24 +9,11 @@ export default function CollegeBudget() {
 
   return (
     <div className="min-h-screen" data-testid="college-budget-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <div className="flex justify-center mb-4">
-            <Badge variant="secondary" className="font-sans text-xs uppercase tracking-wider">
-              Under $20
-            </Badge>
-          </div>
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            College Budget Eats
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            Delicious meals that won't break the bank. Perfect for students and budget-conscious foodies.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="College Budget Eats"
+        subtitle="Exceptional food that won't break the bank"
+        variant={2}
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {budgetReviews.length > 0 ? (

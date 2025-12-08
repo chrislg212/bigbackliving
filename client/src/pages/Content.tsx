@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Video, Mic, Camera } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function Content() {
   // todo: remove mock functionality - fetch actual content
@@ -32,19 +33,11 @@ export default function Content() {
 
   return (
     <div className="min-h-screen" data-testid="content-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            Content
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            Beyond reviews: articles, videos, podcasts, and more culinary content.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="Content"
+        subtitle="Stories, conversations, and visual explorations of food and dining"
+        variant={1}
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div

@@ -1,4 +1,5 @@
 import ReviewCard from "@/components/ReviewCard";
+import PageHeader from "@/components/PageHeader";
 import { mockReviews } from "@/data/mockReviews";
 
 export default function NYCEats() {
@@ -7,19 +8,11 @@ export default function NYCEats() {
 
   return (
     <div className="min-h-screen" data-testid="nyc-eats-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            NYC Eats
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            The best dining experiences across all five boroughs of New York City.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="NYC Eats"
+        subtitle="The finest dining across all five boroughs"
+        variant={2}
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div

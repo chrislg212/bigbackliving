@@ -1,5 +1,6 @@
 import { Mail, MapPin, Utensils, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import PageHeader from "@/components/PageHeader";
 
 export default function About() {
   const ratingBreakdown = [
@@ -34,19 +35,11 @@ export default function About() {
 
   return (
     <div className="min-h-screen" data-testid="about-page">
-      <section className="bg-card border-b border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <h1
-            className="font-serif text-4xl md:text-5xl font-semibold text-foreground text-center mb-4"
-            data-testid="page-title"
-          >
-            About The Palate
-          </h1>
-          <p className="font-sans text-muted-foreground text-center max-w-2xl mx-auto">
-            The story behind our passion for exceptional dining experiences.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="About The Palate"
+        subtitle="Stories, standards, and a passion for exceptional food"
+        variant={3}
+      />
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
