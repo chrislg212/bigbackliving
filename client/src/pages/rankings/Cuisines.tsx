@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Globe, Utensils } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { mockReviews } from "@/data/mockReviews";
+import worldCuisineImage from "@assets/stock_images/world_cuisine_restau_2be4b246.jpg";
 
 import italianImage from "@assets/stock_images/italian_pasta_dish_w_817916d1.jpg";
 import japaneseImage from "@assets/stock_images/japanese_sushi_platt_365bff1f.jpg";
@@ -41,6 +42,13 @@ export default function Cuisines() {
   return (
     <div className="min-h-screen" data-testid="cuisines-page">
       <section className="relative bg-card border-b border-primary/10 overflow-hidden">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url(${worldCuisineImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(30px) saturate(0.35) brightness(0.85)",
+          opacity: 0.35,
+        }} />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-primary/15 rounded-full blur-3xl" />

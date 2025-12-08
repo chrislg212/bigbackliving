@@ -88,6 +88,16 @@ export default function Top10Detail() {
   return (
     <div className="min-h-screen" data-testid="top10-detail-page">
       <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={list.image}
+            alt={list.title}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              filter: "blur(8px) brightness(0.95)",
+            }}
+          />
+        </div>
         <img
           src={list.image}
           alt={list.title}
