@@ -4,6 +4,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import { mockReviews } from "@/data/mockReviews";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import budgetFoodImage from "@assets/stock_images/affordable_budget_fr_9548ddd2.jpg";
 
 export default function CollegeBudget() {
   const budgetReviews = mockReviews.filter(r => r.priceRange === "$$" || r.priceRange === "$");
@@ -17,6 +18,13 @@ export default function CollegeBudget() {
   return (
     <div className="min-h-screen" data-testid="college-budget-page">
       <section className="relative bg-gradient-to-br from-primary/10 via-background to-primary/5 overflow-hidden">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url(${budgetFoodImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(12px) saturate(0.5) brightness(0.9)",
+          opacity: 0.3,
+        }} />
         <div className="absolute inset-0">
           <div className="absolute top-10 right-20 w-20 h-20 border-4 border-primary/20 rounded-full animate-float" />
           <div className="absolute bottom-20 left-10 w-32 h-32 border-4 border-primary/15 rounded-full animate-float animation-delay-300" />

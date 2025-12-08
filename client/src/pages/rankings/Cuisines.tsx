@@ -46,8 +46,8 @@ export default function Cuisines() {
           backgroundImage: `url(${worldCuisineImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "blur(30px) saturate(0.35) brightness(0.85)",
-          opacity: 0.35,
+          filter: "blur(12px) saturate(0.5) brightness(0.9)",
+          opacity: 0.3,
         }} />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />

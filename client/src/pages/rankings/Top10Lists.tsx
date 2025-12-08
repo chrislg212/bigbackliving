@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { ArrowRight, Award, List } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
+import premiumImage from "@assets/stock_images/premium_award_winnin_fc3053ee.jpg";
 
 import dateNightImage from "@assets/stock_images/romantic_candlelit_d_a4a26dad.jpg";
 import brunchImage from "@assets/stock_images/brunch_table_with_eg_e4c89727.jpg";
@@ -69,6 +70,13 @@ export default function Top10Lists() {
   return (
     <div className="min-h-screen" data-testid="top10-page">
       <section className="relative bg-card border-b border-primary/10 overflow-hidden">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url(${premiumImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(12px) saturate(0.5) brightness(0.9)",
+          opacity: 0.3,
+        }} />
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
             backgroundImage: `repeating-linear-gradient(45deg, hsl(var(--primary)) 0, hsl(var(--primary)) 1px, transparent 0, transparent 50%)`,
