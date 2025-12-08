@@ -54,9 +54,7 @@ export default function NYCEats() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <AnimatedSection animation="fade-in-up" className="text-center">
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-4">
-              NYC Eats
-            </h1>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-4">New York City Eats</h1>
             
             <p className="font-sans text-base md:text-lg text-background/70 max-w-xl mx-auto mb-8">
               The city that never sleeps, and neither do we. Discover the best restaurants across all five boroughs.
