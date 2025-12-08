@@ -64,8 +64,8 @@ export default function Top10Lists() {
     },
   ];
 
-  const heroLists = lists.slice(0, 2);
-  const gridLists = lists.slice(2);
+  const heroList = lists[0];
+  const gridLists = lists.slice(1);
 
   return (
     <div className="min-h-screen" data-testid="top10-page">
@@ -111,47 +111,43 @@ export default function Top10Lists() {
           <div className="flex items-center gap-3 mb-2">
             <Award className="w-5 h-5 text-primary" />
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">
-              Editor's Picks
+              Featured List
             </h2>
           </div>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
-          {heroLists.map((heroList, index) => (
-            <AnimatedSection key={heroList.slug} animation="scale-in" delay={100 + index * 100}>
-              <Link href={`/top-10/${heroList.slug}`} data-testid={`hero-card-${index}`}>
-                <div className="group relative w-full aspect-[16/9] rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
-                  <img
-                    src={heroList.image}
-                    alt={heroList.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-r ${heroList.accent}/80 via-black/60 to-black/30`} />
-                  
-                  <div className="absolute top-6 left-6 md:top-8 md:left-8">
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
-                      <Award className="w-3 h-3" />
-                      <span className="font-sans text-xs font-medium uppercase tracking-wider">Featured</span>
-                    </div>
-                  </div>
-                  
-                  <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12">
-                    <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 md:mb-3 max-w-lg transition-transform duration-300 group-hover:translate-x-2">
-                      {heroList.title}
-                    </h2>
-                    <p className="font-sans text-sm md:text-base text-white/80 mb-4 max-w-md hidden sm:block line-clamp-2">
-                      {heroList.description}
-                    </p>
-                    <span className="inline-flex items-center gap-2 font-sans text-sm md:text-base font-medium text-primary group-hover:gap-4 transition-all duration-300">
-                      View Complete List
-                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 arrow-hover-right" />
-                    </span>
-                  </div>
+        <AnimatedSection animation="scale-in" delay={100}>
+          <Link href={`/top-10/${heroList.slug}`} data-testid="hero-card">
+            <div className="group relative w-full aspect-[21/9] md:aspect-[3/1] rounded-lg overflow-hidden cursor-pointer mb-12 md:mb-16 card-hover-lift gold-glow-hover">
+              <img
+                src={heroList.image}
+                alt={heroList.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-r ${heroList.accent}/80 via-black/60 to-black/30`} />
+              
+              <div className="absolute top-6 left-6 md:top-8 md:left-8">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
+                  <Award className="w-3 h-3" />
+                  <span className="font-sans text-xs font-medium uppercase tracking-wider">Featured</span>
                 </div>
-              </Link>
-            </AnimatedSection>
-          ))}
-        </div>
+              </div>
+              
+              <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12 lg:px-16">
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 max-w-xl transition-transform duration-300 group-hover:translate-x-2">
+                  {heroList.title}
+                </h2>
+                <p className="font-sans text-sm md:text-base text-white/80 mb-6 max-w-lg hidden sm:block">
+                  {heroList.description}
+                </p>
+                <span className="inline-flex items-center gap-2 font-sans text-sm md:text-base font-medium text-primary group-hover:gap-4 transition-all duration-300">
+                  View Complete List
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 arrow-hover-right" />
+                </span>
+              </div>
+            </div>
+          </Link>
+        </AnimatedSection>
 
         <AnimatedSection animation="fade-in-up" delay={200} className="mb-8">
           <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground">
