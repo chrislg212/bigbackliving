@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Globe, Utensils, Star, ArrowRight, Loader2 } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Button } from "@/components/ui/button";
+import { usePageHeader } from "@/hooks/use-page-header";
 import worldCuisineImage from "@assets/stock_images/world_cuisine_restau_2be4b246.jpg";
 import type { Cuisine, Review } from "@shared/schema";
 
@@ -23,6 +24,8 @@ const defaultCuisineImages: Record<string, string> = {
 };
 
 export default function Cuisines() {
+  const { customImage } = usePageHeader("cuisines");
+  
   const { data: cuisines = [], isLoading: cuisinesLoading } = useQuery<Cuisine[]>({
     queryKey: ["/api/cuisines"],
   });
@@ -45,7 +48,7 @@ export default function Cuisines() {
         <div className="grid md:grid-cols-2">
           <div className="relative h-48 md:h-auto md:min-h-[320px] order-1 md:order-2">
             <img 
-              src={worldCuisineImage} 
+              src={customImage || worldCuisineImage} 
               alt="World cuisines" 
               className="absolute inset-0 w-full h-full object-cover"
             />

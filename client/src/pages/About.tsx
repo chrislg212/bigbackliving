@@ -2,9 +2,11 @@ import { Mail, MapPin, Utensils, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
+import { usePageHeader } from "@/hooks/use-page-header";
 import foodJournalismImage from "@assets/stock_images/food_journalism_culi_9e0224b8.jpg";
 
 export default function About() {
+  const { customImage } = usePageHeader("about");
   const ratingBreakdown = [
     { score: "5.0", label: "Exceptional" },
     { score: "4.0+", label: "Excellent" },
@@ -40,7 +42,7 @@ export default function About() {
       <PageHeader
         title="Christopher Gamboa"
         subtitle="Stories, standards, and a passion for exceptional food"
-        backgroundImage={foodJournalismImage}
+        backgroundImage={customImage || foodJournalismImage}
       />
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">

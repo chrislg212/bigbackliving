@@ -6,10 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
+import { usePageHeader } from "@/hooks/use-page-header";
 import nycFoodBgImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
 import type { NycEatsCategory, Review } from "@shared/schema";
 
 export default function NYCEats() {
+  const { customImage } = usePageHeader("nyc-eats");
+  
   const { data: categories = [], isLoading: categoriesLoading } = useQuery<NycEatsCategory[]>({
     queryKey: ["/api/nyc-eats"],
   });
@@ -44,7 +47,7 @@ export default function NYCEats() {
         <div className="grid md:grid-cols-2">
           <div className="relative h-56 md:h-auto md:min-h-[400px] order-1 md:order-2">
             <img 
-              src={nycFoodBgImage} 
+              src={customImage || nycFoodBgImage} 
               alt="NYC food scene" 
               className="absolute inset-0 w-full h-full object-cover"
             />

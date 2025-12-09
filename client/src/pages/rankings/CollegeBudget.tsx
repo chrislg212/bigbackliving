@@ -5,9 +5,11 @@ import AnimatedSection from "@/components/AnimatedSection";
 import { mockReviews } from "@/data/mockReviews";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { usePageHeader } from "@/hooks/use-page-header";
 import budgetFoodImage from "@assets/stock_images/affordable_budget_fr_9548ddd2.jpg";
 
 export default function CollegeBudget() {
+  const { customImage } = usePageHeader("college-budget");
   const budgetReviews = mockReviews.filter(r => r.priceRange === "$$" || r.priceRange === "$");
 
   const priceHighlights = [
@@ -22,7 +24,7 @@ export default function CollegeBudget() {
         <div className="grid md:grid-cols-2">
           <div className="relative h-48 md:h-auto md:min-h-[380px] order-1 md:order-2">
             <img 
-              src={budgetFoodImage} 
+              src={customImage || budgetFoodImage} 
               alt="Budget friendly food" 
               className="absolute inset-0 w-full h-full object-cover"
             />

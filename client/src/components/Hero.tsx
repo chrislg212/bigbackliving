@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import heroImage from "@assets/generated_images/hero_fine_dining_scene.png";
 
-export default function Hero() {
+interface HeroProps {
+  customImage?: string;
+}
+
+export default function Hero({ customImage }: HeroProps) {
   return (
     <section
       className="relative w-full h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden"
@@ -10,7 +14,7 @@ export default function Hero() {
     >
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
+        style={{ backgroundImage: `url(${customImage || heroImage})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
 

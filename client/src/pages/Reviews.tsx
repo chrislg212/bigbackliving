@@ -3,12 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import ReviewCard from "@/components/ReviewCard";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
+import { usePageHeader } from "@/hooks/use-page-header";
 import { mockReviews } from "@/data/mockReviews";
 import { Star, ArrowRight, Award, Loader2 } from "lucide-react";
 import nycRestaurantsImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
 import type { Review as DBReview } from "@shared/schema";
 
 export default function Reviews() {
+  const { customImage } = usePageHeader("reviews");
   const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
     queryKey: ["/api/reviews"],
   });
@@ -40,7 +42,7 @@ export default function Reviews() {
       <PageHeader
         title="All Reviews"
         subtitle="Thoughtfully curated restaurant reviews across New York City"
-        backgroundImage={nycRestaurantsImage}
+        backgroundImage={customImage || nycRestaurantsImage}
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">

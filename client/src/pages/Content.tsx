@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
+import { usePageHeader } from "@/hooks/use-page-header";
 import { ExternalLink } from "lucide-react";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import foodPhotographyImage from "@assets/stock_images/food_photography_soc_438b2452.jpg";
@@ -30,6 +31,7 @@ function EmbedRenderer({ embedCode, platform }: { embedCode: string; platform: s
 
 export default function Content() {
   const [activePlatform, setActivePlatform] = useState<Platform>("instagram");
+  const { customImage } = usePageHeader("content");
 
   const { data: socialSettings = [], isLoading } = useQuery<SocialSettings[]>({
     queryKey: ["/api/social-settings"],
@@ -87,7 +89,7 @@ export default function Content() {
       <PageHeader
         title="Follow My Journey"
         subtitle="Behind the reviews, beyond the plates"
-        backgroundImage={foodPhotographyImage}
+        backgroundImage={customImage || foodPhotographyImage}
       />
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <AnimatedSection animation="fade-in-up" className="flex justify-center mb-12">

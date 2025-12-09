@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Award, List, Loader2 } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
+import { usePageHeader } from "@/hooks/use-page-header";
 import premiumImage from "@assets/stock_images/premium_award_winnin_fc3053ee.jpg";
 import type { TopTenList } from "@shared/schema";
 
@@ -31,6 +32,8 @@ const listAccents: string[] = [
 ];
 
 export default function Top10Lists() {
+  const { customImage } = usePageHeader("top-10");
+  
   const { data: lists = [], isLoading } = useQuery<TopTenList[]>({
     queryKey: ["/api/top-ten-lists"],
   });
@@ -53,7 +56,7 @@ export default function Top10Lists() {
         <div className="grid md:grid-cols-2">
           <div className="relative h-48 md:h-auto md:min-h-[320px] order-1 md:order-2">
             <img 
-              src={premiumImage} 
+              src={customImage || premiumImage} 
               alt="Premium dining" 
               className="absolute inset-0 w-full h-full object-cover"
             />

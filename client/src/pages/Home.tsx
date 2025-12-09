@@ -3,11 +3,13 @@ import Hero from "@/components/Hero";
 import ReviewCard from "@/components/ReviewCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { usePageHeader } from "@/hooks/use-page-header";
 import { mockReviews } from "@/data/mockReviews";
 import { Loader2 } from "lucide-react";
 import type { Review as DBReview } from "@shared/schema";
 
 export default function Home() {
+  const { customImage } = usePageHeader("home");
   const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
     queryKey: ["/api/reviews"],
   });
@@ -30,7 +32,7 @@ export default function Home() {
 
   return (
     <div data-testid="home-page">
-      <Hero />
+      <Hero customImage={customImage} />
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
           <h2
