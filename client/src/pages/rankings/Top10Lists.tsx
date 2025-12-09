@@ -58,7 +58,7 @@ export default function Top10Lists() {
             <img 
               src={customImage || premiumImage} 
               alt="Premium dining" 
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover animate-fade-in-up"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
           </div>
