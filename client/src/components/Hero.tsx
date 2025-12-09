@@ -19,7 +19,7 @@ export default function Hero({ customImage }: HeroProps) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <h1
-          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-tight text-[#d3b584]"
+          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-tight text-[#d9d9d9]"
           data-testid="hero-title"
         >Christopher's Restaurant Reviews</h1>
         <p
