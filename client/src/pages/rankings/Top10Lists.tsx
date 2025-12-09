@@ -75,7 +75,7 @@ export default function Top10Lists() {
                   <span className="font-sans text-sm font-medium">Editorial Picks</span>
                 </div>
                 
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">Top 10 Rankings</h1>
+                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">Featured Lists</h1>
                 
                 <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
                 
@@ -94,7 +94,7 @@ export default function Top10Lists() {
           </div>
         ) : lists.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No top 10 lists have been created yet.</p>
+            <p className="text-muted-foreground mb-4">No featured lists have been created yet.</p>
             <p className="text-sm text-muted-foreground">Check back soon for curated lists!</p>
           </div>
         ) : (

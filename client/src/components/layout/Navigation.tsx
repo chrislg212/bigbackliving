@@ -21,7 +21,7 @@ const mainNavLinks = [
 const listsLinks = [
   { href: "/rankings/nyc-eats", label: "NYC Eats" },
   { href: "/rankings/cuisines", label: "Cuisines" },
-  { href: "/rankings/top-10", label: "Top 10 Lists" },
+  { href: "/rankings/top-10", label: "Featured Lists" },
   { href: "/rankings/college-budget", label: "College Budget Eats" },
 ];
 
@@ -120,7 +120,7 @@ export default function Navigation() {
                   }`}
                   data-testid="nav-lists"
                 >
-                  Lists
+                  Categories
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   <span 
                     className={`absolute -bottom-0.5 left-0 h-0.5 bg-gradient-to-r from-primary via-primary to-primary/50 transition-all duration-300 ease-out ${
@@ -197,7 +197,7 @@ export default function Navigation() {
 
               <div className="py-2.5 px-3 mt-1">
                 <span className="font-sans text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Lists
+                  Categories
                 </span>
               </div>
               {listsLinks.map((link) => (
