@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema } from "@shared/schema";
+import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema, insertPageHeaderSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(
@@ -565,6 +565,44 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error deleting social embed:", error);
       res.status(500).json({ error: "Failed to delete social embed" });
+    }
+  });
+
+  // Page Headers routes
+  app.get("/api/page-headers", async (req, res) => {
+    try {
+      const headers = await storage.getAllPageHeaders();
+      res.json(headers);
+    } catch (error) {
+      console.error("Error fetching page headers:", error);
+      res.status(500).json({ error: "Failed to fetch page headers" });
+    }
+  });
+
+  app.get("/api/page-headers/:pageSlug", async (req, res) => {
+    try {
+      const header = await storage.getPageHeaderBySlug(req.params.pageSlug);
+      if (!header) {
+        return res.status(404).json({ error: "Page header not found" });
+      }
+      res.json(header);
+    } catch (error) {
+      console.error("Error fetching page header:", error);
+      res.status(500).json({ error: "Failed to fetch page header" });
+    }
+  });
+
+  app.put("/api/page-headers", async (req, res) => {
+    try {
+      const parsed = insertPageHeaderSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const header = await storage.upsertPageHeader(parsed.data);
+      res.json(header);
+    } catch (error) {
+      console.error("Error updating page header:", error);
+      res.status(500).json({ error: "Failed to update page header" });
     }
   });
 
