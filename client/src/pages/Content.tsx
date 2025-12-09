@@ -217,7 +217,6 @@ export default function Content() {
         subtitle="Behind the reviews, beyond the plates"
         backgroundImage={foodPhotographyImage}
       />
-
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <AnimatedSection animation="fade-in-up" className="flex justify-center mb-12">
           <div className="inline-flex rounded-full bg-card p-1.5 shadow-sm">
@@ -252,7 +251,7 @@ export default function Content() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-serif text-xl font-semibold text-foreground">@thepalate.nyc</h3>
+                  <h3 className="font-serif text-xl font-semibold text-foreground">@bigbackchrisnyc</h3>
                   <p className="font-sans text-sm text-muted-foreground">12.4K followers</p>
                 </div>
               </div>
