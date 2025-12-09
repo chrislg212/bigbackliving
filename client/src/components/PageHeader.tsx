@@ -17,7 +17,7 @@ export default function PageHeader({
     >
       <div className="grid md:grid-cols-2">
         {backgroundImage && (
-          <div className="relative h-48 md:h-auto md:min-h-[600px] order-1 md:order-2">
+          <div className="relative h-48 md:h-auto md:min-h-[400px] order-1 md:order-2">
             <img 
               src={backgroundImage} 
               alt="Washington Square Park"  // Descriptive alt text for accessibility
