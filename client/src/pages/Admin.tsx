@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2, ImageIcon, Upload, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -42,7 +42,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed } from "@shared/schema";
+import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader } from "@shared/schema";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 
 const reviewFormSchema = z.object({
@@ -2264,6 +2264,177 @@ function SocialMediaTab() {
   );
 }
 
+const PAGE_CONFIGS = [
+  { slug: "home", name: "Home" },
+  { slug: "about", name: "About" },
+  { slug: "content", name: "Content" },
+  { slug: "reviews", name: "Reviews" },
+  { slug: "nyc-eats", name: "NYC Eats" },
+  { slug: "cuisines", name: "Cuisines" },
+  { slug: "top-10", name: "Top 10 Lists" },
+  { slug: "college-budget", name: "College Budget" },
+];
+
+function PageHeadersTab() {
+  const { toast } = useToast();
+
+  const { data: headers = [], isLoading } = useQuery<PageHeader[]>({
+    queryKey: ["/api/page-headers"],
+  });
+
+  const getHeaderForPage = (pageSlug: string) => {
+    return headers.find(h => h.pageSlug === pageSlug);
+  };
+
+  const handleGetUploadParameters = async () => {
+    try {
+      const response = await fetch("/api/objects/upload", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL } = await response.json();
+      return { method: "PUT" as const, url: uploadURL };
+    } catch {
+      toast({ title: "Failed to initialize upload", variant: "destructive" });
+      throw new Error("Upload initialization failed");
+    }
+  };
+
+  const upsertMutation = useMutation({
+    mutationFn: async (data: { pageSlug: string; title?: string; subtitle?: string; image?: string }) => {
+      return apiRequest("PUT", "/api/page-headers", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/page-headers"] });
+      toast({ title: "Page header updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update page header", variant: "destructive" });
+    },
+  });
+
+  const handleUploadComplete = async (pageSlug: string, result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) {
+          toast({ title: "Failed to process image", variant: "destructive" });
+          return;
+        }
+        const { normalizedPath } = await response.json();
+        if (!normalizedPath) {
+          toast({ title: "Failed to get image path", variant: "destructive" });
+          return;
+        }
+        const currentHeader = getHeaderForPage(pageSlug);
+        upsertMutation.mutate({
+          pageSlug,
+          title: currentHeader?.title || undefined,
+          subtitle: currentHeader?.subtitle || undefined,
+          image: normalizedPath,
+        });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+    }
+  };
+
+  const handleRemoveImage = (pageSlug: string) => {
+    const currentHeader = getHeaderForPage(pageSlug);
+    upsertMutation.mutate({
+      pageSlug,
+      title: currentHeader?.title || undefined,
+      subtitle: currentHeader?.subtitle || undefined,
+      image: undefined,
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="font-serif text-2xl font-semibold">Page Headers</h2>
+      </div>
+
+      <div className="grid gap-4">
+        {PAGE_CONFIGS.map((page) => {
+          const header = getHeaderForPage(page.slug);
+          return (
+            <Card key={page.slug} data-testid={`card-page-header-${page.slug}`}>
+              <CardContent className="p-4">
+                <div className="flex items-start gap-4">
+                  <div className="relative w-32 h-20 bg-muted rounded-md overflow-hidden flex-shrink-0">
+                    {header?.image ? (
+                      <img 
+                        src={header.image} 
+                        alt={`${page.name} header`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-lg" data-testid={`text-page-name-${page.slug}`}>
+                      {page.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {header?.image ? "Custom header image set" : "Using default header"}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {header?.image && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleRemoveImage(page.slug)}
+                        disabled={upsertMutation.isPending}
+                        data-testid={`button-remove-header-${page.slug}`}
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Remove
+                      </Button>
+                    )}
+                    <div className="relative">
+                      <ObjectUploader
+                        onGetUploadParameters={handleGetUploadParameters}
+                        onComplete={(result) => handleUploadComplete(page.slug, result)}
+                      >
+                        <Button variant="outline" size="sm" data-testid={`button-upload-header-${page.slug}`}>
+                          <Upload className="w-4 h-4 mr-1" />
+                          {header?.image ? "Change" : "Upload"}
+                        </Button>
+                      </ObjectUploader>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function Admin() {
   return (
     <div className="min-h-screen bg-background">
@@ -2278,7 +2449,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="reviews" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="reviews" data-testid="tab-reviews">
               <Star className="w-4 h-4 mr-2" />
               Reviews
@@ -2298,6 +2469,10 @@ export default function Admin() {
             <TabsTrigger value="social" data-testid="tab-social">
               <Share2 className="w-4 h-4 mr-2" />
               Social
+            </TabsTrigger>
+            <TabsTrigger value="headers" data-testid="tab-headers">
+              <ImageIcon className="w-4 h-4 mr-2" />
+              Headers
             </TabsTrigger>
           </TabsList>
 
@@ -2319,6 +2494,10 @@ export default function Admin() {
 
           <TabsContent value="social">
             <SocialMediaTab />
+          </TabsContent>
+
+          <TabsContent value="headers">
+            <PageHeadersTab />
           </TabsContent>
         </Tabs>
       </div>
