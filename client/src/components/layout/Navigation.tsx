@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SearchBar from "@/components/SearchBar";
+import { SiInstagram, SiFacebook, SiTiktok } from "react-icons/si";
+import type { SocialSettings } from "@shared/schema";
 
 const mainNavLinks = [
   { href: "/", label: "Home" },
@@ -47,9 +50,19 @@ function NavLink({ href, label, isActive }: { href: string; label: string; isAct
   );
 }
 
+const platformIcons: Record<string, typeof SiInstagram> = {
+  instagram: SiInstagram,
+  facebook: SiFacebook,
+  tiktok: SiTiktok,
+};
+
 export default function Navigation() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { data: socialSettings = [] } = useQuery<SocialSettings[]>({
+    queryKey: ["/api/social-settings"],
+  });
 
   const isListsActive = location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/top-10");
 
@@ -60,9 +73,31 @@ export default function Navigation() {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" data-testid="logo-link">
-            <span className="font-serif md:text-3xl text-foreground tracking-tight cursor-pointer hover:text-primary transition-colors duration-300 text-[27px] font-normal">bigbackchrisnyc</span>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/" data-testid="logo-link">
+              <span className="font-serif md:text-3xl text-foreground tracking-tight cursor-pointer hover:text-primary transition-colors duration-300 text-[27px] font-normal">bigbackchrisnyc</span>
+            </Link>
+            {socialSettings.length > 0 && (
+              <div className="hidden md:flex items-center gap-2">
+                {socialSettings.map((social) => {
+                  const Icon = platformIcons[social.platform.toLowerCase()];
+                  if (!Icon) return null;
+                  return (
+                    <a
+                      key={social.platform}
+                      href={social.profileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                      data-testid={`social-${social.platform.toLowerCase()}`}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
           <div className="hidden md:flex items-center gap-6">
             <SearchBar />
