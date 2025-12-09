@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import SearchBar from "@/components/SearchBar";
 
 const mainNavLinks = [
   { href: "/", label: "Home" },
@@ -63,7 +64,8 @@ export default function Navigation() {
             <span className="font-serif md:text-3xl text-foreground tracking-tight cursor-pointer hover:text-primary transition-colors duration-300 text-[27px] font-normal">bigbackchrisnyc</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-6">
+            <SearchBar />
             {mainNavLinks.map((link) => (
               <NavLink 
                 key={link.href} 
