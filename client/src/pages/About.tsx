@@ -142,9 +142,7 @@ export default function About() {
       <section className="bg-card border-t border-primary/10" data-testid="how-we-rate-section">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
           <AnimatedSection animation="fade-in-up">
-            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground text-center mb-12">
-              How We Rate
-            </h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground text-center mb-12">How I Rate</h2>
           </AnimatedSection>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16">
