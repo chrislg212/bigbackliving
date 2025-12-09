@@ -10,9 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           <div>
             <Link href="/">
-              <span className="font-serif text-2xl font-bold text-foreground cursor-pointer">
-                The Palate
-              </span>
+              <span className="font-serif text-2xl font-bold text-foreground cursor-pointer">bigbackchrisnyc</span>
             </Link>
             <p className="mt-4 font-sans text-sm text-muted-foreground leading-relaxed">
               Your trusted guide to exceptional dining experiences. Honest
