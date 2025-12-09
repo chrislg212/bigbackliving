@@ -41,7 +41,7 @@ export default function About() {
     <div className="min-h-screen" data-testid="about-page">
       <PageHeader
         title="Christopher Gamboa"
-        subtitle="Stories, standards, and a passion for exceptional food"
+        subtitle="My name is Christopher, and I'm a junior at New York University, where I'm pursuing a degree in Finance. Raised in a Filipino family, I feel blessed to be able to experience the best flavors and comfort food in the world daily. I'm hoping to find the best dining options in New York City in the coming years, taking into consideration the best quality and price options in fine dining and lesser-known dining destinations too. Food has the incredible capacity to heal the soul and to bring people closer to each other in a way that nothing else can."
         backgroundImage={customImage || foodJournalismImage}
       />
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
