@@ -20,18 +20,18 @@ export default function PageHeader({
           <div className="relative h-48 md:h-auto md:min-h-[300px] order-1 md:order-2">
             <img 
               src={backgroundImage} 
-              alt="" 
+              alt="Washington Square Park"  // Descriptive alt text for accessibility
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
           </div>
         )}
-        
+
         <div className={`bg-background relative order-2 md:order-1 ${!backgroundImage ? 'md:col-span-2' : ''}`}>
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
           </div>
-          
+
           <div className={`relative px-6 lg:px-12 py-16 md:py-20 ${backgroundImage ? 'max-w-xl mx-auto md:ml-auto md:mr-0' : 'max-w-4xl mx-auto text-center'}`}>
             <div className="animate-fade-in-up">
               <h1
@@ -51,5 +51,18 @@ export default function PageHeader({
         </div>
       </div>
     </section>
+  );
+}
+import PageHeader from './PageHeader';
+
+export default function HomePage() {
+  return (
+    <div>
+      <PageHeader
+        title="Washington Square Park"
+        subtitle="A beautiful park in the heart of NYC"
+        backgroundImage="https://thumbs.6sqft.com/wp-content/uploads/2018/08/01103439/WashingtonSquarePark.png?w=1560&format=webp"  // Image URL from the source you provided
+      />
+    </div>
   );
 }
