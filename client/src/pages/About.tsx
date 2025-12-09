@@ -97,9 +97,7 @@ export default function About() {
                       <MapPin className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
-                        Where We Review
-                      </h3>
+                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">Where I Review</h3>
                       <p className="font-sans text-sm text-muted-foreground">
                         Based in New York City, we explore restaurants across all
                         five boroughs and beyond, from neighborhood favorites to
