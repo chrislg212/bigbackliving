@@ -1,154 +1,14 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
-import { Play, Music, ExternalLink, Loader2 } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import foodPhotographyImage from "@assets/stock_images/food_photography_soc_438b2452.jpg";
 import type { SocialSettings, SocialEmbed } from "@shared/schema";
 
 type Platform = "instagram" | "tiktok";
-
-interface SocialPost {
-  id: string;
-  image: string;
-  caption: string;
-  date: string;
-}
-
-const mockInstagramPosts: SocialPost[] = [
-  {
-    id: "1",
-    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",
-    caption: "The perfect bite exists, and we found it at La Bella Italia.",
-    date: "2 days ago",
-  },
-  {
-    id: "2",
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",
-    caption: "When the steak is aged 45 days, you know it's going to be exceptional.",
-    date: "4 days ago",
-  },
-  {
-    id: "3",
-    image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
-    caption: "Omakase dreams at Sakura. Each piece tells a story.",
-    date: "1 week ago",
-  },
-  {
-    id: "4",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400",
-    caption: "Wood-fired perfection. The char, the cheese, the char again.",
-    date: "1 week ago",
-  },
-  {
-    id: "5",
-    image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400",
-    caption: "Dessert is never optional. Especially at Maison du Chocolat.",
-    date: "2 weeks ago",
-  },
-  {
-    id: "6",
-    image: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=400",
-    caption: "Paella for the soul. El Mar Azul delivers.",
-    date: "2 weeks ago",
-  },
-];
-
-const mockTikTokPosts: SocialPost[] = [
-  {
-    id: "1",
-    image: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400",
-    caption: "POV: You found the best hidden restaurant in NYC",
-    date: "3 days ago",
-  },
-  {
-    id: "2",
-    image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400",
-    caption: "This $15 meal tastes like $150. Not clickbait.",
-    date: "5 days ago",
-  },
-  {
-    id: "3",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400",
-    caption: "Rating every dish at the most expensive restaurant in Manhattan",
-    date: "1 week ago",
-  },
-  {
-    id: "4",
-    image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400",
-    caption: "Chef's reaction when I asked for ketchup at a steakhouse",
-    date: "1 week ago",
-  },
-  {
-    id: "5",
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
-    caption: "I ate my way through Little Italy so you don't have to",
-    date: "2 weeks ago",
-  },
-  {
-    id: "6",
-    image: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400",
-    caption: "The sushi chef has been doing this for 40 years. Watch this.",
-    date: "2 weeks ago",
-  },
-];
-
-function InstagramCard({ post, index }: { post: SocialPost; index: number }) {
-  return (
-    <div
-      className={`group relative aspect-square rounded-md overflow-hidden cursor-pointer card-hover-lift opacity-0 animate-fade-in-up stagger-${index + 1}`}
-    >
-      <img
-        src={post.image}
-        alt={post.caption}
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-      />
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300" />
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <p className="font-sans text-sm text-white line-clamp-2">{post.caption}</p>
-      </div>
-    </div>
-  );
-}
-
-function TikTokCard({ post, index }: { post: SocialPost; index: number }) {
-  return (
-    <div
-      className={`group relative aspect-[9/16] rounded-xl overflow-hidden cursor-pointer card-hover-lift opacity-0 animate-fade-in-up stagger-${index + 1}`}
-    >
-      <img
-        src={post.image}
-        alt={post.caption}
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-      
-      <div className="absolute top-4 left-4 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-          <SiTiktok className="w-4 h-4 text-primary-foreground" />
-        </div>
-        <span className="font-sans text-xs text-white/80">{post.date}</span>
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-4 p-4">
-        <p className="font-sans text-sm text-white font-medium mb-2 line-clamp-2">{post.caption}</p>
-        <div className="flex items-center gap-2">
-          <Music className="w-3 h-3 text-white/60" />
-          <span className="font-sans text-xs text-white/60">Original Sound - The Palate</span>
-        </div>
-      </div>
-
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="w-16 h-16 rounded-full bg-white/30 backdrop-blur flex items-center justify-center">
-          <Play className="w-8 h-8 text-white fill-white ml-1" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function EmbedRenderer({ embedCode, platform }: { embedCode: string; platform: string }) {
   useEffect(() => {
@@ -280,9 +140,8 @@ export default function Content() {
               </Button>
             </AnimatedSection>
 
-            {platformEmbeds.length > 0 && (
+            {platformEmbeds.length > 0 ? (
               <div className="space-y-6" data-testid="instagram-embeds">
-                <h4 className="font-serif text-lg font-semibold text-foreground">Featured Posts</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {platformEmbeds.map((embed) => (
                     <div key={embed.id} className="flex flex-col items-center" data-testid={`embed-${embed.id}`}>
@@ -294,16 +153,11 @@ export default function Content() {
                   ))}
                 </div>
               </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No Instagram posts yet. Add embeds in the admin panel.</p>
+              </div>
             )}
-
-            <div
-              className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4"
-              data-testid="instagram-grid"
-            >
-              {mockInstagramPosts.map((post, index) => (
-                <InstagramCard key={post.id} post={post} index={index} />
-              ))}
-            </div>
           </div>
         )}
 
@@ -332,9 +186,8 @@ export default function Content() {
               </Button>
             </AnimatedSection>
 
-            {platformEmbeds.length > 0 && (
+            {platformEmbeds.length > 0 ? (
               <div className="space-y-6" data-testid="tiktok-embeds">
-                <h4 className="font-serif text-lg font-semibold text-foreground">Featured Videos</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {platformEmbeds.map((embed) => (
                     <div key={embed.id} className="flex flex-col items-center" data-testid={`embed-${embed.id}`}>
@@ -346,16 +199,11 @@ export default function Content() {
                   ))}
                 </div>
               </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No TikTok videos yet. Add embeds in the admin panel.</p>
+              </div>
             )}
-
-            <div
-              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4"
-              data-testid="tiktok-grid"
-            >
-              {mockTikTokPosts.map((post, index) => (
-                <TikTokCard key={post.id} post={post} index={index} />
-              ))}
-            </div>
           </div>
         )}
 
