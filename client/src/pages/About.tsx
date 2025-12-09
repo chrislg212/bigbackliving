@@ -1,45 +1,13 @@
-import { Mail, MapPin, Utensils, Star } from "lucide-react";
+import { Mail, MapPin, Utensils } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
+import RatingCriteriaSection from "@/components/RatingCriteriaSection";
 import { usePageHeader } from "@/hooks/use-page-header";
 import foodJournalismImage from "@assets/stock_images/food_journalism_culi_9e0224b8.jpg";
 
 export default function About() {
   const { customImage } = usePageHeader("about");
-  const ratingBreakdown = [
-    { score: "5.0", label: "PERFECT" },
-    { score: "4.0+", label: "EXCEPTIONAL" },
-    { score: "3.0", label: "DECENT" },
-    { score: "< 3.0", label: "DISAPPOINTING" },
-  ];
-
-  const ratingCriteria = [
-    {
-      name: "Taste",
-      description: "Measures overall flavor, texture, balance, and execution.",
-    },
-    {
-      name: "Value",
-      description: "Evaluates how well the quality matches the price and whether the experience feels worth it.",
-    },
-    {
-      name: "Atmosphere",
-      description: "The vibe, comfort, and overall feel of dining at the location.",
-    },
-    {
-      name: "Service",
-      description: "Friendliness, attentiveness, and efficiency of the staff.",
-    },
-    {
-      name: "Creativity",
-      description: "Evaluates the originality and innovation of the dishes, from flavor combinations to plating.",
-    },
-    {
-      name: "Marginal Bite Satisfaction",
-      description: "A unique metric that measures how consistently enjoyable each additional bite is. Does the dish stay satisfying from start to finish, or does enjoyment fade as you continue eating?",
-    },
-  ];
 
   return (
     <div className="min-h-screen" data-testid="about-page">
@@ -145,58 +113,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="bg-card border-t border-primary/10" data-testid="how-we-rate-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <AnimatedSection animation="fade-in-up">
-            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground text-center mb-12">How I Rate</h2>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16">
-            {ratingBreakdown.map((item, index) => (
-              <AnimatedSection 
-                key={item.label} 
-                animation="scale-in" 
-                delay={100 + index * 100}
-                className="text-center"
-              >
-                <div className="flex justify-center mb-3">
-                  <Star className="w-6 h-6 fill-primary text-primary" />
-                </div>
-                <div className="font-serif text-3xl md:text-4xl font-bold text-primary mb-2">
-                  {item.score}
-                </div>
-                <div className="font-sans text-sm text-muted-foreground uppercase tracking-wider">
-                  {item.label}
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          <div className="border-t border-primary/10 pt-12">
-            <AnimatedSection animation="fade-in-up" delay={500}>
-              <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground text-center mb-10">My Rating Criteria</h3>
-            </AnimatedSection>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {ratingCriteria.map((criterion, index) => (
-                <AnimatedSection
-                  key={criterion.name}
-                  animation="fade-in-up"
-                  delay={600 + index * 100}
-                  className={`${index === ratingCriteria.length - 1 && ratingCriteria.length % 3 !== 0 ? "md:col-span-2 lg:col-span-1" : ""}`}
-                >
-                  <h4 className="font-serif text-lg font-semibold text-foreground mb-2">
-                    {criterion.name}
-                  </h4>
-                  <p className="font-sans text-sm text-muted-foreground leading-relaxed">
-                    {criterion.description}
-                  </p>
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <RatingCriteriaSection />
     </div>
   );
 }
