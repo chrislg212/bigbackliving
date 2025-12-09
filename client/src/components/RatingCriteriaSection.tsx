@@ -156,10 +156,12 @@ function CriterionCard({ criterion, index }: { criterion: RatingCriterion; index
     >
       <Popover>
         <PopoverTrigger asChild>
-          <div
-            className="group p-5 rounded-lg bg-background/50 border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer hover-elevate"
+          <button
+            className="group w-full text-left p-5 rounded-lg bg-background/50 border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer hover-elevate focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onFocus={() => setIsHovered(true)}
+            onBlur={() => setIsHovered(false)}
             data-testid={`criterion-${criterion.name.toLowerCase().replace(/\s+/g, '-')}`}
           >
             <div className="flex items-start gap-4">
@@ -186,7 +188,7 @@ function CriterionCard({ criterion, index }: { criterion: RatingCriterion; index
                 </span>
               </div>
             </div>
-          </div>
+          </button>
         </PopoverTrigger>
         <PopoverContent 
           className="w-80 p-4"
