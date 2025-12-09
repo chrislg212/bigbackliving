@@ -37,9 +37,7 @@ export default function StarRating({
     ? "fill-none text-white/40" 
     : "fill-none text-muted-foreground/40";
   
-  const textColor = light 
-    ? "text-white" 
-    : "text-foreground";
+  const textColor = "text-white";
 
   return (
     <div className="flex items-center gap-1" data-testid="star-rating">
