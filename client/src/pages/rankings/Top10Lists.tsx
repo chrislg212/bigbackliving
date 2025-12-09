@@ -79,9 +79,7 @@ export default function Top10Lists() {
                 
                 <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
                 
-                <p className="font-sans text-lg text-muted-foreground">
-                  Curated collections to guide your next great meal. Each list is carefully crafted by our editorial team.
-                </p>
+                <p className="font-sans text-lg text-muted-foreground">Top 10 rankings of specific </p>
               </AnimatedSection>
             </div>
           </div>
