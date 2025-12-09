@@ -1,0 +1,55 @@
+Objective: Create an interactive "Rating Criteria" section for a food blog with dynamic star animations, custom icons, hover effects, and smooth transitions. Implement a responsive layout and allow users to see detailed descriptions when hovering or clicking on each rating category.
+
+1. Create Layout:
+
+Set up a flexbox grid layout to organize your rating criteria (Taste, Service, Value, etc.) into individual sections.
+
+Ensure the design is mobile-friendly, with responsiveness for different screen sizes (desktop, tablet, mobile).
+
+2. Implement Star Rating Animations:
+
+Stars should animate when hovered or clicked.
+
+5.0 (Perfect): Golden stars with a "twinkle" animation.
+
+4.0+ (Exceptional): Pulsing gold stars.
+
+3.0+ (Decent): Growing stars when hovered.
+
+<3.0 (Disappointing): Fading or broken stars with a "shatter" animation.
+
+On hover: Scale up the stars slightly for interactivity.
+
+On click: Change the star color or show a "filled" animation.
+
+3. Custom Icons for Each Rating Category:
+
+Use icons like a plate, service bell, price tag, etc., for each rating category.
+
+Icons should pulse or bounce on hover to add interactivity.
+
+Each category (Taste, Service, etc.) should have a descriptive text below with a hover effect that changes the color or underlines the text.
+
+4. Add Hover and Click Effects:
+
+When hovering over the rating text, change the font color to an accent color (e.g., gold or orange).
+
+Clicking on a category should open a small popover or modal with detailed information about how the rating was assigned.
+
+5. Add Smooth Animations to Criteria Section:
+
+Fade-in animation: Make the entire rating section fade in when the page loads.
+
+Add subtle slide-in animations for each individual rating criteria (Taste, Service, etc.) from different directions (left, right, top, bottom) to keep things dynamic.
+
+6. Background and Color Scheme:
+
+Use a warm color palette: Incorporate warm tones like burnt orange, deep red, or gold accents to give the page a welcoming, food-related feel.
+
+Add a background texture (e.g., wood grain, linen, or marble) behind the ratings section to create depth and warmth.
+
+7. Final Touches:
+
+Ensure the scrollbar is styled with your color scheme to match the design.
+
+Implement a clickable rating system so users can submit their own ratings for each criterion, and display the average rating for each restaurant in real-time.
