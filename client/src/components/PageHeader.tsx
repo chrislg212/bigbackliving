@@ -53,16 +53,3 @@ export default function PageHeader({
     </section>
   );
 }
-import PageHeader from './PageHeader';
-
-export default function HomePage() {
-  return (
-    <div>
-      <PageHeader
-        title="Washington Square Park"
-        subtitle="A beautiful park in the heart of NYC"
-        backgroundImage="https://thumbs.6sqft.com/wp-content/uploads/2018/08/01103439/WashingtonSquarePark.png?w=1560&format=webp"  // Image URL from the source you provided
-      />
-    </div>
-  );
-}
