@@ -32,6 +32,10 @@ export default function About() {
       description: "Friendliness, attentiveness, and efficiency of the staff.",
     },
     {
+      name: "Creativity",
+      description: "Evaluates the originality and innovation of the dishes, from flavor combinations to plating.",
+    },
+    {
       name: "Marginal Bite Satisfaction",
       description: "A unique metric that measures how consistently enjoyable each additional bite is. Does the dish stay satisfying from start to finish, or does enjoyment fade as you continue eating?",
     },
