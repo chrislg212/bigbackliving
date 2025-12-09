@@ -78,10 +78,7 @@ export default function Home() {
           >
             Have a Restaurant Recommendation?
           </h2>
-          <p className="font-sans text-muted-foreground mb-8 max-w-lg mx-auto">
-            We're always on the hunt for our next great meal. Share your
-            favorite spots and we might feature them.
-          </p>
+          <p className="font-sans text-muted-foreground mb-8 max-w-lg mx-auto">I'm always on the hunt for my next great meal. Share your favorite spots and I might feature them!</p>
           <a href="mailto:hello@thepalate.com">
             <Button
               variant="default"
