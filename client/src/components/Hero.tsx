@@ -34,9 +34,7 @@ export default function Hero({ customImage }: HeroProps) {
             size="lg"
             className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 font-sans uppercase tracking-wider"
             data-testid="hero-cta"
-          >
-            Explore Reviews
-          </Button>
+          >MY Reviews</Button>
         </Link>
       </div>
     </section>
