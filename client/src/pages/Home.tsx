@@ -31,7 +31,6 @@ export default function Home() {
   return (
     <div data-testid="home-page">
       <Hero />
-
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
           <h2
@@ -40,10 +39,7 @@ export default function Home() {
           >
             Latest Discoveries
           </h2>
-          <p className="font-sans text-muted-foreground max-w-2xl mx-auto">
-            Our most recent dining adventures, from neighborhood gems to
-            celebrated institutions.
-          </p>
+          <p className="font-sans text-muted-foreground max-w-2xl mx-auto">My most recent dining adventures, from neighborhood gems to celebrated institutions.</p>
         </div>
 
         {isLoading ? (
@@ -74,7 +70,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
       <section className="bg-card border-y border-primary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
           <h2
