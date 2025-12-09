@@ -4,8 +4,9 @@ import {
   type Cuisine, type InsertCuisine,
   type NycEatsCategory, type InsertNycEatsCategory,
   type TopTenList, type InsertTopTenList,
+  type SocialSettings, type InsertSocialSettings,
   reviews, users, cuisines, nycEatsCategories, topTenLists,
-  reviewsCuisines, reviewsNycCategories, topTenListItems
+  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -53,6 +54,10 @@ export interface IStorage {
   
   getTopTenListItems(listId: number): Promise<{ review: Review; rank: number }[]>;
   setTopTenListItems(listId: number, items: { reviewId: number; rank: number }[]): Promise<void>;
+  
+  getAllSocialSettings(): Promise<SocialSettings[]>;
+  getSocialSettingsByPlatform(platform: string): Promise<SocialSettings | undefined>;
+  upsertSocialSettings(settings: InsertSocialSettings): Promise<SocialSettings>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -256,6 +261,28 @@ export class DatabaseStorage implements IStorage {
     if (items.length > 0) {
       await db.insert(topTenListItems).values(items.map(item => ({ listId, reviewId: item.reviewId, rank: item.rank })));
     }
+  }
+
+  async getAllSocialSettings(): Promise<SocialSettings[]> {
+    return db.select().from(socialSettings);
+  }
+
+  async getSocialSettingsByPlatform(platform: string): Promise<SocialSettings | undefined> {
+    const [settings] = await db.select().from(socialSettings).where(eq(socialSettings.platform, platform));
+    return settings;
+  }
+
+  async upsertSocialSettings(insertSettings: InsertSocialSettings): Promise<SocialSettings> {
+    const existing = await this.getSocialSettingsByPlatform(insertSettings.platform);
+    if (existing) {
+      const [updated] = await db.update(socialSettings)
+        .set(insertSettings)
+        .where(eq(socialSettings.platform, insertSettings.platform))
+        .returning();
+      return updated;
+    }
+    const [created] = await db.insert(socialSettings).values(insertSettings).returning();
+    return created;
   }
 }
 

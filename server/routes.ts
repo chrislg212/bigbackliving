@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema } from "@shared/schema";
+import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(
@@ -473,6 +473,32 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error updating review NYC categories:", error);
       res.status(500).json({ error: "Failed to update review NYC categories" });
+    }
+  });
+
+  // Get all social settings
+  app.get("/api/social-settings", async (req, res) => {
+    try {
+      const settings = await storage.getAllSocialSettings();
+      res.json(settings);
+    } catch (error) {
+      console.error("Error fetching social settings:", error);
+      res.status(500).json({ error: "Failed to fetch social settings" });
+    }
+  });
+
+  // Create or update social settings
+  app.put("/api/social-settings", async (req, res) => {
+    try {
+      const parsed = insertSocialSettingsSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const settings = await storage.upsertSocialSettings(parsed.data);
+      res.json(settings);
+    } catch (error) {
+      console.error("Error updating social settings:", error);
+      res.status(500).json({ error: "Failed to update social settings" });
     }
   });
 

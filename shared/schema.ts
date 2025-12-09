@@ -104,3 +104,17 @@ export const topTenListItems = pgTable("top_ten_list_items", {
   reviewId: integer("review_id").notNull().references(() => reviews.id, { onDelete: "cascade" }),
   rank: integer("rank").notNull(),
 });
+
+export const socialSettings = pgTable("social_settings", {
+  id: serial("id").primaryKey(),
+  platform: text("platform").notNull().unique(),
+  username: text("username").notNull(),
+  profileUrl: text("profile_url").notNull(),
+});
+
+export const insertSocialSettingsSchema = createInsertSchema(socialSettings).omit({
+  id: true,
+});
+
+export type InsertSocialSettings = z.infer<typeof insertSocialSettingsSchema>;
+export type SocialSettings = typeof socialSettings.$inferSelect;

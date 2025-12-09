@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -42,7 +42,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { Review, Cuisine, NycEatsCategory, TopTenList } from "@shared/schema";
+import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings } from "@shared/schema";
+import { SiInstagram, SiTiktok } from "react-icons/si";
 
 const reviewFormSchema = z.object({
   name: z.string().min(1, "Restaurant name is required"),
@@ -81,10 +82,17 @@ const topTenListFormSchema = z.object({
   image: z.string().optional(),
 });
 
+const socialSettingsFormSchema = z.object({
+  platform: z.string().min(1, "Platform is required"),
+  username: z.string().min(1, "Username is required"),
+  profileUrl: z.string().url("Must be a valid URL"),
+});
+
 type ReviewFormData = z.infer<typeof reviewFormSchema>;
 type CuisineFormData = z.infer<typeof cuisineFormSchema>;
 type NycCategoryFormData = z.infer<typeof nycCategoryFormSchema>;
 type TopTenListFormData = z.infer<typeof topTenListFormSchema>;
+type SocialSettingsFormData = z.infer<typeof socialSettingsFormSchema>;
 
 function generateSlug(name: string): string {
   return name
@@ -1817,6 +1825,183 @@ function TopTenListCard({
   );
 }
 
+function SocialMediaTab() {
+  const { toast } = useToast();
+
+  const { data: socialSettings = [], isLoading } = useQuery<SocialSettings[]>({
+    queryKey: ["/api/social-settings"],
+  });
+
+  const instagramSettings = socialSettings.find(s => s.platform === "instagram");
+  const tiktokSettings = socialSettings.find(s => s.platform === "tiktok");
+
+  const instagramForm = useForm<SocialSettingsFormData>({
+    resolver: zodResolver(socialSettingsFormSchema),
+    defaultValues: {
+      platform: "instagram",
+      username: "",
+      profileUrl: "",
+    },
+  });
+
+  const tiktokForm = useForm<SocialSettingsFormData>({
+    resolver: zodResolver(socialSettingsFormSchema),
+    defaultValues: {
+      platform: "tiktok",
+      username: "",
+      profileUrl: "",
+    },
+  });
+
+  useEffect(() => {
+    if (instagramSettings) {
+      instagramForm.reset({
+        platform: "instagram",
+        username: instagramSettings.username,
+        profileUrl: instagramSettings.profileUrl,
+      });
+    }
+  }, [instagramSettings]);
+
+  useEffect(() => {
+    if (tiktokSettings) {
+      tiktokForm.reset({
+        platform: "tiktok",
+        username: tiktokSettings.username,
+        profileUrl: tiktokSettings.profileUrl,
+      });
+    }
+  }, [tiktokSettings]);
+
+  const instagramMutation = useMutation({
+    mutationFn: async (data: SocialSettingsFormData) => {
+      return apiRequest("PUT", "/api/social-settings", { ...data, platform: "instagram" });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/social-settings"] });
+      toast({ title: "Instagram settings saved" });
+    },
+    onError: () => {
+      toast({ title: "Failed to save Instagram settings", variant: "destructive" });
+    },
+  });
+
+  const tiktokMutation = useMutation({
+    mutationFn: async (data: SocialSettingsFormData) => {
+      return apiRequest("PUT", "/api/social-settings", { ...data, platform: "tiktok" });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/social-settings"] });
+      toast({ title: "TikTok settings saved" });
+    },
+    onError: () => {
+      toast({ title: "Failed to save TikTok settings", variant: "destructive" });
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <SiInstagram className="w-5 h-5" />
+            Instagram
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...instagramForm}>
+            <form onSubmit={instagramForm.handleSubmit((data) => instagramMutation.mutate(data))} className="space-y-4">
+              <FormField
+                control={instagramForm.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="@yourinstagram" {...field} data-testid="input-instagram-username" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={instagramForm.control}
+                name="profileUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Profile URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://instagram.com/yourinstagram" {...field} data-testid="input-instagram-url" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" disabled={instagramMutation.isPending} data-testid="button-save-instagram">
+                {instagramMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                Save Instagram Settings
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <SiTiktok className="w-5 h-5" />
+            TikTok
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...tiktokForm}>
+            <form onSubmit={tiktokForm.handleSubmit((data) => tiktokMutation.mutate(data))} className="space-y-4">
+              <FormField
+                control={tiktokForm.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="@yourtiktok" {...field} data-testid="input-tiktok-username" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={tiktokForm.control}
+                name="profileUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Profile URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://tiktok.com/@yourtiktok" {...field} data-testid="input-tiktok-url" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" disabled={tiktokMutation.isPending} data-testid="button-save-tiktok">
+                {tiktokMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                Save TikTok Settings
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 export default function Admin() {
   return (
     <div className="min-h-screen bg-background">
@@ -1831,7 +2016,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="reviews" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="reviews" data-testid="tab-reviews">
               <Star className="w-4 h-4 mr-2" />
               Reviews
@@ -1846,7 +2031,11 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="top-ten" data-testid="tab-top-ten">
               <List className="w-4 h-4 mr-2" />
-              Top 10 Lists
+              Top 10
+            </TabsTrigger>
+            <TabsTrigger value="social" data-testid="tab-social">
+              <Share2 className="w-4 h-4 mr-2" />
+              Social
             </TabsTrigger>
           </TabsList>
 
@@ -1864,6 +2053,10 @@ export default function Admin() {
 
           <TabsContent value="top-ten">
             <TopTenListsTab />
+          </TabsContent>
+
+          <TabsContent value="social">
+            <SocialMediaTab />
           </TabsContent>
         </Tabs>
       </div>
