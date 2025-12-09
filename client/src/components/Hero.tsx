@@ -17,14 +17,11 @@ export default function Hero({ customImage }: HeroProps) {
         style={{ backgroundImage: `url(${customImage || heroImage})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
-
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <h1
           className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-6 leading-tight"
           data-testid="hero-title"
-        >
-          Discovering Culinary Excellence
-        </h1>
+        >Christopher's Restaurant Reviews</h1>
         <p
           className="font-sans text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed"
           data-testid="hero-subtitle"
