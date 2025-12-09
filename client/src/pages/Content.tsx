@@ -169,7 +169,7 @@ export default function Content() {
   return (
     <div className="min-h-screen" data-testid="content-page">
       <PageHeader
-        title="Follow The Palate"
+        title="Follow My Journey"
         subtitle="Behind the reviews, beyond the plates"
         backgroundImage={foodPhotographyImage}
       />
