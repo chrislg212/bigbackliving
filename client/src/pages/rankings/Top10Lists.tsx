@@ -75,9 +75,7 @@ export default function Top10Lists() {
                   <span className="font-sans text-sm font-medium">Editorial Picks</span>
                 </div>
                 
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">
-                  Top 10 Lists
-                </h1>
+                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">Top 10 Rankings</h1>
                 
                 <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
                 
@@ -89,7 +87,6 @@ export default function Top10Lists() {
           </div>
         </div>
       </section>
-
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
