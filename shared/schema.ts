@@ -133,3 +133,18 @@ export const insertSocialEmbedSchema = createInsertSchema(socialEmbeds).omit({
 
 export type InsertSocialEmbed = z.infer<typeof insertSocialEmbedSchema>;
 export type SocialEmbed = typeof socialEmbeds.$inferSelect;
+
+export const pageHeaders = pgTable("page_headers", {
+  id: serial("id").primaryKey(),
+  pageSlug: text("page_slug").notNull().unique(),
+  title: text("title"),
+  subtitle: text("subtitle"),
+  image: text("image"),
+});
+
+export const insertPageHeaderSchema = createInsertSchema(pageHeaders).omit({
+  id: true,
+});
+
+export type InsertPageHeader = z.infer<typeof insertPageHeaderSchema>;
+export type PageHeader = typeof pageHeaders.$inferSelect;

@@ -6,8 +6,9 @@ import {
   type TopTenList, type InsertTopTenList,
   type SocialSettings, type InsertSocialSettings,
   type SocialEmbed, type InsertSocialEmbed,
+  type PageHeader, type InsertPageHeader,
   reviews, users, cuisines, nycEatsCategories, topTenLists,
-  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds
+  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -65,6 +66,10 @@ export interface IStorage {
   createSocialEmbed(embed: InsertSocialEmbed): Promise<SocialEmbed>;
   updateSocialEmbed(id: number, embed: Partial<InsertSocialEmbed>): Promise<SocialEmbed | undefined>;
   deleteSocialEmbed(id: number): Promise<boolean>;
+  
+  getAllPageHeaders(): Promise<PageHeader[]>;
+  getPageHeaderBySlug(pageSlug: string): Promise<PageHeader | undefined>;
+  upsertPageHeader(header: InsertPageHeader): Promise<PageHeader>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -313,6 +318,28 @@ export class DatabaseStorage implements IStorage {
   async deleteSocialEmbed(id: number): Promise<boolean> {
     const result = await db.delete(socialEmbeds).where(eq(socialEmbeds.id, id)).returning();
     return result.length > 0;
+  }
+
+  async getAllPageHeaders(): Promise<PageHeader[]> {
+    return db.select().from(pageHeaders);
+  }
+
+  async getPageHeaderBySlug(pageSlug: string): Promise<PageHeader | undefined> {
+    const [header] = await db.select().from(pageHeaders).where(eq(pageHeaders.pageSlug, pageSlug));
+    return header;
+  }
+
+  async upsertPageHeader(insertHeader: InsertPageHeader): Promise<PageHeader> {
+    const existing = await this.getPageHeaderBySlug(insertHeader.pageSlug);
+    if (existing) {
+      const [updated] = await db.update(pageHeaders)
+        .set(insertHeader)
+        .where(eq(pageHeaders.pageSlug, insertHeader.pageSlug))
+        .returning();
+      return updated;
+    }
+    const [created] = await db.insert(pageHeaders).values(insertHeader).returning();
+    return created;
   }
 }
 
