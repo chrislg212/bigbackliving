@@ -168,9 +168,7 @@ export default function About() {
 
           <div className="border-t border-primary/10 pt-12">
             <AnimatedSection animation="fade-in-up" delay={500}>
-              <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground text-center mb-10">
-                Our Rating Criteria
-              </h3>
+              <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground text-center mb-10">My Rating Criteria</h3>
             </AnimatedSection>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
