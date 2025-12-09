@@ -65,9 +65,16 @@ Preferred communication style: Simple, everyday language.
 **Database Schema (Drizzle ORM)**
 - PostgreSQL database connected and active
 - Reviews table: id, slug, name, cuisine, location, rating, excerpt, image, priceRange, fullReview, highlights, atmosphere, mustTry, visitDate
+- Page Headers table: id, pageSlug, title, subtitle, image (for custom page header images)
 - Schema-first approach with TypeScript types derived from Drizzle schemas
 - User table structure in place as foundation for authentication
 - Zod schemas generated from database schemas for runtime validation
+
+**Page Headers System**
+- Custom uploadable header images for 8 pages: Home, About, Content, Reviews, NYC Eats, Cuisines, Top 10 Lists, College Budget
+- usePageHeader hook fetches all headers and finds by slug to avoid 404 errors
+- Admin panel includes Page Headers tab for managing images
+- Pages fallback to default generated images when no custom header exists
 
 **Data Modeling**
 - Review interface defines core content structure: name, cuisine, location, rating, excerpt, images, price range
