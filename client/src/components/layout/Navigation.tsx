@@ -21,7 +21,7 @@ const mainNavLinks = [
 const listsLinks = [
   { href: "/rankings/nyc-eats", label: "NYC Eats" },
   { href: "/rankings/cuisines", label: "Cuisines" },
-  { href: "/rankings/top-10", label: "Featured Lists" },
+  { href: "/rankings/top-10", label: "Featured Guides" },
   { href: "/rankings/college-budget", label: "College Budget Eats" },
 ];
 

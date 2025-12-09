@@ -75,7 +75,7 @@ export default function Top10Lists() {
                   <span className="font-sans text-sm font-medium">Editorial Picks</span>
                 </div>
                 
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">Featured Lists</h1>
+                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">Featured Guides</h1>
                 
                 <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
                 
@@ -143,7 +143,7 @@ export default function Top10Lists() {
               <>
                 <AnimatedSection animation="fade-in-up" delay={200} className="mb-8">
                   <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground">
-                    More Lists to Explore
+                    More Guides to Explore
                   </h3>
                 </AnimatedSection>
 

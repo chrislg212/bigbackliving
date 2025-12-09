@@ -67,7 +67,7 @@ export default function Top10Detail() {
           <Link href="/rankings/top-10">
             <Button variant="outline">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Top 10 Lists
+              Back to Top 10 Guides
             </Button>
           </Link>
         </div>
@@ -108,7 +108,7 @@ export default function Top10Detail() {
                   className="mb-6 text-white/80 hover:text-white hover:bg-white/10"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  All Top 10 Lists
+                  All Top 10 Guides
                 </Button>
               </Link>
               
@@ -217,7 +217,7 @@ export default function Top10Detail() {
           </p>
           <Link href="/rankings/top-10">
             <Button variant="outline" className="btn-hover-lift gap-2">
-              Explore More Lists
+              Explore More Guides
               <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>

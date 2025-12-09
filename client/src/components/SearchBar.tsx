@@ -22,7 +22,7 @@ const cuisinesList = [
 const listsList = [
   { name: "NYC Eats", href: "/rankings/nyc-eats" },
   { name: "Cuisines", href: "/rankings/cuisines" },
-  { name: "Top 10 Lists", href: "/rankings/top-10" },
+  { name: "Top 10 Guides", href: "/rankings/top-10" },
   { name: "College Budget Eats", href: "/rankings/college-budget" },
 ];
 
@@ -175,7 +175,7 @@ export default function SearchBar() {
                   <div className="px-3 py-2 bg-muted/50 border-b border-primary/10">
                     <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                       <List className="w-3 h-3" />
-                      Lists
+                      Guides
                     </span>
                   </div>
                   {filteredLists.map((list) => (
