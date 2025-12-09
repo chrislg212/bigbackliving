@@ -73,7 +73,7 @@ export default function Navigation() {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-4 -ml-2">
             <Link href="/" data-testid="logo-link">
               <span className="font-serif md:text-3xl text-foreground tracking-tight cursor-pointer hover:text-primary transition-colors duration-300 text-[27px] font-normal">bigbackchrisnyc</span>
             </Link>
