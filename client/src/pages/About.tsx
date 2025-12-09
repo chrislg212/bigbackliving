@@ -8,10 +8,10 @@ import foodJournalismImage from "@assets/stock_images/food_journalism_culi_9e022
 export default function About() {
   const { customImage } = usePageHeader("about");
   const ratingBreakdown = [
-    { score: "5.0", label: "Exceptional" },
-    { score: "4.0+", label: "Excellent" },
-    { score: "3.0+", label: "Good" },
-    { score: "< 3.0", label: "Fair" },
+    { score: "5.0", label: "EXCEPTIONAL" },
+    { score: "4.0+", label: "EXCELLENT" },
+    { score: "3.0+", label: "GOOD" },
+    { score: "< 3.0", label: "FAIR" },
   ];
 
   const ratingCriteria = [
