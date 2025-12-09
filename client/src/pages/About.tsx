@@ -38,17 +38,14 @@ export default function About() {
   return (
     <div className="min-h-screen" data-testid="about-page">
       <PageHeader
-        title="About The Palate"
+        title="Christopher Gamboa"
         subtitle="Stories, standards, and a passion for exceptional food"
         backgroundImage={foodJournalismImage}
       />
-
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <AnimatedSection animation="fade-in-left">
-            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-6">
-              Our Philosophy
-            </h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-6">My Philosophy</h2>
             <div className="font-sans text-muted-foreground space-y-4 leading-relaxed">
               <p>
                 The Palate was born from a simple belief: every meal has the
@@ -80,9 +77,7 @@ export default function About() {
                       <Utensils className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
-                        Our Mission
-                      </h3>
+                      <h3 className="font-serif text-lg font-semibold text-foreground mb-2">My Mission</h3>
                       <p className="font-sans text-sm text-muted-foreground">
                         To guide food lovers toward exceptional dining experiences
                         through honest, thoughtful, and beautifully presented
@@ -146,7 +141,6 @@ export default function About() {
           </div>
         </div>
       </section>
-
       <section className="bg-card border-t border-primary/10" data-testid="how-we-rate-section">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
           <AnimatedSection animation="fade-in-up">
