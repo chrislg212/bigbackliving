@@ -38,7 +38,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
                 <MapPin className="w-4 h-4" />
                 <span className="text-sm font-sans">{review.location}</span>
                 <span className="text-white/60 mx-2">|</span>
-                <StarRating rating={review.rating} size="sm" light />
+                <StarRating rating={review.rating} size="sm" />
               </div>
             </div>
           </div>
