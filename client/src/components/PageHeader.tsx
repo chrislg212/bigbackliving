@@ -2,12 +2,14 @@ interface PageHeaderProps {
   title: string;
   subtitle: string;
   backgroundImage?: string;
+  animateImage?: boolean;
 }
 
 export default function PageHeader({
   title,
   subtitle,
   backgroundImage,
+  animateImage = true,
 }: PageHeaderProps) {
 
   return (
@@ -21,7 +23,7 @@ export default function PageHeader({
             <img 
               src={backgroundImage} 
               alt="Washington Square Park"  // Descriptive alt text for accessibility
-              className="absolute inset-0 w-full h-full object-cover object-top"
+              className={`absolute inset-0 w-full h-full object-cover object-top ${animateImage ? 'animate-fade-in-up' : ''}`}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
           </div>
