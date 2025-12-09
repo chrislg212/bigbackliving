@@ -62,9 +62,7 @@ export default function Footer() {
               href="mailto:hello@thepalate.com"
               className="inline-block mt-2 font-sans text-sm text-primary hover:underline"
               data-testid="footer-email"
-            >
-              hello@thepalate.com
-            </a>
+            >bigbackliving@gmail.com</a>
           </div>
         </div>
 
