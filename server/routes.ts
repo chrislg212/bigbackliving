@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema } from "@shared/schema";
+import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(
@@ -499,6 +499,72 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error updating social settings:", error);
       res.status(500).json({ error: "Failed to update social settings" });
+    }
+  });
+
+  // Social Embeds routes
+  app.get("/api/social-embeds", async (req, res) => {
+    try {
+      const platform = req.query.platform as string | undefined;
+      const embeds = platform 
+        ? await storage.getSocialEmbedsByPlatform(platform)
+        : await storage.getAllSocialEmbeds();
+      res.json(embeds);
+    } catch (error) {
+      console.error("Error fetching social embeds:", error);
+      res.status(500).json({ error: "Failed to fetch social embeds" });
+    }
+  });
+
+  app.post("/api/social-embeds", async (req, res) => {
+    try {
+      const parsed = insertSocialEmbedSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const embed = await storage.createSocialEmbed(parsed.data);
+      res.status(201).json(embed);
+    } catch (error) {
+      console.error("Error creating social embed:", error);
+      res.status(500).json({ error: "Failed to create social embed" });
+    }
+  });
+
+  app.patch("/api/social-embeds/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid embed ID" });
+      }
+      const parsed = insertSocialEmbedSchema.partial().safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const embed = await storage.updateSocialEmbed(id, parsed.data);
+      if (!embed) {
+        return res.status(404).json({ error: "Embed not found" });
+      }
+      res.json(embed);
+    } catch (error) {
+      console.error("Error updating social embed:", error);
+      res.status(500).json({ error: "Failed to update social embed" });
+    }
+  });
+
+  app.delete("/api/social-embeds/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid embed ID" });
+      }
+      const deleted = await storage.deleteSocialEmbed(id);
+      if (!deleted) {
+        return res.status(404).json({ error: "Embed not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting social embed:", error);
+      res.status(500).json({ error: "Failed to delete social embed" });
     }
   });
 

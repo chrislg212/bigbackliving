@@ -5,8 +5,9 @@ import {
   type NycEatsCategory, type InsertNycEatsCategory,
   type TopTenList, type InsertTopTenList,
   type SocialSettings, type InsertSocialSettings,
+  type SocialEmbed, type InsertSocialEmbed,
   reviews, users, cuisines, nycEatsCategories, topTenLists,
-  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings
+  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -58,6 +59,12 @@ export interface IStorage {
   getAllSocialSettings(): Promise<SocialSettings[]>;
   getSocialSettingsByPlatform(platform: string): Promise<SocialSettings | undefined>;
   upsertSocialSettings(settings: InsertSocialSettings): Promise<SocialSettings>;
+  
+  getAllSocialEmbeds(): Promise<SocialEmbed[]>;
+  getSocialEmbedsByPlatform(platform: string): Promise<SocialEmbed[]>;
+  createSocialEmbed(embed: InsertSocialEmbed): Promise<SocialEmbed>;
+  updateSocialEmbed(id: number, embed: Partial<InsertSocialEmbed>): Promise<SocialEmbed | undefined>;
+  deleteSocialEmbed(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -283,6 +290,29 @@ export class DatabaseStorage implements IStorage {
     }
     const [created] = await db.insert(socialSettings).values(insertSettings).returning();
     return created;
+  }
+
+  async getAllSocialEmbeds(): Promise<SocialEmbed[]> {
+    return db.select().from(socialEmbeds);
+  }
+
+  async getSocialEmbedsByPlatform(platform: string): Promise<SocialEmbed[]> {
+    return db.select().from(socialEmbeds).where(eq(socialEmbeds.platform, platform));
+  }
+
+  async createSocialEmbed(insertEmbed: InsertSocialEmbed): Promise<SocialEmbed> {
+    const [embed] = await db.insert(socialEmbeds).values(insertEmbed).returning();
+    return embed;
+  }
+
+  async updateSocialEmbed(id: number, updateData: Partial<InsertSocialEmbed>): Promise<SocialEmbed | undefined> {
+    const [embed] = await db.update(socialEmbeds).set(updateData).where(eq(socialEmbeds.id, id)).returning();
+    return embed;
+  }
+
+  async deleteSocialEmbed(id: number): Promise<boolean> {
+    const result = await db.delete(socialEmbeds).where(eq(socialEmbeds.id, id)).returning();
+    return result.length > 0;
   }
 }
 

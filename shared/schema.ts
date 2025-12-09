@@ -118,3 +118,18 @@ export const insertSocialSettingsSchema = createInsertSchema(socialSettings).omi
 
 export type InsertSocialSettings = z.infer<typeof insertSocialSettingsSchema>;
 export type SocialSettings = typeof socialSettings.$inferSelect;
+
+export const socialEmbeds = pgTable("social_embeds", {
+  id: serial("id").primaryKey(),
+  platform: text("platform").notNull(),
+  title: text("title"),
+  embedCode: text("embed_code").notNull(),
+  sortOrder: integer("sort_order").default(0),
+});
+
+export const insertSocialEmbedSchema = createInsertSchema(socialEmbeds).omit({
+  id: true,
+});
+
+export type InsertSocialEmbed = z.infer<typeof insertSocialEmbedSchema>;
+export type SocialEmbed = typeof socialEmbeds.$inferSelect;

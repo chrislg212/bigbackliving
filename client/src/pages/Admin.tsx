@@ -42,7 +42,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings } from "@shared/schema";
+import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed } from "@shared/schema";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 
 const reviewFormSchema = z.object({
@@ -88,11 +88,19 @@ const socialSettingsFormSchema = z.object({
   profileUrl: z.string().url("Must be a valid URL"),
 });
 
+const socialEmbedFormSchema = z.object({
+  platform: z.string().min(1, "Platform is required"),
+  title: z.string().optional(),
+  embedCode: z.string().min(1, "Embed code is required"),
+  sortOrder: z.coerce.number().default(0),
+});
+
 type ReviewFormData = z.infer<typeof reviewFormSchema>;
 type CuisineFormData = z.infer<typeof cuisineFormSchema>;
 type NycCategoryFormData = z.infer<typeof nycCategoryFormSchema>;
 type TopTenListFormData = z.infer<typeof topTenListFormSchema>;
 type SocialSettingsFormData = z.infer<typeof socialSettingsFormSchema>;
+type SocialEmbedFormData = z.infer<typeof socialEmbedFormSchema>;
 
 function generateSlug(name: string): string {
   return name
@@ -1827,9 +1835,15 @@ function TopTenListCard({
 
 function SocialMediaTab() {
   const { toast } = useToast();
+  const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
+  const [editingEmbed, setEditingEmbed] = useState<SocialEmbed | null>(null);
 
   const { data: socialSettings = [], isLoading } = useQuery<SocialSettings[]>({
     queryKey: ["/api/social-settings"],
+  });
+
+  const { data: embeds = [], isLoading: embedsLoading } = useQuery<SocialEmbed[]>({
+    queryKey: ["/api/social-embeds"],
   });
 
   const instagramSettings = socialSettings.find(s => s.platform === "instagram");
@@ -1850,6 +1864,16 @@ function SocialMediaTab() {
       platform: "tiktok",
       username: "",
       profileUrl: "",
+    },
+  });
+
+  const embedForm = useForm<SocialEmbedFormData>({
+    resolver: zodResolver(socialEmbedFormSchema),
+    defaultValues: {
+      platform: "instagram",
+      title: "",
+      embedCode: "",
+      sortOrder: 0,
     },
   });
 
@@ -1898,6 +1922,79 @@ function SocialMediaTab() {
       toast({ title: "Failed to save TikTok settings", variant: "destructive" });
     },
   });
+
+  const createEmbedMutation = useMutation({
+    mutationFn: async (data: SocialEmbedFormData) => {
+      return apiRequest("POST", "/api/social-embeds", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/social-embeds"] });
+      toast({ title: "Embed added successfully" });
+      setIsEmbedDialogOpen(false);
+      embedForm.reset();
+    },
+    onError: () => {
+      toast({ title: "Failed to add embed", variant: "destructive" });
+    },
+  });
+
+  const updateEmbedMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: SocialEmbedFormData }) => {
+      return apiRequest("PATCH", `/api/social-embeds/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/social-embeds"] });
+      toast({ title: "Embed updated successfully" });
+      setIsEmbedDialogOpen(false);
+      setEditingEmbed(null);
+      embedForm.reset();
+    },
+    onError: () => {
+      toast({ title: "Failed to update embed", variant: "destructive" });
+    },
+  });
+
+  const deleteEmbedMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return apiRequest("DELETE", `/api/social-embeds/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/social-embeds"] });
+      toast({ title: "Embed deleted successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to delete embed", variant: "destructive" });
+    },
+  });
+
+  const handleOpenEmbedDialog = (embed?: SocialEmbed) => {
+    if (embed) {
+      setEditingEmbed(embed);
+      embedForm.reset({
+        platform: embed.platform,
+        title: embed.title || "",
+        embedCode: embed.embedCode,
+        sortOrder: embed.sortOrder || 0,
+      });
+    } else {
+      setEditingEmbed(null);
+      embedForm.reset({
+        platform: "instagram",
+        title: "",
+        embedCode: "",
+        sortOrder: 0,
+      });
+    }
+    setIsEmbedDialogOpen(true);
+  };
+
+  const handleEmbedSubmit = (data: SocialEmbedFormData) => {
+    if (editingEmbed) {
+      updateEmbedMutation.mutate({ id: editingEmbed.id, data });
+    } else {
+      createEmbedMutation.mutate(data);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -1996,6 +2093,171 @@ function SocialMediaTab() {
               </Button>
             </form>
           </Form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between gap-4">
+          <CardTitle>Embedded Posts</CardTitle>
+          <Dialog open={isEmbedDialogOpen} onOpenChange={setIsEmbedDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm" onClick={() => handleOpenEmbedDialog()} data-testid="button-add-embed">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Embed
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>{editingEmbed ? "Edit Embed" : "Add New Embed"}</DialogTitle>
+              </DialogHeader>
+              <Form {...embedForm}>
+                <form onSubmit={embedForm.handleSubmit(handleEmbedSubmit)} className="space-y-4">
+                  <FormField
+                    control={embedForm.control}
+                    name="platform"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Platform</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger data-testid="select-embed-platform">
+                              <SelectValue placeholder="Select platform" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="instagram">Instagram</SelectItem>
+                            <SelectItem value="tiktok">TikTok</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={embedForm.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title (Optional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="My favorite dish" {...field} data-testid="input-embed-title" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={embedForm.control}
+                    name="embedCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Embed Code</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Paste your Instagram or TikTok embed code here..."
+                            className="min-h-[150px] font-mono text-sm"
+                            {...field}
+                            data-testid="input-embed-code"
+                          />
+                        </FormControl>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Copy the embed code from Instagram or TikTok and paste it here
+                        </p>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={embedForm.control}
+                    name="sortOrder"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sort Order</FormLabel>
+                        <FormControl>
+                          <Input type="number" {...field} data-testid="input-embed-sort" />
+                        </FormControl>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Lower numbers appear first
+                        </p>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={createEmbedMutation.isPending || updateEmbedMutation.isPending}
+                    data-testid="button-submit-embed"
+                  >
+                    {(createEmbedMutation.isPending || updateEmbedMutation.isPending) && (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    )}
+                    {editingEmbed ? "Update Embed" : "Add Embed"}
+                  </Button>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        </CardHeader>
+        <CardContent>
+          {embedsLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+            </div>
+          ) : embeds.length === 0 ? (
+            <p className="text-muted-foreground text-center py-8">
+              No embedded posts yet. Add your first embed above.
+            </p>
+          ) : (
+            <div className="space-y-4">
+              {embeds
+                .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
+                .map((embed) => (
+                  <div
+                    key={embed.id}
+                    className="flex items-start justify-between gap-4 p-4 border rounded-md"
+                    data-testid={`embed-item-${embed.id}`}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        {embed.platform === "instagram" ? (
+                          <SiInstagram className="w-4 h-4 text-pink-500" />
+                        ) : (
+                          <SiTiktok className="w-4 h-4" />
+                        )}
+                        <Badge variant="secondary" className="text-xs">
+                          {embed.platform}
+                        </Badge>
+                        {embed.title && (
+                          <span className="font-medium text-sm">{embed.title}</span>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground font-mono truncate">
+                        {embed.embedCode.substring(0, 100)}...
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleOpenEmbedDialog(embed)}
+                        data-testid={`button-edit-embed-${embed.id}`}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteEmbedMutation.mutate(embed.id)}
+                        disabled={deleteEmbedMutation.isPending}
+                        data-testid={`button-delete-embed-${embed.id}`}
+                      >
+                        <Trash2 className="w-4 h-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

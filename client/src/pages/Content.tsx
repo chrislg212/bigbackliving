@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import { Play, Music, ExternalLink, Loader2 } from "lucide-react";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import foodPhotographyImage from "@assets/stock_images/food_photography_soc_438b2452.jpg";
-import type { SocialSettings } from "@shared/schema";
+import type { SocialSettings, SocialEmbed } from "@shared/schema";
 
 type Platform = "instagram" | "tiktok";
 
@@ -150,6 +150,24 @@ function TikTokCard({ post, index }: { post: SocialPost; index: number }) {
   );
 }
 
+function EmbedRenderer({ embedCode, platform }: { embedCode: string; platform: string }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (platform === "instagram" && (window as any).instgrm) {
+        (window as any).instgrm.Embeds.process();
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [embedCode, platform]);
+
+  return (
+    <div 
+      className="embed-container flex justify-center"
+      dangerouslySetInnerHTML={{ __html: embedCode }}
+    />
+  );
+}
+
 export default function Content() {
   const [activePlatform, setActivePlatform] = useState<Platform>("instagram");
 
@@ -157,8 +175,46 @@ export default function Content() {
     queryKey: ["/api/social-settings"],
   });
 
+  const { data: embeds = [] } = useQuery<SocialEmbed[]>({
+    queryKey: ["/api/social-embeds"],
+  });
+
   const instagramSettings = socialSettings.find(s => s.platform === "instagram");
   const tiktokSettings = socialSettings.find(s => s.platform === "tiktok");
+
+  const platformEmbeds = embeds
+    .filter(e => e.platform === activePlatform)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+
+  useEffect(() => {
+    const loadInstagramScript = () => {
+      if (!(window as any).instgrm) {
+        const script = document.createElement("script");
+        script.src = "//www.instagram.com/embed.js";
+        script.async = true;
+        document.body.appendChild(script);
+      } else {
+        (window as any).instgrm.Embeds.process();
+      }
+    };
+
+    const loadTikTokScript = () => {
+      if (!document.querySelector('script[src*="tiktok.com/embed.js"]')) {
+        const script = document.createElement("script");
+        script.src = "https://www.tiktok.com/embed.js";
+        script.async = true;
+        document.body.appendChild(script);
+      }
+    };
+
+    if (platformEmbeds.length > 0) {
+      if (activePlatform === "instagram") {
+        loadInstagramScript();
+      } else if (activePlatform === "tiktok") {
+        loadTikTokScript();
+      }
+    }
+  }, [activePlatform, platformEmbeds]);
 
   const handleFollowClick = (url: string | undefined) => {
     if (url) {
@@ -224,6 +280,22 @@ export default function Content() {
               </Button>
             </AnimatedSection>
 
+            {platformEmbeds.length > 0 && (
+              <div className="space-y-6" data-testid="instagram-embeds">
+                <h4 className="font-serif text-lg font-semibold text-foreground">Featured Posts</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {platformEmbeds.map((embed) => (
+                    <div key={embed.id} className="flex flex-col items-center" data-testid={`embed-${embed.id}`}>
+                      {embed.title && (
+                        <p className="text-sm text-muted-foreground mb-2">{embed.title}</p>
+                      )}
+                      <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div
               className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4"
               data-testid="instagram-grid"
@@ -259,6 +331,22 @@ export default function Content() {
                 Follow
               </Button>
             </AnimatedSection>
+
+            {platformEmbeds.length > 0 && (
+              <div className="space-y-6" data-testid="tiktok-embeds">
+                <h4 className="font-serif text-lg font-semibold text-foreground">Featured Videos</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {platformEmbeds.map((embed) => (
+                    <div key={embed.id} className="flex flex-col items-center" data-testid={`embed-${embed.id}`}>
+                      {embed.title && (
+                        <p className="text-sm text-muted-foreground mb-2">{embed.title}</p>
+                      )}
+                      <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div
               className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4"
