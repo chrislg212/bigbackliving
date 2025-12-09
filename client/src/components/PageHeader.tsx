@@ -21,7 +21,7 @@ export default function PageHeader({
             <img 
               src={backgroundImage} 
               alt="Washington Square Park"  // Descriptive alt text for accessibility
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
           </div>
