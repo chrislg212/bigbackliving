@@ -40,20 +40,17 @@ export default function Reviews() {
   return (
     <div className="min-h-screen" data-testid="reviews-page">
       <PageHeader
-        title="All Reviews"
+        title="My Reviews"
         subtitle="Thoughtfully curated restaurant reviews across New York City"
         backgroundImage={customImage || nycRestaurantsImage}
       />
-
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <AnimatedSection animation="fade-in-up" className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <Award className="w-5 h-5 text-primary" />
-            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">
-              Editor's Picks
-            </h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">My Picks</h2>
           </div>
-          <p className="font-sans text-muted-foreground">Our highest-rated restaurant experiences</p>
+          <p className="font-sans text-muted-foreground">My highest-rated restaurant experiences</p>
         </AnimatedSection>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
