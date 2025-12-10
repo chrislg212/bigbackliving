@@ -91,9 +91,7 @@ export default function About() {
                         href="mailto:hello@thepalate.com"
                         className="font-sans text-sm text-primary hover:underline"
                         data-testid="contact-email"
-                      >
-                        hello@thepalate.com
-                      </a>
+                      >bigbackliving@gmail.com</a>
                     </div>
                   </div>
                 </CardContent>
