@@ -72,11 +72,7 @@ export default function About() {
                     </div>
                     <div>
                       <h3 className="font-serif text-lg font-semibold text-foreground mb-2">Where I Review</h3>
-                      <p className="font-sans text-sm text-muted-foreground">
-                        Based in New York City, we explore restaurants across all
-                        five boroughs and beyond, from neighborhood favorites to
-                        destination dining.
-                      </p>
+                      <p className="font-sans text-sm text-muted-foreground">Based in New York City, I explore restaurants across all five boroughs. I review restaurant in Maryland (Home State) and Europe as well. </p>
                     </div>
                   </div>
                 </CardContent>
