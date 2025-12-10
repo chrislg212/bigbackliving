@@ -21,12 +21,7 @@ export default function About() {
           <AnimatedSection animation="fade-in-left">
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-6">My Philosophy</h2>
             <div className="font-sans text-muted-foreground space-y-4 leading-relaxed">
-              <p>
-                The Palate was born from a simple belief: every meal has the
-                potential to be memorable. We seek out restaurants that
-                understand this—places where passion meets precision, where
-                tradition dances with innovation.
-              </p>
+              <p>My philosophy is founded on the idea that food is the most human way of storytelling. I grew up in a Filipino family where the meals that were served were not only sources of nutrients but also sources of memories, love, and culture on a plate. As I aged and moved to the city of New York, I realized that each form of cuisine, each chef, and each small, humble restaurant beats with the same heart, which is the need for interpretation through flavors.</p>
               <p>
                 Our reviews are honest, thorough, and always respectful. We
                 visit anonymously, pay our own bills, and return multiple times
