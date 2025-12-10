@@ -52,11 +52,7 @@ export default function About() {
                     </div>
                     <div>
                       <h3 className="font-serif text-lg font-semibold text-foreground mb-2">My Mission</h3>
-                      <p className="font-sans text-sm text-muted-foreground">
-                        To guide food lovers toward exceptional dining experiences
-                        through honest, thoughtful, and beautifully presented
-                        reviews.
-                      </p>
+                      <p className="font-sans text-sm text-muted-foreground">Expand my taste palette and share the best spots from New York. I am journey to find the best matcha as well. </p>
                     </div>
                   </div>
                 </CardContent>
