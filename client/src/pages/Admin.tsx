@@ -2413,17 +2413,13 @@ function PageHeadersTab() {
                         Remove
                       </Button>
                     )}
-                    <div className="relative">
-                      <ObjectUploader
-                        onGetUploadParameters={handleGetUploadParameters}
-                        onComplete={(result) => handleUploadComplete(page.slug, result)}
-                      >
-                        <Button variant="outline" size="sm" data-testid={`button-upload-header-${page.slug}`}>
-                          <Upload className="w-4 h-4 mr-1" />
-                          {header?.image ? "Change" : "Upload"}
-                        </Button>
-                      </ObjectUploader>
-                    </div>
+                    <ObjectUploader
+                      onGetUploadParameters={handleGetUploadParameters}
+                      onComplete={(result) => handleUploadComplete(page.slug, result)}
+                    >
+                      <Upload className="w-4 h-4 mr-1" />
+                      {header?.image ? "Change" : "Upload"}
+                    </ObjectUploader>
                   </div>
                 </div>
               </CardContent>
