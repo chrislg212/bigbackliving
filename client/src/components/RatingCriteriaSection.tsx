@@ -54,7 +54,7 @@ const ratingCriteria: RatingCriterion[] = [
     name: "Taste",
     description: "Measures overall flavor, texture, balance, and execution.",
     icon: Utensils,
-    detailedDescription: "The key to a perfect meal is the evaluation of the balance of flavors, the qualities of the ingredients, the manner of their preparation, and the success of each dish in meeting expectations. ",
+    detailedDescription: "The key to a perfect meal is the evaluation of the balance of flavors, the qualities of the ingredients, the manner of their preparation, and the success of each dish in meeting expectations. And it starts with the very first mouthful and ends with the last. The sense of taste reigns supreme throughout.",
   },
   {
     name: "Value",
