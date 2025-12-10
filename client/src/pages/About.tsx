@@ -23,12 +23,7 @@ export default function About() {
             <div className="font-sans text-muted-foreground space-y-4 leading-relaxed">
               <p>My philosophy is founded on the idea that food is the most human way of storytelling. I grew up in a Filipino family where the meals that were served were not only sources of nutrients but also sources of memories, love, and culture on a plate. As I aged and moved to the city of New York, I realized that each form of cuisine, each chef, and each small, humble restaurant beats with the same heart, which is the need for interpretation through flavors.</p>
               <p>This blog is the celebration of that idea. I write about restaurants not to evaluate them, but to understand them. I attempt to grasp the message of the dish, the feeling it aims to create. Whether it is about analyzing a four-dollar bowl of noodles eaten in Queens or examining a carefully plated dish eaten in Manhattan, the aims are the same: authenticity, skill, and passion.</p>
-              <p>
-                We believe great dining transcends price points. A perfect bowl
-                of ramen can be as revelatory as a Michelin-starred tasting
-                menu. What matters is intention, execution, and the joy of
-                sharing food.
-              </p>
+              <p>Food binds us. Food grows us. Food brings us definition. It is my mission to share these findings with candor, gratitude, and an open palate.</p>
             </div>
           </AnimatedSection>
 
