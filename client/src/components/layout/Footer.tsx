@@ -71,7 +71,7 @@ export default function Footer() {
             className="text-center font-sans text-xs text-muted-foreground"
             data-testid="footer-copyright"
           >
-            &copy; {new Date().getFullYear()} bigbackchrisnyc. All rights reserved.
+            &copy; {new Date().getFullYear()} bigbackliving. All rights reserved.
           </p>
         </div>
       </div>
