@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Utensils } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -77,26 +77,33 @@ export default function Navigation() {
             <Link href="/" data-testid="logo-link">
               <span className="font-serif md:text-3xl text-foreground tracking-tight cursor-pointer hover:text-primary transition-colors duration-300 text-[27px] font-normal">bigbackliving</span>
             </Link>
-            {socialSettings.length > 0 && (
-              <div className="hidden md:flex items-center gap-2">
-                {socialSettings.map((social) => {
-                  const Icon = platformIcons[social.platform.toLowerCase()];
-                  if (!Icon) return null;
-                  return (
-                    <a
-                      key={social.platform}
-                      href={social.profileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-                      data-testid={`social-${social.platform.toLowerCase()}`}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  );
-                })}
-              </div>
-            )}
+            <div className="hidden md:flex items-center gap-2">
+              {socialSettings.map((social) => {
+                const Icon = platformIcons[social.platform.toLowerCase()];
+                if (!Icon) return null;
+                return (
+                  <a
+                    key={social.platform}
+                    href={social.profileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                    data-testid={`social-${social.platform.toLowerCase()}`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                );
+              })}
+              <a
+                href="https://beliapp.co/app/chrislg212"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="social-beli"
+              >
+                <Utensils className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           <div className="hidden md:flex items-center gap-6">
