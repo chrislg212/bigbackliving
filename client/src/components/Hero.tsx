@@ -25,10 +25,7 @@ export default function Hero({ customImage }: HeroProps) {
         <p
           className="font-sans text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed"
           data-testid="hero-subtitle"
-        >
-          Honest reviews of the finest restaurants, from hidden gems to
-          celebrated institutions. Your guide to exceptional dining experiences.
-        </p>
+        >Thoughtful, honest reviews of the restaurants that shaped my palate. From quiet neighborhood discoveries to the city’s most iconic dining rooms. A personal guide to exceptional food.</p>
         <Link href="/reviews">
           <Button
             size="lg"
