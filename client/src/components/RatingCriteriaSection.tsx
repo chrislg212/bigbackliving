@@ -52,39 +52,39 @@ const ratingTiers: RatingTier[] = [
 const ratingCriteria: RatingCriterion[] = [
   {
     name: "Taste",
-    description: "Measures overall flavor, texture, balance, and execution.",
+    description: "I measure overall flavor, texture, balance, and execution.",
     icon: Utensils,
     detailedDescription: "The key to a perfect meal is the evaluation of the balance of flavors, the qualities of the ingredients, the manner of their preparation, and the success of each dish in meeting expectations. And it starts with the very first mouthful and ends with the last. The sense of taste reigns supreme throughout.",
   },
   {
     name: "Value",
-    description: "Evaluates how well the quality matches the price and whether the experience feels worth it.",
+    description: "I evaluate how well the quality matches the price and whether the experience feels worth it.",
     icon: DollarSign,
-    detailedDescription: "Great food doesn't have to break the bank. We assess portion sizes, ingredient quality relative to cost, and whether you leave feeling like you got your money's worth. A $10 bowl of noodles can score higher than a $100 tasting menu if the value proposition is right.",
+    detailedDescription: "Great food doesn't have to break the bank. I assess portion sizes, ingredient quality relative to cost, and whether you leave feeling like you got your money's worth. A $10 bowl of noodles can score higher than a $100 tasting menu if the value proposition is right.",
   },
   {
     name: "Atmosphere",
-    description: "The vibe, comfort, and overall feel of dining at the location.",
+    description: "I consider the vibe, comfort, and overall feel of dining at the location.",
     icon: Armchair,
-    detailedDescription: "The setting matters. We consider the ambiance, decor, noise levels, lighting, and overall comfort. Whether it's a cozy neighborhood spot or a sleek fine dining room, the atmosphere should complement and enhance the meal.",
+    detailedDescription: "The setting matters. I consider the ambiance, decor, noise levels, lighting, and overall comfort. Whether it's a cozy neighborhood spot or a sleek fine dining room, the atmosphere should complement and enhance the meal.",
   },
   {
     name: "Service",
-    description: "Friendliness, attentiveness, and efficiency of the staff.",
+    description: "I assess the friendliness, attentiveness, and efficiency of the staff.",
     icon: Users,
-    detailedDescription: "Great service is invisible yet impactful. We evaluate how the staff makes you feel, their knowledge of the menu, timing between courses, and their ability to anticipate needs without being intrusive.",
+    detailedDescription: "Great service is invisible yet impactful. I evaluate how the staff makes you feel, their knowledge of the menu, timing between courses, and their ability to anticipate needs without being intrusive.",
   },
   {
     name: "Creativity",
-    description: "Evaluates the originality and innovation of the dishes, from flavor combinations to plating.",
+    description: "I evaluate the originality and innovation of the dishes, from flavor combinations to plating.",
     icon: Lightbulb,
-    detailedDescription: "Does the kitchen push boundaries? We look for unique flavor combinations, innovative techniques, thoughtful presentation, and dishes that surprise and delight. Creativity is about taking risks that pay off.",
+    detailedDescription: "Does the kitchen push boundaries? I look for unique flavor combinations, innovative techniques, thoughtful presentation, and dishes that surprise and delight. Creativity is about taking risks that pay off.",
   },
   {
     name: "Marginal Bite Satisfaction",
-    description: "A unique metric that measures how consistently enjoyable each additional bite is.",
+    description: "My signature metric that measures how consistently enjoyable each additional bite is.",
     icon: ChefHat,
-    detailedDescription: "Our signature metric. Does the dish stay satisfying from start to finish, or does enjoyment fade as you continue eating? The best dishes maintain or even increase their appeal with every bite. This separates good from truly memorable.",
+    detailedDescription: "My signature metric. Does the dish stay satisfying from start to finish, or does enjoyment fade as you continue eating? The best dishes maintain or even increase their appeal with every bite. This separates good from truly memorable.",
   },
 ];
 
