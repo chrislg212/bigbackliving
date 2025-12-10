@@ -54,7 +54,7 @@ const ratingCriteria: RatingCriterion[] = [
     name: "Taste",
     description: "Measures overall flavor, texture, balance, and execution.",
     icon: Utensils,
-    detailedDescription: "The foundation of any great meal. We evaluate how well flavors are balanced, the quality of ingredients, cooking techniques, and whether each dish delivers on its promise. From the first bite to the last, taste is king.",
+    detailedDescription: "The key to a perfect meal is the evaluation of the balance of flavors, the qualities of the ingredients, the manner of their preparation, and the success of each dish in meeting expectations. ",
   },
   {
     name: "Value",
