@@ -86,10 +86,7 @@ export default function About() {
                       <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
                         Get in Touch
                       </h3>
-                      <p className="font-sans text-sm text-muted-foreground mb-2">
-                        Have a restaurant you think we should visit? We'd love to
-                        hear from you.
-                      </p>
+                      <p className="font-sans text-sm text-muted-foreground mb-2">Have a restaurant you think I should visit or a business inquiry?</p>
                       <a
                         href="mailto:hello@thepalate.com"
                         className="font-sans text-sm text-primary hover:underline"
