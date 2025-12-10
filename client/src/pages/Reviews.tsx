@@ -41,7 +41,7 @@ export default function Reviews() {
     <div className="min-h-screen" data-testid="reviews-page">
       <PageHeader
         title="My Reviews"
-        subtitle="Thoughtfully curated restaurant reviews across New York City"
+        subtitle="Thoughtful, honest reviews of the restaurants that shaped my palate. From quiet neighborhood discoveries to the city's most iconic dining rooms. A personal guide to exceptional food."
         backgroundImage={customImage || nycRestaurantsImage}
       />
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
