@@ -7,6 +7,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import SearchBar from "@/components/SearchBar";
 import { SiInstagram, SiFacebook, SiTiktok } from "react-icons/si";
@@ -67,8 +69,7 @@ export default function Navigation() {
 
   const socialSettings = getSocialSettings();
 
-  const isLocationActive = location.startsWith("/location");
-  const isListsActive = location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/top-10");
+  const isCategoriesActive = location.startsWith("/location") || location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/top-10");
 
   return (
     <header
@@ -125,22 +126,25 @@ export default function Navigation() {
               <DropdownMenuTrigger asChild>
                 <button
                   className={`group relative font-sans text-sm font-medium tracking-wide uppercase cursor-pointer transition-all duration-200 flex items-center gap-1.5 py-1 ${
-                    isLocationActive
+                    isCategoriesActive
                       ? "text-primary"
                       : "text-foreground hover:text-primary"
                   }`}
-                  data-testid="nav-location"
+                  data-testid="nav-categories"
                 >
-                  Location
+                  Categories
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   <span 
                     className={`absolute -bottom-0.5 left-0 h-0.5 bg-gradient-to-r from-primary via-primary to-primary/50 transition-all duration-300 ease-out ${
-                      isLocationActive ? "w-full" : "w-0 group-hover:w-full"
+                      isCategoriesActive ? "w-full" : "w-0 group-hover:w-full"
                     }`} 
                   />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-60 p-1.5 animate-fade-in-down">
+                <DropdownMenuLabel className="px-3 py-1.5 text-xs font-medium uppercase text-muted-foreground tracking-wider">
+                  Location
+                </DropdownMenuLabel>
                 {locationLinks.map((link, index) => (
                   <DropdownMenuItem
                     key={link.href}
@@ -159,34 +163,15 @@ export default function Navigation() {
                     </Link>
                   </DropdownMenuItem>
                 ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  className={`group relative font-sans text-sm font-medium tracking-wide uppercase cursor-pointer transition-all duration-200 flex items-center gap-1.5 py-1 ${
-                    isListsActive
-                      ? "text-primary"
-                      : "text-foreground hover:text-primary"
-                  }`}
-                  data-testid="nav-lists"
-                >
-                  Categories
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  <span 
-                    className={`absolute -bottom-0.5 left-0 h-0.5 bg-gradient-to-r from-primary via-primary to-primary/50 transition-all duration-300 ease-out ${
-                      isListsActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`} 
-                  />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-60 p-1.5 animate-fade-in-down">
+                <DropdownMenuSeparator className="my-1.5" />
+                <DropdownMenuLabel className="px-3 py-1.5 text-xs font-medium uppercase text-muted-foreground tracking-wider">
+                  Browse
+                </DropdownMenuLabel>
                 {listsLinks.map((link, index) => (
                   <DropdownMenuItem
                     key={link.href}
                     asChild
-                    className={`px-3 py-2.5 rounded-md cursor-pointer transition-all duration-150 opacity-0 animate-fade-in-up stagger-${index + 1}`}
+                    className={`px-3 py-2.5 rounded-md cursor-pointer transition-all duration-150 opacity-0 animate-fade-in-up stagger-${index + locationLinks.length + 1}`}
                   >
                     <Link href={link.href}>
                       <span
@@ -249,7 +234,7 @@ export default function Navigation() {
 
               <div className="py-2.5 px-3 mt-1">
                 <span className="font-sans text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Location
+                  Categories - Location
                 </span>
               </div>
               {locationLinks.map((link) => (
@@ -270,7 +255,7 @@ export default function Navigation() {
 
               <div className="py-2.5 px-3 mt-1">
                 <span className="font-sans text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Categories
+                  Categories - Browse
                 </span>
               </div>
               {listsLinks.map((link) => (
