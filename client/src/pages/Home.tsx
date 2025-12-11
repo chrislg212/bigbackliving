@@ -1,18 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import ReviewCard from "@/components/ReviewCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { usePageHeader } from "@/hooks/use-page-header";
-import { Loader2 } from "lucide-react";
-import type { Review as DBReview } from "@shared/schema";
+import { getReviews } from "@/lib/staticData";
 
 export default function Home() {
   const { customImage } = usePageHeader("home");
-  const { data: reviews = [], isLoading } = useQuery<DBReview[]>({
-    queryKey: ["/api/reviews"],
-  });
-
+  const reviews = getReviews();
   const recentReviews = reviews.slice(0, 6);
 
   return (
@@ -29,11 +24,7 @@ export default function Home() {
           <p className="font-sans text-muted-foreground max-w-2xl mx-auto">My most recent dining adventures, from neighborhood gems to celebrated institutions.</p>
         </div>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        ) : recentReviews.length > 0 ? (
+        {recentReviews.length > 0 ? (
           <div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
             data-testid="reviews-grid"

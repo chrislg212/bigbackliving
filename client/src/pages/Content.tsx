@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
@@ -7,7 +6,7 @@ import { usePageHeader } from "@/hooks/use-page-header";
 import { ExternalLink } from "lucide-react";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import foodPhotographyImage from "@assets/stock_images/food_photography_soc_438b2452.jpg";
-import type { SocialSettings, SocialEmbed } from "@shared/schema";
+import { getSocialSettings, getSocialEmbeds } from "@/lib/staticData";
 
 type Platform = "instagram" | "tiktok";
 
@@ -33,13 +32,8 @@ export default function Content() {
   const [activePlatform, setActivePlatform] = useState<Platform>("instagram");
   const { customImage } = usePageHeader("content");
 
-  const { data: socialSettings = [], isLoading } = useQuery<SocialSettings[]>({
-    queryKey: ["/api/social-settings"],
-  });
-
-  const { data: embeds = [] } = useQuery<SocialEmbed[]>({
-    queryKey: ["/api/social-embeds"],
-  });
+  const socialSettings = getSocialSettings();
+  const embeds = getSocialEmbeds();
 
   const instagramSettings = socialSettings.find(s => s.platform === "instagram");
   const tiktokSettings = socialSettings.find(s => s.platform === "tiktok");

@@ -1,31 +1,17 @@
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { DollarSign, Sparkles, TrendingUp, Utensils, Star, ArrowRight, Loader2 } from "lucide-react";
+import { DollarSign, Sparkles, TrendingUp, Utensils, Star, ArrowRight } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import AnimatedSection from "@/components/AnimatedSection";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { usePageHeader } from "@/hooks/use-page-header";
 import budgetFoodImage from "@assets/stock_images/affordable_budget_fr_9548ddd2.jpg";
-import type { Review as DBReview } from "@shared/schema";
+import { getReviews } from "@/lib/staticData";
 
 export default function CollegeBudget() {
   const { customImage } = usePageHeader("college-budget");
   
-  const { data: reviews = [], isLoading } = useQuery<DBReview[]>({
-    queryKey: ["/api/reviews"],
-  });
-
+  const reviews = getReviews();
   const budgetReviews = reviews.filter(r => r.priceRange === "$$" || r.priceRange === "$");
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
 
   const priceHighlights = [
     { label: "Average Meal", value: "$12", icon: Utensils },

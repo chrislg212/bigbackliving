@@ -1,12 +1,11 @@
 import { useParams, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Award, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import AnimatedSection from "@/components/AnimatedSection";
 import StarRating from "@/components/StarRating";
-import type { TopTenList, Review } from "@shared/schema";
+import { getTopTenListWithItems } from "@/lib/staticData";
 
 import dateNightImage from "@assets/stock_images/romantic_candlelit_d_a4a26dad.jpg";
 import brunchImage from "@assets/stock_images/brunch_table_with_eg_e4c89727.jpg";
@@ -37,12 +36,9 @@ const listGradients: string[] = [
 export default function Top10Detail() {
   const { slug } = useParams<{ slug: string }>();
 
-  const { data, isLoading, error } = useQuery<{ list: TopTenList; items: { review: Review; rank: number }[] }>({
-    queryKey: ["/api/top-ten-lists", slug],
-    enabled: !!slug,
-  });
+  const data = getTopTenListWithItems(slug || "");
 
-  const getListImage = (list: TopTenList | undefined) => {
+  const getListImage = (list: { slug: string; image?: string | null } | undefined) => {
     if (!list) return premiumImage;
     if (list.image) return list.image;
     return defaultListImages[list.slug] || premiumImage;
@@ -50,15 +46,7 @@ export default function Top10Detail() {
 
   const gradient = listGradients[Math.floor(Math.random() * listGradients.length)];
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (error || !data?.list) {
+  if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

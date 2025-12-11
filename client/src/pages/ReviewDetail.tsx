@@ -1,30 +1,18 @@
 import { useParams, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, DollarSign, Clock, Utensils, Loader2 } from "lucide-react";
+import { ArrowLeft, MapPin, DollarSign, Clock, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "@/components/StarRating";
 import ReviewCard from "@/components/ReviewCard";
-import type { Review as DBReview } from "@shared/schema";
+import { getReviews, getReviewBySlug } from "@/lib/staticData";
 
 export default function ReviewDetail() {
   const { slug } = useParams<{ slug: string }>();
 
-  const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
-    queryKey: ["/api/reviews"],
-  });
-
-  const review = dbReviews.find((r) => r.slug === slug);
-  const relatedReviews = dbReviews.filter((r) => r.slug !== slug).slice(0, 3);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
+  const review = getReviewBySlug(slug || "");
+  const reviews = getReviews();
+  const relatedReviews = reviews.filter((r) => r.slug !== slug).slice(0, 3);
 
   if (!review) {
     return (

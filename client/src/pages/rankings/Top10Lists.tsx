@@ -1,10 +1,9 @@
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Award, List, Loader2 } from "lucide-react";
+import { ArrowRight, Award, List } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { usePageHeader } from "@/hooks/use-page-header";
 import premiumImage from "@assets/stock_images/premium_award_winnin_fc3053ee.jpg";
-import type { TopTenList } from "@shared/schema";
+import { getTopTenLists } from "@/lib/staticData";
 
 import dateNightImage from "@assets/stock_images/romantic_candlelit_d_a4a26dad.jpg";
 import brunchImage from "@assets/stock_images/brunch_table_with_eg_e4c89727.jpg";
@@ -34,11 +33,9 @@ const listAccents: string[] = [
 export default function Top10Lists() {
   const { customImage } = usePageHeader("top-10");
   
-  const { data: lists = [], isLoading } = useQuery<TopTenList[]>({
-    queryKey: ["/api/top-ten-lists"],
-  });
+  const lists = getTopTenLists();
 
-  const getListImage = (list: TopTenList) => {
+  const getListImage = (list: { slug: string; image?: string | null }) => {
     if (list.image) return list.image;
     return defaultListImages[list.slug] || premiumImage;
   };
@@ -86,11 +83,7 @@ export default function Top10Lists() {
         </div>
       </section>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        {isLoading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        ) : lists.length === 0 ? (
+        {lists.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground mb-4">No featured lists have been created yet.</p>
             <p className="text-sm text-muted-foreground">Check back soon for curated lists!</p>

@@ -1,18 +1,16 @@
-import { build as esbuild } from "esbuild";
-import { build as viteBuild } from "vite";
-import { rm, readFile, writeFile, mkdir } from "fs/promises";
 import { db } from "../server/db";
 import { reviews, cuisines, nycEatsCategories, topTenLists, topTenListItems, socialSettings, socialEmbeds, pageHeaders, reviewsCuisines, reviewsNycCategories } from "../shared/schema";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 
 async function exportStaticData() {
   console.log("Exporting static data from database...");
 
   const outputDir = path.join(process.cwd(), "client", "src", "data");
   
-  try {
-    await mkdir(outputDir, { recursive: true });
-  } catch {}
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
   const allReviews = await db.select().from(reviews);
   const allCuisines = await db.select().from(cuisines);
@@ -54,7 +52,7 @@ async function exportStaticData() {
     reviewNycCategoryMap,
   };
 
-  await writeFile(
+  fs.writeFileSync(
     path.join(outputDir, "static-data.json"),
     JSON.stringify(staticData, null, 2)
   );
@@ -66,71 +64,11 @@ async function exportStaticData() {
   console.log(`Exported ${allSocialSettings.length} social settings`);
   console.log(`Exported ${allPageHeaders.length} page headers`);
   console.log("Static data export complete!");
+
+  process.exit(0);
 }
 
-// server deps to bundle to reduce openat(2) syscalls
-// which helps cold start times
-const allowlist = [
-  "@google/generative-ai",
-  "axios",
-  "connect-pg-simple",
-  "cors",
-  "date-fns",
-  "drizzle-orm",
-  "drizzle-zod",
-  "express",
-  "express-rate-limit",
-  "express-session",
-  "jsonwebtoken",
-  "memorystore",
-  "multer",
-  "nanoid",
-  "nodemailer",
-  "openai",
-  "passport",
-  "passport-local",
-  "pg",
-  "stripe",
-  "uuid",
-  "ws",
-  "xlsx",
-  "zod",
-  "zod-validation-error",
-];
-
-async function buildAll() {
-  await rm("dist", { recursive: true, force: true });
-
-  console.log("exporting static data...");
-  await exportStaticData();
-
-  console.log("building client...");
-  await viteBuild();
-
-  console.log("building server...");
-  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
-  const allDeps = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.devDependencies || {}),
-  ];
-  const externals = allDeps.filter((dep) => !allowlist.includes(dep));
-
-  await esbuild({
-    entryPoints: ["server/index.ts"],
-    platform: "node",
-    bundle: true,
-    format: "cjs",
-    outfile: "dist/index.cjs",
-    define: {
-      "process.env.NODE_ENV": '"production"',
-    },
-    minify: true,
-    external: externals,
-    logLevel: "info",
-  });
-}
-
-buildAll().catch((err) => {
-  console.error(err);
+exportStaticData().catch((err) => {
+  console.error("Failed to export static data:", err);
   process.exit(1);
 });

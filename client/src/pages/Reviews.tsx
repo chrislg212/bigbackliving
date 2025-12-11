@@ -1,26 +1,15 @@
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
 import ReviewCard from "@/components/ReviewCard";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import { usePageHeader } from "@/hooks/use-page-header";
-import { Star, ArrowRight, Award, Loader2 } from "lucide-react";
+import { Star, ArrowRight, Award } from "lucide-react";
 import nycRestaurantsImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
-import type { Review as DBReview } from "@shared/schema";
+import { getReviews } from "@/lib/staticData";
 
 export default function Reviews() {
   const { customImage } = usePageHeader("reviews");
-  const { data: reviews = [], isLoading } = useQuery<DBReview[]>({
-    queryKey: ["/api/reviews"],
-  });
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
+  const reviews = getReviews();
 
   return (
     <div className="min-h-screen" data-testid="reviews-page">

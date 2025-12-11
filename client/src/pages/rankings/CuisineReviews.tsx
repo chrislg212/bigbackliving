@@ -1,33 +1,18 @@
 import { useParams, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
 import ReviewCard from "@/components/ReviewCard";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
-import { ArrowLeft, Star, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { ArrowLeft, Star, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import internationalCuisineImage from "@assets/stock_images/international_cuisin_869e3bef.jpg";
-import type { Cuisine, Review } from "@shared/schema";
+import { getCuisineWithReviews } from "@/lib/staticData";
 
 export default function CuisineReviews() {
   const { cuisine: cuisineSlug } = useParams<{ cuisine: string }>();
 
-  const { data, isLoading, error } = useQuery<{ cuisine: Cuisine; reviews: Review[] }>({
-    queryKey: ["/api/cuisines", cuisineSlug],
-    enabled: !!cuisineSlug,
-  });
+  const data = getCuisineWithReviews(cuisineSlug || "");
 
-  const cuisineName = data?.cuisine?.name || cuisineSlug || "Unknown";
-  const reviews = data?.reviews || [];
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (error || !data?.cuisine) {
+  if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -44,12 +29,15 @@ export default function CuisineReviews() {
     );
   }
 
+  const { cuisine, reviews } = data;
+  const cuisineName = cuisine.name;
+
   return (
     <div className="min-h-screen" data-testid="cuisine-reviews-page">
       <PageHeader
         title={`${cuisineName} Reviews`}
-        subtitle={data.cuisine.description || "Discover the best in authentic and innovative cooking"}
-        backgroundImage={data.cuisine.image || internationalCuisineImage}
+        subtitle={cuisine.description || "Discover the best in authentic and innovative cooking"}
+        backgroundImage={cuisine.image || internationalCuisineImage}
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
