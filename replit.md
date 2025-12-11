@@ -8,6 +8,20 @@ The Palate is a premium food review blog inspired by high-end culinary publicati
 
 Preferred communication style: Simple, everyday language.
 
+## Multi-Region Location System
+
+The site supports multiple geographic regions for restaurant reviews:
+- **New York City** (slug: `nyc`) - /location/nyc
+- **DMV Area** (slug: `dmv`) - /location/dmv  
+- **Europe** (slug: `europe`) - /location/europe
+
+Navigation uses a "Location" dropdown in the header that links to each region's page. Each region can have its own location categories (similar to NYC's original neighborhood-based categories).
+
+Database tables:
+- `regions`: id, name, slug, description, image (stores geographic regions)
+- `location_categories`: id, regionId, name, slug, description, image (neighborhood/area categories within regions)
+- `reviews_location_categories`: reviewId, locationCategoryId (many-to-many relationship)
+
 ## System Architecture
 
 ### Frontend Architecture

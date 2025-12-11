@@ -2,7 +2,7 @@ import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
 import { rm, readFile, writeFile, mkdir } from "fs/promises";
 import { db } from "../server/db";
-import { reviews, cuisines, nycEatsCategories, topTenLists, topTenListItems, socialSettings, socialEmbeds, pageHeaders, reviewsCuisines, reviewsNycCategories } from "../shared/schema";
+import { reviews, cuisines, nycEatsCategories, topTenLists, topTenListItems, socialSettings, socialEmbeds, pageHeaders, reviewsCuisines, reviewsNycCategories, regions, locationCategories, reviewsLocationCategories } from "../shared/schema";
 import path from "path";
 import { Storage } from "@google-cloud/storage";
 
@@ -115,6 +115,9 @@ async function exportStaticData() {
   const allPageHeaders = await db.select().from(pageHeaders);
   const allReviewsCuisines = await db.select().from(reviewsCuisines);
   const allReviewsNycCategories = await db.select().from(reviewsNycCategories);
+  const allRegions = await db.select().from(regions);
+  const allLocationCategories = await db.select().from(locationCategories);
+  const allReviewsLocationCategories = await db.select().from(reviewsLocationCategories);
 
   console.log("Downloading images from object storage...");
   
@@ -123,6 +126,8 @@ async function exportStaticData() {
   const nycCategoriesCopy = allNycCategories.map(n => ({...n}));
   const topTenListsCopy = allTopTenLists.map(t => ({...t}));
   const pageHeadersCopy = allPageHeaders.map(p => ({...p}));
+  const regionsCopy = allRegions.map(r => ({...r}));
+  const locationCategoriesCopy = allLocationCategories.map(lc => ({...lc}));
   
   for (const review of reviewsCopy) {
     if (review.image) {
@@ -153,6 +158,18 @@ async function exportStaticData() {
       header.image = await downloadAndSaveImage(header.image, imagesOutputDir);
     }
   }
+  
+  for (const region of regionsCopy) {
+    if (region.image) {
+      region.image = await downloadAndSaveImage(region.image, imagesOutputDir);
+    }
+  }
+  
+  for (const locCategory of locationCategoriesCopy) {
+    if (locCategory.image) {
+      locCategory.image = await downloadAndSaveImage(locCategory.image, imagesOutputDir);
+    }
+  }
 
   const reviewCuisineMap: Record<number, number[]> = {};
   for (const rc of allReviewsCuisines) {
@@ -170,6 +187,14 @@ async function exportStaticData() {
     reviewNycCategoryMap[rnc.reviewId].push(rnc.nycCategoryId);
   }
 
+  const reviewLocationCategoryMap: Record<number, number[]> = {};
+  for (const rlc of allReviewsLocationCategories) {
+    if (!reviewLocationCategoryMap[rlc.reviewId]) {
+      reviewLocationCategoryMap[rlc.reviewId] = [];
+    }
+    reviewLocationCategoryMap[rlc.reviewId].push(rlc.locationCategoryId);
+  }
+
   const staticData = {
     reviews: reviewsCopy,
     cuisines: cuisinesCopy,
@@ -181,6 +206,9 @@ async function exportStaticData() {
     pageHeaders: pageHeadersCopy,
     reviewCuisineMap,
     reviewNycCategoryMap,
+    regions: regionsCopy,
+    locationCategories: locationCategoriesCopy,
+    reviewLocationCategoryMap,
   };
 
   await writeFile(
@@ -194,6 +222,8 @@ async function exportStaticData() {
   console.log(`Exported ${topTenListsCopy.length} top 10 lists`);
   console.log(`Exported ${allSocialSettings.length} social settings`);
   console.log(`Exported ${pageHeadersCopy.length} page headers`);
+  console.log(`Exported ${regionsCopy.length} regions`);
+  console.log(`Exported ${locationCategoriesCopy.length} location categories`);
   console.log("Static data export complete!");
 }
 

@@ -240,5 +240,30 @@
     "3": [
       1
     ]
-  }
+  },
+  "regions": [
+    {
+      "id": 1,
+      "name": "New York City",
+      "slug": "nyc",
+      "description": "The culinary capital of America - from iconic delis to Michelin-starred restaurants",
+      "image": null
+    },
+    {
+      "id": 2,
+      "name": "DMV Area",
+      "slug": "dmv",
+      "description": "The best dining spots in DC, Maryland, and Virginia",
+      "image": null
+    },
+    {
+      "id": 3,
+      "name": "Europe",
+      "slug": "europe",
+      "description": "Culinary adventures across the European continent",
+      "image": null
+    }
+  ],
+  "locationCategories": [],
+  "reviewLocationCategoryMap": {}
 }

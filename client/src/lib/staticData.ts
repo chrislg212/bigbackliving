@@ -1,5 +1,5 @@
 import staticData from "../data/static-data.json";
-import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader } from "@shared/schema";
+import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader, Region, LocationCategory } from "@shared/schema";
 
 interface StaticData {
   reviews: Review[];
@@ -12,9 +12,12 @@ interface StaticData {
   pageHeaders: PageHeader[];
   reviewCuisineMap: Record<number, number[]>;
   reviewNycCategoryMap: Record<number, number[]>;
+  regions: Region[];
+  locationCategories: LocationCategory[];
+  reviewLocationCategoryMap: Record<number, number[]>;
 }
 
-const data = staticData as StaticData;
+const data = staticData as unknown as StaticData;
 
 export function getReviews(): Review[] {
   return data.reviews;
@@ -123,4 +126,52 @@ export function getCuisineWithReviews(slug: string): { cuisine: Cuisine; reviews
 
 export function getReviewById(id: number): Review | undefined {
   return data.reviews.find((r) => r.id === id);
+}
+
+export function getRegions(): Region[] {
+  return data.regions || [];
+}
+
+export function getRegionBySlug(slug: string): Region | undefined {
+  return (data.regions || []).find((r) => r.slug === slug);
+}
+
+export function getLocationCategories(): LocationCategory[] {
+  return data.locationCategories || [];
+}
+
+export function getLocationCategoriesByRegion(regionId: number): LocationCategory[] {
+  return (data.locationCategories || []).filter((c) => c.regionId === regionId);
+}
+
+export function getLocationCategoryBySlug(regionSlug: string, categorySlug: string): LocationCategory | undefined {
+  const region = getRegionBySlug(regionSlug);
+  if (!region) return undefined;
+  return (data.locationCategories || []).find((c) => c.regionId === region.id && c.slug === categorySlug);
+}
+
+export function getReviewsByLocationCategory(categoryId: number): Review[] {
+  const reviewIds = Object.entries(data.reviewLocationCategoryMap || {})
+    .filter(([_, categoryIds]) => categoryIds.includes(categoryId))
+    .map(([reviewId]) => parseInt(reviewId));
+  return data.reviews.filter((r) => reviewIds.includes(r.id));
+}
+
+export function getReviewsByRegion(regionSlug: string): Review[] {
+  const region = getRegionBySlug(regionSlug);
+  if (!region) return [];
+  
+  const regionCategories = getLocationCategoriesByRegion(region.id);
+  const categoryIds = regionCategories.map(c => c.id);
+  
+  if (categoryIds.length === 0) return [];
+  
+  const reviewIds = new Set<number>();
+  Object.entries(data.reviewLocationCategoryMap || {}).forEach(([reviewId, cats]) => {
+    if (cats.some(catId => categoryIds.includes(catId))) {
+      reviewIds.add(parseInt(reviewId));
+    }
+  });
+  
+  return data.reviews.filter((r) => reviewIds.has(r.id));
 }

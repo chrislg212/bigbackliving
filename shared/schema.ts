@@ -56,6 +56,37 @@ export const insertCuisineSchema = createInsertSchema(cuisines).omit({
 export type InsertCuisine = z.infer<typeof insertCuisineSchema>;
 export type Cuisine = typeof cuisines.$inferSelect;
 
+export const regions = pgTable("regions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
+  description: text("description"),
+  image: text("image"),
+});
+
+export const insertRegionSchema = createInsertSchema(regions).omit({
+  id: true,
+});
+
+export type InsertRegion = z.infer<typeof insertRegionSchema>;
+export type Region = typeof regions.$inferSelect;
+
+export const locationCategories = pgTable("location_categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull(),
+  description: text("description"),
+  image: text("image"),
+  regionId: integer("region_id").notNull().references(() => regions.id, { onDelete: "cascade" }),
+});
+
+export const insertLocationCategorySchema = createInsertSchema(locationCategories).omit({
+  id: true,
+});
+
+export type InsertLocationCategory = z.infer<typeof insertLocationCategorySchema>;
+export type LocationCategory = typeof locationCategories.$inferSelect;
+
 export const nycEatsCategories = pgTable("nyc_eats_categories", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
@@ -96,6 +127,12 @@ export const reviewsNycCategories = pgTable("reviews_nyc_categories", {
   id: serial("id").primaryKey(),
   reviewId: integer("review_id").notNull().references(() => reviews.id, { onDelete: "cascade" }),
   nycCategoryId: integer("nyc_category_id").notNull().references(() => nycEatsCategories.id, { onDelete: "cascade" }),
+});
+
+export const reviewsLocationCategories = pgTable("reviews_location_categories", {
+  id: serial("id").primaryKey(),
+  reviewId: integer("review_id").notNull().references(() => reviews.id, { onDelete: "cascade" }),
+  locationCategoryId: integer("location_category_id").notNull().references(() => locationCategories.id, { onDelete: "cascade" }),
 });
 
 export const topTenListItems = pgTable("top_ten_list_items", {

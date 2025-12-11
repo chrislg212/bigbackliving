@@ -1,5 +1,5 @@
 import { db } from "../server/db";
-import { reviews, cuisines, nycEatsCategories, topTenLists, topTenListItems, socialSettings, socialEmbeds, pageHeaders, reviewsCuisines, reviewsNycCategories } from "../shared/schema";
+import { reviews, cuisines, nycEatsCategories, topTenLists, topTenListItems, socialSettings, socialEmbeds, pageHeaders, reviewsCuisines, reviewsNycCategories, regions, locationCategories, reviewsLocationCategories } from "../shared/schema";
 import { Storage } from "@google-cloud/storage";
 import * as fs from "fs";
 import * as path from "path";
@@ -113,6 +113,9 @@ async function exportStaticData() {
   const allPageHeaders = await db.select().from(pageHeaders);
   const allReviewsCuisines = await db.select().from(reviewsCuisines);
   const allReviewsNycCategories = await db.select().from(reviewsNycCategories);
+  const allRegions = await db.select().from(regions);
+  const allLocationCategories = await db.select().from(locationCategories);
+  const allReviewsLocationCategories = await db.select().from(reviewsLocationCategories);
 
   console.log("Downloading images from object storage...");
   
@@ -145,6 +148,18 @@ async function exportStaticData() {
       header.image = await downloadAndSaveImage(header.image, imagesOutputDir);
     }
   }
+  
+  for (const region of allRegions) {
+    if (region.image) {
+      region.image = await downloadAndSaveImage(region.image, imagesOutputDir);
+    }
+  }
+  
+  for (const locCategory of allLocationCategories) {
+    if (locCategory.image) {
+      locCategory.image = await downloadAndSaveImage(locCategory.image, imagesOutputDir);
+    }
+  }
 
   const reviewCuisineMap: Record<number, number[]> = {};
   for (const rc of allReviewsCuisines) {
@@ -162,6 +177,14 @@ async function exportStaticData() {
     reviewNycCategoryMap[rnc.reviewId].push(rnc.nycCategoryId);
   }
 
+  const reviewLocationCategoryMap: Record<number, number[]> = {};
+  for (const rlc of allReviewsLocationCategories) {
+    if (!reviewLocationCategoryMap[rlc.reviewId]) {
+      reviewLocationCategoryMap[rlc.reviewId] = [];
+    }
+    reviewLocationCategoryMap[rlc.reviewId].push(rlc.locationCategoryId);
+  }
+
   const staticData = {
     reviews: allReviews,
     cuisines: allCuisines,
@@ -173,6 +196,9 @@ async function exportStaticData() {
     pageHeaders: allPageHeaders,
     reviewCuisineMap,
     reviewNycCategoryMap,
+    regions: allRegions,
+    locationCategories: allLocationCategories,
+    reviewLocationCategoryMap,
   };
 
   fs.writeFileSync(
@@ -186,6 +212,8 @@ async function exportStaticData() {
   console.log(`Exported ${allTopTenLists.length} top 10 lists`);
   console.log(`Exported ${allSocialSettings.length} social settings`);
   console.log(`Exported ${allPageHeaders.length} page headers`);
+  console.log(`Exported ${allRegions.length} regions`);
+  console.log(`Exported ${allLocationCategories.length} location categories`);
   console.log("Static data export complete!");
 
   process.exit(0);
