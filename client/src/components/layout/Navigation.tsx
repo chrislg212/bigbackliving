@@ -7,8 +7,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import SearchBar from "@/components/SearchBar";
 import { SiInstagram, SiFacebook, SiTiktok } from "react-icons/si";
@@ -28,7 +26,6 @@ const locationLinks = [
 const listsLinks = [
   { href: "/rankings/cuisines", label: "Cuisines" },
   { href: "/rankings/top-10", label: "Featured Guides" },
-  { href: "/rankings/college-budget", label: "College Budget Eats" },
 ];
 
 const afterListsLinks = [
@@ -142,9 +139,6 @@ export default function Navigation() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-60 p-1.5 animate-fade-in-down">
-                <DropdownMenuLabel className="px-3 py-1.5 text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Location
-                </DropdownMenuLabel>
                 {locationLinks.map((link, index) => (
                   <DropdownMenuItem
                     key={link.href}
@@ -163,10 +157,6 @@ export default function Navigation() {
                     </Link>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuSeparator className="my-1.5" />
-                <DropdownMenuLabel className="px-3 py-1.5 text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Browse
-                </DropdownMenuLabel>
                 {listsLinks.map((link, index) => (
                   <DropdownMenuItem
                     key={link.href}
@@ -234,7 +224,7 @@ export default function Navigation() {
 
               <div className="py-2.5 px-3 mt-1">
                 <span className="font-sans text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Categories - Location
+                  Categories
                 </span>
               </div>
               {locationLinks.map((link) => (
@@ -252,12 +242,6 @@ export default function Navigation() {
                   </span>
                 </Link>
               ))}
-
-              <div className="py-2.5 px-3 mt-1">
-                <span className="font-sans text-xs font-medium uppercase text-muted-foreground tracking-wider">
-                  Categories - Browse
-                </span>
-              </div>
               {listsLinks.map((link) => (
                 <Link key={link.href} href={link.href}>
                   <span
