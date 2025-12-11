@@ -76,6 +76,13 @@ Preferred communication style: Simple, everyday language.
 - Admin panel includes Page Headers tab for managing images
 - Pages fallback to default generated images when no custom header exists
 
+**Contact Form System**
+- ContactFormModal component on About page for visitor messages
+- Form fields: name, email, message with Zod validation
+- Database table: contact_submissions (id, name, email, message, createdAt, read)
+- Admin panel Messages tab shows all submissions ordered by newest first
+- Mark as read functionality and delete option for submissions
+
 **Data Modeling**
 - Review interface defines core content structure: name, cuisine, location, rating, excerpt, images, price range
 - Slug-based URL routing for SEO-friendly review pages
