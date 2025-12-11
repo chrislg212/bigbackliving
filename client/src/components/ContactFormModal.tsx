@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, MessageSquare } from "lucide-react";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -20,11 +20,7 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-interface ContactFormModalProps {
-  trigger: React.ReactNode;
-}
-
-export default function ContactFormModal({ trigger }: ContactFormModalProps) {
+export default function ContactFormModal() {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
@@ -65,7 +61,10 @@ export default function ContactFormModal({ trigger }: ContactFormModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger}
+        <Button size="sm" variant="outline" data-testid="button-contact-form">
+          <MessageSquare className="w-4 h-4 mr-2" />
+          Send Message
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

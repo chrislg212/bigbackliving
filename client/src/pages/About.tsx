@@ -1,4 +1,4 @@
-import { Mail, MapPin, Utensils, MessageSquare } from "lucide-react";
+import { Mail, MapPin, Utensils } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
@@ -75,19 +75,18 @@ export default function About() {
                       </h3>
                       <p className="font-sans text-sm text-muted-foreground mb-3">Have a restaurant you think I should visit or a business inquiry?</p>
                       <div className="flex flex-wrap items-center gap-3">
-                        <a
-                          href="mailto:bigbackliving@gmail.com"
-                          className="font-sans text-sm text-primary hover:underline"
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          asChild
                           data-testid="contact-email"
-                        >bigbackliving@gmail.com</a>
-                        <ContactFormModal 
-                          trigger={
-                            <Button size="sm" variant="outline" data-testid="button-contact-form">
-                              <MessageSquare className="w-4 h-4 mr-2" />
-                              Send Message
-                            </Button>
-                          } 
-                        />
+                        >
+                          <a href="mailto:bigbackliving@gmail.com">
+                            <Mail className="w-4 h-4 mr-2" />
+                            bigbackliving@gmail.com
+                          </a>
+                        </Button>
+                        <ContactFormModal />
                       </div>
                     </div>
                   </div>
