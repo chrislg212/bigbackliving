@@ -665,5 +665,61 @@ export async function registerRoutes(
     }
   });
 
+  // Export all reviews as JSON for syncing between environments
+  app.get("/api/export/reviews", async (req, res) => {
+    try {
+      const reviews = await storage.getAllReviews();
+      // Remove IDs so they can be imported as new records
+      const exportData = reviews.map(({ id, ...rest }) => rest);
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Content-Disposition', 'attachment; filename="reviews-export.json"');
+      res.json({ reviews: exportData, exportedAt: new Date().toISOString() });
+    } catch (error) {
+      console.error("Error exporting reviews:", error);
+      res.status(500).json({ error: "Failed to export reviews" });
+    }
+  });
+
+  // Import reviews from JSON
+  app.post("/api/import/reviews", async (req, res) => {
+    try {
+      const { reviews } = req.body;
+      if (!Array.isArray(reviews)) {
+        return res.status(400).json({ error: "Invalid format: reviews array required" });
+      }
+      
+      const imported: number[] = [];
+      const skipped: string[] = [];
+      
+      for (const reviewData of reviews) {
+        // Check if review with same slug already exists
+        const existing = await storage.getReviewBySlug(reviewData.slug);
+        if (existing) {
+          skipped.push(reviewData.slug);
+          continue;
+        }
+        
+        const parsed = insertReviewSchema.safeParse(reviewData);
+        if (!parsed.success) {
+          skipped.push(reviewData.slug || 'unknown');
+          continue;
+        }
+        
+        const review = await storage.createReview(parsed.data);
+        imported.push(review.id);
+      }
+      
+      res.json({ 
+        message: `Imported ${imported.length} reviews, skipped ${skipped.length} (already exist or invalid)`,
+        imported: imported.length,
+        skipped: skipped.length,
+        skippedSlugs: skipped
+      });
+    } catch (error) {
+      console.error("Error importing reviews:", error);
+      res.status(500).json({ error: "Failed to import reviews" });
+    }
+  });
+
   return httpServer;
 }
