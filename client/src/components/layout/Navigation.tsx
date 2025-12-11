@@ -1,7 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Menu, X, ChevronDown, Utensils } from "lucide-react";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import SearchBar from "@/components/SearchBar";
 import { SiInstagram, SiFacebook, SiTiktok } from "react-icons/si";
-import type { SocialSettings } from "@shared/schema";
+import { getSocialSettings } from "@/lib/staticData";
 
 const mainNavLinks = [
   { href: "/", label: "Home" },
@@ -61,9 +60,7 @@ export default function Navigation() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { data: socialSettings = [] } = useQuery<SocialSettings[]>({
-    queryKey: ["/api/social-settings"],
-  });
+  const socialSettings = getSocialSettings();
 
   const isListsActive = location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/top-10");
 

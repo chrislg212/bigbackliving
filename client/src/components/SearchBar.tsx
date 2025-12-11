@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
 import { Search, X, Utensils, List, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import type { Review as DBReview } from "@shared/schema";
+import { getReviews } from "@/lib/staticData";
 
 const cuisinesList = [
   { name: "Italian", href: "/cuisines/italian" },
@@ -33,9 +32,7 @@ export default function SearchBar() {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { data: dbReviews = [] } = useQuery<DBReview[]>({
-    queryKey: ["/api/reviews"],
-  });
+  const dbReviews = getReviews();
 
   useEffect(() => {
     setIsOpen(false);
