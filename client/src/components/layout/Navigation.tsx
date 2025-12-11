@@ -28,6 +28,7 @@ const listsLinks = [
 const afterListsLinks = [
   { href: "/content", label: "Content" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 function NavLink({ href, label, isActive }: { href: string; label: string; isActive: boolean }) {

@@ -18,6 +18,7 @@ import CuisineReviews from "@/pages/rankings/CuisineReviews";
 import Top10Lists from "@/pages/rankings/Top10Lists";
 import Top10Detail from "@/pages/rankings/Top10Detail";
 import CollegeBudget from "@/pages/rankings/CollegeBudget";
+import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/rankings/college-budget" component={CollegeBudget} />
       <Route path="/content" component={Content} />
       <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
       <Route path="/review/:slug" component={ReviewDetail} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />

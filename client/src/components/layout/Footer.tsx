@@ -59,7 +59,7 @@ export default function Footer() {
               Have a restaurant recommendation or want to collaborate?
             </p>
             <a
-              href="mailto:hello@thepalate.com"
+              href="mailto:bigbackliving@gmail.com"
               className="inline-block mt-2 font-sans text-sm text-primary hover:underline"
               data-testid="footer-email"
             >bigbackliving@gmail.com</a>
