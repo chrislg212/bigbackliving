@@ -17,13 +17,8 @@ const mainNavLinks = [
   { href: "/reviews", label: "Reviews" },
 ];
 
-const locationLinks = [
-  { href: "/location/nyc", label: "New York City" },
-  { href: "/location/dmv", label: "DMV Area" },
-  { href: "/location/europe", label: "Europe" },
-];
-
-const listsLinks = [
+const categoriesLinks = [
+  { href: "/rankings/locations", label: "Locations" },
   { href: "/rankings/cuisines", label: "Cuisines" },
   { href: "/rankings/top-10", label: "Featured Guides" },
 ];
@@ -139,7 +134,7 @@ export default function Navigation() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-60 p-1.5 animate-fade-in-down">
-                {locationLinks.map((link, index) => (
+                {categoriesLinks.map((link, index) => (
                   <DropdownMenuItem
                     key={link.href}
                     asChild
@@ -148,27 +143,12 @@ export default function Navigation() {
                     <Link href={link.href}>
                       <span
                         className={`w-full font-sans text-sm ${
-                          location === link.href ? "text-primary font-medium" : ""
+                          location === link.href || 
+                          (link.href === '/rankings/locations' && location.startsWith('/location/')) ||
+                          location.startsWith(link.href.replace('/rankings/', '/')) 
+                            ? "text-primary font-medium" : ""
                         }`}
-                        data-testid={`nav-location-${link.href.split("/").pop()}`}
-                      >
-                        {link.label}
-                      </span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                {listsLinks.map((link, index) => (
-                  <DropdownMenuItem
-                    key={link.href}
-                    asChild
-                    className={`px-3 py-2.5 rounded-md cursor-pointer transition-all duration-150 opacity-0 animate-fade-in-up stagger-${index + locationLinks.length + 1}`}
-                  >
-                    <Link href={link.href}>
-                      <span
-                        className={`w-full font-sans text-sm ${
-                          location === link.href ? "text-primary font-medium" : ""
-                        }`}
-                        data-testid={`nav-lists-${link.href.split("/").pop()}`}
+                        data-testid={`nav-category-${link.href.split("/").pop()}`}
                       >
                         {link.label}
                       </span>
@@ -227,31 +207,18 @@ export default function Navigation() {
                   Categories
                 </span>
               </div>
-              {locationLinks.map((link) => (
+              {categoriesLinks.map((link) => (
                 <Link key={link.href} href={link.href}>
                   <span
                     className={`block py-2.5 px-3 pl-6 rounded-md font-sans text-sm cursor-pointer transition-colors duration-150 ${
-                      location === link.href
+                      location === link.href || 
+                      (link.href === '/rankings/locations' && location.startsWith('/location/')) ||
+                      location.startsWith(link.href.replace('/rankings/', '/'))
                         ? "bg-primary/10 text-primary"
                         : "text-foreground hover:bg-muted"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
-                    data-testid={`mobile-nav-location-${link.href.split("/").pop()}`}
-                  >
-                    {link.label}
-                  </span>
-                </Link>
-              ))}
-              {listsLinks.map((link) => (
-                <Link key={link.href} href={link.href}>
-                  <span
-                    className={`block py-2.5 px-3 pl-6 rounded-md font-sans text-sm cursor-pointer transition-colors duration-150 ${
-                      location === link.href
-                        ? "bg-primary/10 text-primary"
-                        : "text-foreground hover:bg-muted"
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    data-testid={`mobile-nav-lists-${link.href.split("/").pop()}`}
+                    data-testid={`mobile-nav-category-${link.href.split("/").pop()}`}
                   >
                     {link.label}
                   </span>
