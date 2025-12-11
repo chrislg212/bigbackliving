@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2, ImageIcon, Upload, Check } from "lucide-react";
+import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2, ImageIcon, Upload, Check, MessageSquare, Mail, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -42,7 +42,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader } from "@shared/schema";
+import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader, ContactSubmission } from "@shared/schema";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 
 const reviewFormSchema = z.object({
@@ -2431,6 +2431,129 @@ function PageHeadersTab() {
   );
 }
 
+function ContactSubmissionsTab() {
+  const { toast } = useToast();
+
+  const { data: submissions = [], isLoading } = useQuery<ContactSubmission[]>({
+    queryKey: ["/api/contact-submissions"],
+  });
+
+  const markReadMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return apiRequest("PATCH", `/api/contact-submissions/${id}/read`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/contact-submissions"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return apiRequest("DELETE", `/api/contact-submissions/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/contact-submissions"] });
+      toast({ title: "Message deleted" });
+    },
+    onError: () => {
+      toast({ title: "Failed to delete message", variant: "destructive" });
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const unreadCount = submissions.filter(s => s.read === 0).length;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-serif text-xl font-semibold">Contact Messages</h2>
+          <p className="text-sm text-muted-foreground">
+            {submissions.length} total message{submissions.length !== 1 ? "s" : ""}
+            {unreadCount > 0 && ` (${unreadCount} unread)`}
+          </p>
+        </div>
+      </div>
+
+      {submissions.length === 0 ? (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <Mail className="w-12 h-12 text-muted-foreground mb-4" />
+            <p className="text-muted-foreground">No messages yet</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="space-y-4">
+          {submissions.map((submission) => (
+            <Card 
+              key={submission.id} 
+              className={submission.read === 0 ? "border-primary/30 bg-primary/5" : ""}
+              data-testid={`card-message-${submission.id}`}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="font-medium" data-testid={`text-sender-${submission.id}`}>
+                        {submission.name}
+                      </span>
+                      <a 
+                        href={`mailto:${submission.email}`} 
+                        className="text-sm text-primary hover:underline"
+                        data-testid={`link-email-${submission.id}`}
+                      >
+                        {submission.email}
+                      </a>
+                      {submission.read === 0 && (
+                        <Badge variant="default" className="text-xs">New</Badge>
+                      )}
+                    </div>
+                    <p className="text-muted-foreground whitespace-pre-wrap" data-testid={`text-message-${submission.id}`}>
+                      {submission.message}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(submission.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {submission.read === 0 && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => markReadMutation.mutate(submission.id)}
+                        disabled={markReadMutation.isPending}
+                        data-testid={`button-mark-read-${submission.id}`}
+                      >
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => deleteMutation.mutate(submission.id)}
+                      disabled={deleteMutation.isPending}
+                      data-testid={`button-delete-message-${submission.id}`}
+                    >
+                      <Trash2 className="w-4 h-4 text-destructive" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Admin() {
   return (
     <div className="min-h-screen bg-background">
@@ -2445,7 +2568,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="reviews" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="reviews" data-testid="tab-reviews">
               <Star className="w-4 h-4 mr-2" />
               Reviews
@@ -2469,6 +2592,10 @@ export default function Admin() {
             <TabsTrigger value="headers" data-testid="tab-headers">
               <ImageIcon className="w-4 h-4 mr-2" />
               Headers
+            </TabsTrigger>
+            <TabsTrigger value="messages" data-testid="tab-messages">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Messages
             </TabsTrigger>
           </TabsList>
 
@@ -2494,6 +2621,10 @@ export default function Admin() {
 
           <TabsContent value="headers">
             <PageHeadersTab />
+          </TabsContent>
+
+          <TabsContent value="messages">
+            <ContactSubmissionsTab />
           </TabsContent>
         </Tabs>
       </div>

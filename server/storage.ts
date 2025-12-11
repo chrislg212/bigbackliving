@@ -12,7 +12,7 @@ import {
   reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders, contactSubmissions
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -349,7 +349,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllContactSubmissions(): Promise<ContactSubmission[]> {
-    return db.select().from(contactSubmissions);
+    return db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt));
   }
 
   async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
