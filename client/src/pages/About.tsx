@@ -73,7 +73,7 @@ export default function About() {
                       </h3>
                       <p className="font-sans text-sm text-muted-foreground mb-2">Have a restaurant you think I should visit or a business inquiry?</p>
                       <a
-                        href="mailto:hello@thepalate.com"
+                        href="mailto:bigbackliving@gmail.com"
                         className="font-sans text-sm text-primary hover:underline"
                         data-testid="contact-email"
                       >bigbackliving@gmail.com</a>
