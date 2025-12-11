@@ -2627,17 +2627,112 @@ function ContactSubmissionsTab() {
   );
 }
 
+function AdminLoginForm({ onLogin }: { onLogin: () => void }) {
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.ok) {
+        toast({ title: "Logged in successfully" });
+        onLogin();
+      } else {
+        const data = await response.json();
+        setError(data.error || "Invalid password");
+      }
+    } catch {
+      setError("Failed to connect to server");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="font-serif text-2xl text-center">Admin Login</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter admin password"
+                data-testid="input-admin-password"
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-destructive" data-testid="text-login-error">{error}</p>
+            )}
+            <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-admin-login">
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+              Login
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 export default function Admin() {
+  const { data: authStatus, isLoading: authLoading } = useQuery<{ isAdmin: boolean }>({
+    queryKey: ["/api/admin/status"],
+  });
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] });
+  };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (!authStatus?.isAdmin) {
+    return (
+      <AdminLoginForm
+        onLogin={() => queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] })}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="mb-8">
-          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-foreground" data-testid="admin-title">
-            Admin Panel
-          </h1>
-          <p className="font-sans text-muted-foreground mt-2">
-            Manage your restaurant reviews and categories
-          </p>
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <div>
+            <h1 className="font-serif text-3xl md:text-4xl font-semibold text-foreground" data-testid="admin-title">
+              Admin Panel
+            </h1>
+            <p className="font-sans text-muted-foreground mt-2">
+              Manage your restaurant reviews and categories
+            </p>
+          </div>
+          <Button variant="outline" onClick={handleLogout} data-testid="button-admin-logout">
+            Logout
+          </Button>
         </div>
 
         <Tabs defaultValue="reviews" className="space-y-6">
