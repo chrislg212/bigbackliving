@@ -4,30 +4,15 @@ import ReviewCard from "@/components/ReviewCard";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import { usePageHeader } from "@/hooks/use-page-header";
-import { mockReviews } from "@/data/mockReviews";
 import { Star, ArrowRight, Award, Loader2 } from "lucide-react";
 import nycRestaurantsImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
 import type { Review as DBReview } from "@shared/schema";
 
 export default function Reviews() {
   const { customImage } = usePageHeader("reviews");
-  const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
+  const { data: reviews = [], isLoading } = useQuery<DBReview[]>({
     queryKey: ["/api/reviews"],
   });
-
-  const reviews = dbReviews.length > 0 
-    ? dbReviews.map(r => ({
-        id: String(r.id),
-        slug: r.slug,
-        name: r.name,
-        cuisine: r.cuisine,
-        location: r.location,
-        rating: r.rating,
-        excerpt: r.excerpt,
-        image: r.image || "",
-        priceRange: r.priceRange,
-      }))
-    : mockReviews;
 
   if (isLoading) {
     return (
@@ -59,7 +44,7 @@ export default function Reviews() {
               <Link href={`/review/${review.slug}`} data-testid={`hero-review-${review.id}`}>
                 <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
                   <img
-                    src={review.image}
+                    src={review.image || ""}
                     alt={review.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />

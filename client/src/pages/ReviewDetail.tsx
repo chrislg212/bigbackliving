@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "@/components/StarRating";
 import ReviewCard from "@/components/ReviewCard";
-import { mockReviews, reviewDetails } from "@/data/mockReviews";
 import type { Review as DBReview } from "@shared/schema";
 
 export default function ReviewDetail() {
@@ -16,49 +15,8 @@ export default function ReviewDetail() {
     queryKey: ["/api/reviews"],
   });
 
-  const dbReview = dbReviews.find((r) => r.slug === slug);
-  const mockReview = mockReviews.find((r) => r.slug === slug);
-  const mockDetails = slug ? reviewDetails[slug] : null;
-
-  const review = dbReview 
-    ? {
-        id: String(dbReview.id),
-        slug: dbReview.slug,
-        name: dbReview.name,
-        cuisine: dbReview.cuisine,
-        location: dbReview.location,
-        rating: dbReview.rating,
-        excerpt: dbReview.excerpt,
-        image: dbReview.image || "",
-        priceRange: dbReview.priceRange,
-      }
-    : mockReview;
-
-  const details = dbReview
-    ? {
-        fullReview: dbReview.fullReview || dbReview.excerpt,
-        highlights: dbReview.highlights || [],
-        atmosphere: dbReview.atmosphere || "",
-        mustTry: dbReview.mustTry || [],
-        visitDate: dbReview.visitDate || "",
-      }
-    : mockDetails;
-
-  const allReviews = dbReviews.length > 0 
-    ? dbReviews.map(r => ({
-        id: String(r.id),
-        slug: r.slug,
-        name: r.name,
-        cuisine: r.cuisine,
-        location: r.location,
-        rating: r.rating,
-        excerpt: r.excerpt,
-        image: r.image || "",
-        priceRange: r.priceRange,
-      }))
-    : mockReviews;
-  
-  const relatedReviews = allReviews.filter((r) => r.slug !== slug).slice(0, 3);
+  const review = dbReviews.find((r) => r.slug === slug);
+  const relatedReviews = dbReviews.filter((r) => r.slug !== slug).slice(0, 3);
 
   if (isLoading) {
     return (
@@ -68,7 +26,7 @@ export default function ReviewDetail() {
     );
   }
 
-  if (!review || !details) {
+  if (!review) {
     return (
       <div
         className="min-h-screen flex flex-col items-center justify-center px-4"
@@ -97,8 +55,8 @@ export default function ReviewDetail() {
         data-testid="review-hero"
       >
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${review.image})` }}
+          className="absolute inset-0 bg-cover bg-center bg-muted"
+          style={{ backgroundImage: review.image ? `url(${review.image})` : undefined }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
@@ -147,7 +105,7 @@ export default function ReviewDetail() {
               className="font-sans text-foreground leading-relaxed space-y-6"
               data-testid="review-content"
             >
-              {details.fullReview.split("\n\n").map((paragraph, idx) => (
+              {(review.fullReview || review.excerpt).split("\n\n").map((paragraph, idx) => (
                 <p key={idx} className="text-base md:text-lg">
                   {paragraph}
                 </p>
@@ -195,7 +153,7 @@ export default function ReviewDetail() {
                       </div>
                     </div>
                   </div>
-                  {details.visitDate && (
+                  {review.visitDate && (
                     <div className="flex items-start gap-3">
                       <Clock className="w-4 h-4 text-primary mt-1" />
                       <div>
@@ -203,7 +161,7 @@ export default function ReviewDetail() {
                           Visited
                         </div>
                         <div className="font-sans text-sm text-foreground">
-                          {details.visitDate}
+                          {review.visitDate}
                         </div>
                       </div>
                     </div>
@@ -212,14 +170,14 @@ export default function ReviewDetail() {
               </CardContent>
             </Card>
 
-            {details.mustTry && details.mustTry.length > 0 && (
+            {review.mustTry && review.mustTry.length > 0 && (
               <Card className="border-0 shadow-sm">
                 <CardContent className="p-6">
                   <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
                     Must Try
                   </h3>
                   <ul className="space-y-2">
-                    {details.mustTry.map((item) => (
+                    {review.mustTry.map((item) => (
                       <li
                         key={item}
                         className="font-sans text-sm text-foreground flex items-center gap-2"
@@ -233,14 +191,14 @@ export default function ReviewDetail() {
               </Card>
             )}
 
-            {details.highlights && details.highlights.length > 0 && (
+            {review.highlights && review.highlights.length > 0 && (
               <Card className="border-0 shadow-sm">
                 <CardContent className="p-6">
                   <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
                     Highlights
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {details.highlights.map((highlight) => (
+                    {review.highlights.map((highlight) => (
                       <Badge
                         key={highlight}
                         variant="secondary"

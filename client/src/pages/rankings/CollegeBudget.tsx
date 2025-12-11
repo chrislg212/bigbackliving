@@ -1,16 +1,31 @@
 import { Link } from "wouter";
-import { DollarSign, Sparkles, TrendingUp, Utensils, Star, ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { DollarSign, Sparkles, TrendingUp, Utensils, Star, ArrowRight, Loader2 } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import AnimatedSection from "@/components/AnimatedSection";
-import { mockReviews } from "@/data/mockReviews";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { usePageHeader } from "@/hooks/use-page-header";
 import budgetFoodImage from "@assets/stock_images/affordable_budget_fr_9548ddd2.jpg";
+import type { Review as DBReview } from "@shared/schema";
 
 export default function CollegeBudget() {
   const { customImage } = usePageHeader("college-budget");
-  const budgetReviews = mockReviews.filter(r => r.priceRange === "$$" || r.priceRange === "$");
+  
+  const { data: reviews = [], isLoading } = useQuery<DBReview[]>({
+    queryKey: ["/api/reviews"],
+  });
+
+  const budgetReviews = reviews.filter(r => r.priceRange === "$$" || r.priceRange === "$");
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   const priceHighlights = [
     { label: "Average Meal", value: "$12", icon: Utensils },
@@ -99,7 +114,7 @@ export default function CollegeBudget() {
                   <Link href={`/review/${review.slug}`} data-testid={`hero-review-${review.id}`}>
                     <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
                       <img
-                        src={review.image}
+                        src={review.image || ""}
                         alt={review.name}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />

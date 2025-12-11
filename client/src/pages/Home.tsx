@@ -4,29 +4,14 @@ import ReviewCard from "@/components/ReviewCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { usePageHeader } from "@/hooks/use-page-header";
-import { mockReviews } from "@/data/mockReviews";
 import { Loader2 } from "lucide-react";
 import type { Review as DBReview } from "@shared/schema";
 
 export default function Home() {
   const { customImage } = usePageHeader("home");
-  const { data: dbReviews = [], isLoading } = useQuery<DBReview[]>({
+  const { data: reviews = [], isLoading } = useQuery<DBReview[]>({
     queryKey: ["/api/reviews"],
   });
-
-  const reviews = dbReviews.length > 0 
-    ? dbReviews.map(r => ({
-        id: String(r.id),
-        slug: r.slug,
-        name: r.name,
-        cuisine: r.cuisine,
-        location: r.location,
-        rating: r.rating,
-        excerpt: r.excerpt,
-        image: r.image || "",
-        priceRange: r.priceRange,
-      }))
-    : mockReviews;
 
   const recentReviews = reviews.slice(0, 6);
 
@@ -48,7 +33,7 @@ export default function Home() {
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
-        ) : (
+        ) : recentReviews.length > 0 ? (
           <div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
             data-testid="reviews-grid"
@@ -56,6 +41,10 @@ export default function Home() {
             {recentReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
             ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="font-sans text-muted-foreground mb-4">No reviews yet. Check back soon!</p>
           </div>
         )}
 
