@@ -688,20 +688,126 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid format: reviews array required" });
       }
       
+      // Limit number of reviews to prevent resource exhaustion
+      if (reviews.length > 100) {
+        return res.status(400).json({ error: "Maximum 100 reviews per import" });
+      }
+      
       const imported: number[] = [];
       const skipped: string[] = [];
       
+      // Helper to sanitize slug - only allow alphanumeric and hyphens
+      const sanitizeSlug = (slug: string): string => {
+        return slug.toLowerCase().replace(/[^a-z0-9-]/g, '').substring(0, 100);
+      };
+      
+      // Helper to strip HTML/script tags and limit length
+      const sanitizeText = (text: string | undefined | null, maxLength = 10000): string | undefined => {
+        if (!text || typeof text !== 'string') return undefined;
+        return text
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+          .replace(/<[^>]*>/g, '')
+          .trim()
+          .substring(0, maxLength);
+      };
+      
+      // Helper to validate image URLs - only allow safe protocols
+      const sanitizeImageUrl = (url: string | undefined | null): string | undefined => {
+        if (!url || typeof url !== 'string') return undefined;
+        const trimmed = url.trim().substring(0, 2000);
+        // Decode URL to catch encoded javascript:
+        let decoded = trimmed;
+        try { decoded = decodeURIComponent(trimmed); } catch { /* ignore decode errors */ }
+        const lower = decoded.toLowerCase();
+        // Block dangerous schemes
+        if (lower.includes('javascript:') || lower.includes('data:') || lower.includes('vbscript:')) {
+          return undefined;
+        }
+        // Only allow http/https protocols or relative paths
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('/')) {
+          return trimmed;
+        }
+        return undefined;
+      };
+      
+      // Helper to validate and sanitize date strings
+      const sanitizeDate = (date: string | undefined | null): string | undefined => {
+        if (!date || typeof date !== 'string') return undefined;
+        // Only allow simple date-like strings (max 50 chars, alphanumeric + spaces + punctuation)
+        const trimmed = date.trim().substring(0, 50);
+        if (/^[a-zA-Z0-9\s,.-]+$/.test(trimmed)) {
+          return trimmed;
+        }
+        return undefined;
+      };
+      
+      // Define allowed fields to prevent prototype pollution
+      const allowedFields = ['name', 'slug', 'cuisine', 'location', 'rating', 'excerpt', 'priceRange', 'image', 'fullReview', 'atmosphere', 'visitDate', 'highlights', 'mustTry'];
+      
       for (const reviewData of reviews) {
-        // Check if review with same slug already exists
-        const existing = await storage.getReviewBySlug(reviewData.slug);
-        if (existing) {
-          skipped.push(reviewData.slug);
+        // Skip prototype pollution attempts (check for explicit properties, not inherited ones)
+        if (Object.prototype.hasOwnProperty.call(reviewData, '__proto__') || 
+            Object.prototype.hasOwnProperty.call(reviewData, 'constructor') || 
+            Object.prototype.hasOwnProperty.call(reviewData, 'prototype')) {
+          skipped.push('malicious-payload');
           continue;
         }
         
-        const parsed = insertReviewSchema.safeParse(reviewData);
+        // Generate slug from name if not provided, then sanitize
+        const rawSlug = reviewData.slug || (reviewData.name ? reviewData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') : '');
+        const safeSlug = sanitizeSlug(rawSlug);
+        if (!safeSlug) {
+          skipped.push('invalid-slug');
+          continue;
+        }
+        
+        // Check if review with same slug already exists
+        const existing = await storage.getReviewBySlug(safeSlug);
+        if (existing) {
+          skipped.push(safeSlug);
+          continue;
+        }
+        
+        // Build sanitized data with only allowed fields
+        const sanitizedData: Record<string, unknown> = {};
+        for (const key of allowedFields) {
+          if (key in reviewData) {
+            if (key === 'highlights' || key === 'mustTry') {
+              // Sanitize array items - strictly reject non-string values
+              if (Array.isArray(reviewData[key])) {
+                const validItems: string[] = [];
+                for (const item of reviewData[key]) {
+                  // Only accept primitive strings, reject objects/arrays/functions
+                  if (typeof item === 'string' && item.length < 500 && Object.prototype.toString.call(item) === '[object String]') {
+                    const sanitized = sanitizeText(item, 500);
+                    if (sanitized) validItems.push(sanitized);
+                  }
+                  if (validItems.length >= 20) break; // Max 20 items
+                }
+                sanitizedData[key] = validItems;
+              }
+            } else if (key === 'image') {
+              sanitizedData[key] = sanitizeImageUrl(reviewData[key]);
+            } else if (key === 'visitDate') {
+              sanitizedData[key] = sanitizeDate(reviewData[key]);
+            } else if (key === 'rating') {
+              const rating = parseFloat(reviewData[key]);
+              if (!isNaN(rating) && rating >= 1 && rating <= 5) {
+                sanitizedData[key] = Math.round(rating * 10) / 10;
+              }
+            } else if (typeof reviewData[key] === 'string') {
+              sanitizedData[key] = sanitizeText(reviewData[key]);
+            } else {
+              sanitizedData[key] = reviewData[key];
+            }
+          }
+        }
+        sanitizedData.slug = safeSlug;
+        
+        // Validate the sanitized data using the schema
+        const parsed = insertReviewSchema.safeParse(sanitizedData);
         if (!parsed.success) {
-          skipped.push(reviewData.slug || 'unknown');
+          skipped.push(safeSlug || 'unknown');
           continue;
         }
         
