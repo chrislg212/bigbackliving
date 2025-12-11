@@ -7,8 +7,9 @@ import {
   type SocialSettings, type InsertSocialSettings,
   type SocialEmbed, type InsertSocialEmbed,
   type PageHeader, type InsertPageHeader,
+  type ContactSubmission, type InsertContactSubmission,
   reviews, users, cuisines, nycEatsCategories, topTenLists,
-  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders
+  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders, contactSubmissions
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -70,6 +71,11 @@ export interface IStorage {
   getAllPageHeaders(): Promise<PageHeader[]>;
   getPageHeaderBySlug(pageSlug: string): Promise<PageHeader | undefined>;
   upsertPageHeader(header: InsertPageHeader): Promise<PageHeader>;
+  
+  getAllContactSubmissions(): Promise<ContactSubmission[]>;
+  createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
+  markContactSubmissionRead(id: number): Promise<ContactSubmission | undefined>;
+  deleteContactSubmission(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -340,6 +346,25 @@ export class DatabaseStorage implements IStorage {
     }
     const [created] = await db.insert(pageHeaders).values(insertHeader).returning();
     return created;
+  }
+
+  async getAllContactSubmissions(): Promise<ContactSubmission[]> {
+    return db.select().from(contactSubmissions);
+  }
+
+  async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
+    const [submission] = await db.insert(contactSubmissions).values(insertSubmission).returning();
+    return submission;
+  }
+
+  async markContactSubmissionRead(id: number): Promise<ContactSubmission | undefined> {
+    const [submission] = await db.update(contactSubmissions).set({ read: 1 }).where(eq(contactSubmissions.id, id)).returning();
+    return submission;
+  }
+
+  async deleteContactSubmission(id: number): Promise<boolean> {
+    const result = await db.delete(contactSubmissions).where(eq(contactSubmissions.id, id)).returning();
+    return result.length > 0;
   }
 }
 

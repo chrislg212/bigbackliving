@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema, insertPageHeaderSchema } from "@shared/schema";
+import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema, insertPageHeaderSchema, insertContactSubmissionSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(
@@ -603,6 +603,65 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error updating page header:", error);
       res.status(500).json({ error: "Failed to update page header" });
+    }
+  });
+
+  // Contact Submissions routes
+  app.get("/api/contact-submissions", async (req, res) => {
+    try {
+      const submissions = await storage.getAllContactSubmissions();
+      res.json(submissions);
+    } catch (error) {
+      console.error("Error fetching contact submissions:", error);
+      res.status(500).json({ error: "Failed to fetch contact submissions" });
+    }
+  });
+
+  app.post("/api/contact-submissions", async (req, res) => {
+    try {
+      const parsed = insertContactSubmissionSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const submission = await storage.createContactSubmission(parsed.data);
+      res.status(201).json(submission);
+    } catch (error) {
+      console.error("Error creating contact submission:", error);
+      res.status(500).json({ error: "Failed to create contact submission" });
+    }
+  });
+
+  app.patch("/api/contact-submissions/:id/read", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid submission ID" });
+      }
+      const submission = await storage.markContactSubmissionRead(id);
+      if (!submission) {
+        return res.status(404).json({ error: "Submission not found" });
+      }
+      res.json(submission);
+    } catch (error) {
+      console.error("Error marking submission as read:", error);
+      res.status(500).json({ error: "Failed to mark submission as read" });
+    }
+  });
+
+  app.delete("/api/contact-submissions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid submission ID" });
+      }
+      const deleted = await storage.deleteContactSubmission(id);
+      if (!deleted) {
+        return res.status(404).json({ error: "Submission not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting contact submission:", error);
+      res.status(500).json({ error: "Failed to delete contact submission" });
     }
   });
 

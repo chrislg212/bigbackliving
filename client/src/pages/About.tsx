@@ -1,8 +1,10 @@
-import { Mail, MapPin, Utensils } from "lucide-react";
+import { Mail, MapPin, Utensils, MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import RatingCriteriaSection from "@/components/RatingCriteriaSection";
+import ContactFormModal from "@/components/ContactFormModal";
 import { usePageHeader } from "@/hooks/use-page-header";
 import foodJournalismImage from "@assets/stock_images/food_journalism_culi_9e0224b8.jpg";
 
@@ -71,12 +73,22 @@ export default function About() {
                       <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
                         Get in Touch
                       </h3>
-                      <p className="font-sans text-sm text-muted-foreground mb-2">Have a restaurant you think I should visit or a business inquiry?</p>
-                      <a
-                        href="mailto:bigbackliving@gmail.com"
-                        className="font-sans text-sm text-primary hover:underline"
-                        data-testid="contact-email"
-                      >bigbackliving@gmail.com</a>
+                      <p className="font-sans text-sm text-muted-foreground mb-3">Have a restaurant you think I should visit or a business inquiry?</p>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <a
+                          href="mailto:bigbackliving@gmail.com"
+                          className="font-sans text-sm text-primary hover:underline"
+                          data-testid="contact-email"
+                        >bigbackliving@gmail.com</a>
+                        <ContactFormModal 
+                          trigger={
+                            <Button size="sm" variant="outline" data-testid="button-contact-form">
+                              <MessageSquare className="w-4 h-4 mr-2" />
+                              Send Message
+                            </Button>
+                          } 
+                        />
+                      </div>
                     </div>
                   </div>
                 </CardContent>
