@@ -1,12 +1,244 @@
 {
-  "reviews": [],
-  "cuisines": [],
-  "nycCategories": [],
-  "topTenLists": [],
-  "topTenListItems": [],
-  "socialSettings": [],
+  "reviews": [
+    {
+      "id": 1,
+      "slug": "cote-korean-steakhouse",
+      "name": "COTE Korean Steakhouse",
+      "cuisine": "Korean",
+      "location": "Flatiron, NY",
+      "rating": 5,
+      "excerpt": "Upscale Korean steakhouse featuring tables with smokeless grills, plus an extensive wine list.",
+      "image": "/objects/uploads/6d301acd-30c3-4c04-9685-9487c9fcbe23",
+      "priceRange": "$$$$",
+      "fullReview": "Cote brings together high-end Korean BBQ with a lively, youthful energy that makes every visit feel like a celebration. It's upscale yet unpretentious, perfect for Gen Z and millennial foodies.\n\nI've been five times, and the service has never missed--servers are friendly, engaging, and expertly pace each dish. The Butcher's Feast is the highlight: every cut was tender and perfectly cooked, with the A5 Wagyu stealing the show despite its additional $30/oz price tag. The sides impress too, especially the fluffy egg souffle and rich soft serve. The music and ambiance keep the mood upbeat and social, without sacrificing refinement.\n\nEasily a 5-star experience--Cote is hands-down the best Korean BBQ in NYC and absolutely worth visiting.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": ""
+    },
+    {
+      "id": 2,
+      "slug": "sendo",
+      "name": "Sendo",
+      "cuisine": "Japanese",
+      "location": "Koreatown, NY",
+      "rating": 4.8,
+      "excerpt": "Combines authenticity, minimalism, and exceptional quality. Inspired by traditional Tokyo\ncasual sushi counters, our obsession with the fundamentals is a core philosophy. ",
+      "image": "/objects/uploads/798b62c5-7503-43cb-b015-54414c003e81",
+      "priceRange": "$$",
+      "fullReview": "At first, it was hard to find the way to this hidden gem. It was tucked next to a pizza place, and you have to walk up some stairs, and it is a small door on the 2nd floor. I got seated pretty quickly since I got there at 5 pm, right when it opened.\n\nIt is an intimate experience as I was seated at the bar facing the sushi chefs, making each piece was a grace and perfection. I got the omakase, and it was only $55. The best pieces were the tuna and salmon. They both melted in my mouth, with the flavors treating my tongue with care. Omakases usually go for a more expensive price, so you have to go here to make the most out of your buck.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": ""
+    },
+    {
+      "id": 3,
+      "slug": "take-31",
+      "name": "Take 31",
+      "cuisine": "Korean",
+      "location": "Koreatown, NY",
+      "rating": 4.8,
+      "excerpt": "Korean Gastropub founded with the hopes of breaking what has become the standard of Korean restaurants.",
+      "image": "/objects/uploads/736f4436-57d3-4979-a182-41259349e2dc",
+      "priceRange": "$$",
+      "fullReview": "Near the heart of Koreatown, a laid-back Korean-chic dining experience. A perfect place to wind down. They take traditional Korean recipes and add a modern, street food-inspired twist.   I love the decor of the interior. Lego walls to the right, and the place was filled with people, adding to the casual environment. I reserved a table near the window, and it was quite spacious. A waitress took our order quickly, and I kid you not, the food came instantly. One second we ordered, and another second, the food was in front of us. \n\nI got the braised pork belly, my friends got the popcorn chicken and cod roe seafood udon. My pork belly was filled to the brim with pork and a sweet salad in the middle, sitting on top of cabbage. The pork is alright, I wish it had more flavor, as I was expecting a juicier kick. Fortunately, I tried my friend’s udon, and it was the best udon ever! It was very creamy, and every bite had a hint of shrimp. Every bite was made to perfection. I could eat that dish for an entree and a side. Alongside the popcorn chicken, which came a bit later. I can see why it took a bit more time because it came piping hot. The outside was crispy, and it held all of the flavors and juice inside perfectly. It was savory with a hint of spice. It was amazing, but I bet it would slap even harder with some ranch.  \n\nOverall, the vibe was like a breath of fresh air, the service was very quick, and the food had so many different flavors. I would come back again for the udon or to grab some casual drinks with my friends.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": ""
+    }
+  ],
+  "cuisines": [
+    {
+      "id": 1,
+      "name": "Korean",
+      "slug": "korean",
+      "description": "",
+      "image": "/objects/uploads/2c756684-c3ac-4195-ad33-fda1a23184d2"
+    },
+    {
+      "id": 2,
+      "name": "Italian",
+      "slug": "italian",
+      "description": "",
+      "image": "/objects/uploads/1ec8f3cc-8dc7-4647-afb9-114489f62c39"
+    },
+    {
+      "id": 3,
+      "name": "Japanese",
+      "slug": "japanese",
+      "description": "",
+      "image": "/objects/uploads/b6226de5-6cbd-4a9f-a4fc-67225eddf9c5"
+    },
+    {
+      "id": 4,
+      "name": "Filipino",
+      "slug": "filipino",
+      "description": "",
+      "image": "/objects/uploads/9ce74b60-a8fa-49b0-9b1e-8d4475847154"
+    },
+    {
+      "id": 5,
+      "name": "Thai",
+      "slug": "thai",
+      "description": "",
+      "image": "/objects/uploads/f21fec6e-8b75-4ed4-98cf-42ba27f9cc38"
+    },
+    {
+      "id": 6,
+      "name": "Steakhouses",
+      "slug": "steakhouses",
+      "description": "",
+      "image": "/objects/uploads/9796693f-57a6-46bf-ba39-3f171d1405a9"
+    },
+    {
+      "id": 7,
+      "name": "Chinese",
+      "slug": "chinese",
+      "description": "",
+      "image": "/objects/uploads/e55e1c5a-7bfd-4093-b83b-0cd627ed5a2b"
+    },
+    {
+      "id": 8,
+      "name": "Mediterranean",
+      "slug": "mediterranean",
+      "description": "",
+      "image": "/objects/uploads/92323feb-415b-45c8-bffb-74cfa9a33ce2"
+    },
+    {
+      "id": 9,
+      "name": "Mexican",
+      "slug": "mexican",
+      "description": "",
+      "image": "/objects/uploads/67599811-492f-40b1-8553-dcad7e6e537b"
+    },
+    {
+      "id": 10,
+      "name": "Indian",
+      "slug": "indian",
+      "description": "",
+      "image": "/objects/uploads/93ab7826-ed72-4bd2-a431-12adf4ff7254"
+    }
+  ],
+  "nycCategories": [
+    {
+      "id": 1,
+      "name": "Manhattan",
+      "slug": "manhattan",
+      "description": "",
+      "image": "/objects/uploads/60c2f5b4-44ca-421a-8fab-b8a3162f2f95"
+    },
+    {
+      "id": 2,
+      "name": "Brooklyn",
+      "slug": "brooklyn",
+      "description": "",
+      "image": "/objects/uploads/03e82930-3b9d-4ca5-9ce8-1078c8a00ea4"
+    },
+    {
+      "id": 5,
+      "name": "Queens",
+      "slug": "queens",
+      "description": "",
+      "image": "/objects/uploads/07259386-34de-43eb-803e-6e8b35d9b430"
+    }
+  ],
+  "topTenLists": [
+    {
+      "id": 3,
+      "name": "Top 10 Omakases",
+      "slug": "top-10-omakases",
+      "description": "",
+      "image": "/objects/uploads/b3a0e2c4-50b1-4ab9-8c41-fc2d3ca8bc30"
+    },
+    {
+      "id": 1,
+      "name": "Top Korean BBQs",
+      "slug": "top-korean-bbqs",
+      "description": "",
+      "image": ""
+    }
+  ],
+  "topTenListItems": [
+    {
+      "id": 2,
+      "listId": 1,
+      "reviewId": 1,
+      "rank": 1
+    },
+    {
+      "id": 3,
+      "listId": 3,
+      "reviewId": 2,
+      "rank": 1
+    }
+  ],
+  "socialSettings": [
+    {
+      "id": 1,
+      "platform": "instagram",
+      "username": "@bigbackliving",
+      "profileUrl": "https://www.instagram.com/bigbackliving/"
+    },
+    {
+      "id": 2,
+      "platform": "tiktok",
+      "username": "@bigbackliving",
+      "profileUrl": "https://www.tiktok.com/@bigbackliving"
+    }
+  ],
   "socialEmbeds": [],
-  "pageHeaders": [],
-  "reviewCuisineMap": {},
-  "reviewNycCategoryMap": {}
+  "pageHeaders": [
+    {
+      "id": 1,
+      "pageSlug": "home",
+      "title": null,
+      "subtitle": null,
+      "image": "/objects/uploads/951cd320-b6b6-4a82-ab56-76ac7b7dc6c1"
+    },
+    {
+      "id": 34,
+      "pageSlug": "about",
+      "title": null,
+      "subtitle": null,
+      "image": "/objects/uploads/e87e3f05-84e2-4f4c-977a-3a1dc8950499"
+    },
+    {
+      "id": 35,
+      "pageSlug": "reviews",
+      "title": null,
+      "subtitle": null,
+      "image": "/objects/uploads/3d4cfe4a-6741-4c17-ab19-91d4d6d99aba"
+    },
+    {
+      "id": 36,
+      "pageSlug": "cuisines",
+      "title": null,
+      "subtitle": null,
+      "image": "/objects/uploads/c8ce96ae-c764-4bf5-aa46-f0dea22697e7"
+    }
+  ],
+  "reviewCuisineMap": {
+    "1": [
+      1
+    ],
+    "2": [
+      3
+    ],
+    "3": [
+      1
+    ]
+  },
+  "reviewNycCategoryMap": {
+    "1": [
+      1
+    ],
+    "2": [
+      1
+    ],
+    "3": [
+      1
+    ]
+  }
 }
