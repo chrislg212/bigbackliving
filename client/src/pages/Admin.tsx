@@ -42,7 +42,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader, ContactSubmission, Region, LocationCategory } from "@shared/schema";
+import type { Review, Cuisine, TopTenList, SocialSettings, SocialEmbed, PageHeader, ContactSubmission, Region, LocationCategory } from "@shared/schema";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 
 const reviewFormSchema = z.object({
@@ -62,13 +62,6 @@ const reviewFormSchema = z.object({
 });
 
 const cuisineFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  slug: z.string().min(1, "Slug is required"),
-  description: z.string().optional(),
-  image: z.string().optional(),
-});
-
-const nycCategoryFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   slug: z.string().min(1, "Slug is required"),
   description: z.string().optional(),
@@ -97,7 +90,6 @@ const socialEmbedFormSchema = z.object({
 
 type ReviewFormData = z.infer<typeof reviewFormSchema>;
 type CuisineFormData = z.infer<typeof cuisineFormSchema>;
-type NycCategoryFormData = z.infer<typeof nycCategoryFormSchema>;
 type TopTenListFormData = z.infer<typeof topTenListFormSchema>;
 type SocialSettingsFormData = z.infer<typeof socialSettingsFormSchema>;
 type SocialEmbedFormData = z.infer<typeof socialEmbedFormSchema>;
@@ -122,10 +114,6 @@ function ReviewsTab() {
 
   const { data: cuisines = [] } = useQuery<Cuisine[]>({
     queryKey: ["/api/cuisines"],
-  });
-
-  const { data: nycCategories = [] } = useQuery<NycEatsCategory[]>({
-    queryKey: ["/api/nyc-eats"],
   });
 
   const form = useForm<ReviewFormData>({
@@ -550,7 +538,6 @@ function ReviewsTab() {
               key={review.id}
               review={review}
               cuisines={cuisines}
-              nycCategories={nycCategories}
               isExpanded={expandedReviewId === review.id}
               onToggleExpand={() => setExpandedReviewId(expandedReviewId === review.id ? null : review.id)}
               onEdit={() => handleOpenDialog(review)}
@@ -570,7 +557,6 @@ function ReviewsTab() {
 function ReviewCard({
   review,
   cuisines,
-  nycCategories,
   isExpanded,
   onToggleExpand,
   onEdit,
@@ -578,7 +564,6 @@ function ReviewCard({
 }: {
   review: Review;
   cuisines: Cuisine[];
-  nycCategories: NycEatsCategory[];
   isExpanded: boolean;
   onToggleExpand: () => void;
   onEdit: () => void;
@@ -587,10 +572,6 @@ function ReviewCard({
   const { toast } = useToast();
   const { data: reviewCuisines = [] } = useQuery<Cuisine[]>({
     queryKey: ["/api/reviews", review.id, "cuisines"],
-  });
-
-  const { data: reviewNycCategories = [] } = useQuery<NycEatsCategory[]>({
-    queryKey: ["/api/reviews", review.id, "nyc-categories"],
   });
 
   const updateCuisinesMutation = useMutation({
@@ -618,46 +599,13 @@ function ReviewCard({
     },
   });
 
-  const updateNycCategoriesMutation = useMutation({
-    mutationFn: async (categoryIds: number[]) => {
-      return apiRequest("PUT", `/api/reviews/${review.id}/nyc-categories`, { categoryIds });
-    },
-    onMutate: async (newCategoryIds) => {
-      await queryClient.cancelQueries({ queryKey: ["/api/reviews", review.id, "nyc-categories"] });
-      const previousCategories = queryClient.getQueryData<NycEatsCategory[]>(["/api/reviews", review.id, "nyc-categories"]);
-      const newCategories = nycCategories.filter(c => newCategoryIds.includes(c.id));
-      queryClient.setQueryData(["/api/reviews", review.id, "nyc-categories"], newCategories);
-      return { previousCategories };
-    },
-    onSuccess: () => {
-      toast({ title: "NYC categories updated" });
-    },
-    onError: (_error, _newIds, context) => {
-      if (context?.previousCategories) {
-        queryClient.setQueryData(["/api/reviews", review.id, "nyc-categories"], context.previousCategories);
-      }
-      toast({ title: "Failed to update NYC categories", variant: "destructive" });
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/reviews", review.id, "nyc-categories"] });
-    },
-  });
-
   const displayedCuisineIds = reviewCuisines.map(c => c.id);
-  const displayedNycCategoryIds = reviewNycCategories.map(c => c.id);
 
   const toggleCuisine = (cuisineId: number) => {
     const newIds = displayedCuisineIds.includes(cuisineId)
       ? displayedCuisineIds.filter(id => id !== cuisineId)
       : [...displayedCuisineIds, cuisineId];
     updateCuisinesMutation.mutate(newIds);
-  };
-
-  const toggleNycCategory = (categoryId: number) => {
-    const newIds = displayedNycCategoryIds.includes(categoryId)
-      ? displayedNycCategoryIds.filter(id => id !== categoryId)
-      : [...displayedNycCategoryIds, categoryId];
-    updateNycCategoriesMutation.mutate(newIds);
   };
 
   return (
@@ -739,26 +687,6 @@ function ReviewCard({
               </div>
             </div>
 
-            <div>
-              <Label className="text-sm font-medium mb-2 block">Assign to NYC Eats Categories</Label>
-              <div className="flex flex-wrap gap-2">
-                {nycCategories.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No NYC categories created yet</p>
-                ) : (
-                  nycCategories.map((category) => (
-                    <Badge
-                      key={category.id}
-                      variant={displayedNycCategoryIds.includes(category.id) ? "default" : "outline"}
-                      className="cursor-pointer"
-                      onClick={() => toggleNycCategory(category.id)}
-                      data-testid={`badge-nyc-${category.id}`}
-                    >
-                      {category.name}
-                    </Badge>
-                  ))
-                )}
-              </div>
-            </div>
           </div>
         )}
       </CardContent>
@@ -1054,304 +982,6 @@ function CuisinesTab() {
               <CardContent>
                 <p className="text-sm text-muted-foreground line-clamp-2">
                   {cuisine.description || "No description"}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function NycEatsTab() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<NycEatsCategory | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
-  const { toast } = useToast();
-
-  const { data: categories = [], isLoading } = useQuery<NycEatsCategory[]>({
-    queryKey: ["/api/nyc-eats"],
-  });
-
-  const form = useForm<NycCategoryFormData>({
-    resolver: zodResolver(nycCategoryFormSchema),
-    defaultValues: {
-      name: "",
-      slug: "",
-      description: "",
-      image: "",
-    },
-  });
-
-  const handleGetUploadParameters = async () => {
-    try {
-      const response = await fetch("/api/objects/upload", { method: "POST" });
-      if (!response.ok) throw new Error("Failed to get upload URL");
-      const { uploadURL } = await response.json();
-      return { method: "PUT" as const, url: uploadURL };
-    } catch {
-      toast({ title: "Failed to initialize upload", variant: "destructive" });
-      throw new Error("Upload initialization failed");
-    }
-  };
-
-  const handleUploadComplete = async (result: { successful: Array<{ uploadURL?: string }> }) => {
-    if (result.successful && result.successful.length > 0) {
-      const uploadedUrl = result.successful[0].uploadURL;
-      if (!uploadedUrl) {
-        toast({ title: "Failed to get upload URL", variant: "destructive" });
-        return;
-      }
-      try {
-        const response = await fetch("/api/public-images", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageUrl: uploadedUrl }),
-        });
-        if (!response.ok) {
-          toast({ title: "Failed to process image", variant: "destructive" });
-          return;
-        }
-        const { normalizedPath } = await response.json();
-        if (!normalizedPath) {
-          toast({ title: "Failed to get image path", variant: "destructive" });
-          return;
-        }
-        setUploadedImageUrl(normalizedPath);
-        form.setValue("image", normalizedPath);
-        toast({ title: "Cover image uploaded successfully" });
-      } catch {
-        toast({ title: "Failed to process image", variant: "destructive" });
-      }
-    }
-  };
-
-  const createMutation = useMutation({
-    mutationFn: async (data: NycCategoryFormData) => {
-      return apiRequest("POST", "/api/nyc-eats", data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/nyc-eats"] });
-      setIsDialogOpen(false);
-      form.reset();
-      toast({ title: "Category created successfully" });
-    },
-    onError: () => {
-      toast({ title: "Failed to create category", variant: "destructive" });
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: number; data: NycCategoryFormData }) => {
-      return apiRequest("PATCH", `/api/nyc-eats/${id}`, data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/nyc-eats"] });
-      setIsDialogOpen(false);
-      setEditingCategory(null);
-      form.reset();
-      toast({ title: "Category updated successfully" });
-    },
-    onError: () => {
-      toast({ title: "Failed to update category", variant: "destructive" });
-    },
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: async (id: number) => {
-      return apiRequest("DELETE", `/api/nyc-eats/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/nyc-eats"] });
-      toast({ title: "Category deleted successfully" });
-    },
-    onError: () => {
-      toast({ title: "Failed to delete category", variant: "destructive" });
-    },
-  });
-
-  const handleOpenDialog = (category?: NycEatsCategory) => {
-    if (category) {
-      setEditingCategory(category);
-      setUploadedImageUrl(category.image || "");
-      form.reset({
-        name: category.name,
-        slug: category.slug,
-        description: category.description || "",
-        image: category.image || "",
-      });
-    } else {
-      setEditingCategory(null);
-      setUploadedImageUrl("");
-      form.reset();
-    }
-    setIsDialogOpen(true);
-  };
-
-  const handleNameChange = (name: string) => {
-    form.setValue("name", name);
-    if (!editingCategory) {
-      form.setValue("slug", generateSlug(name));
-    }
-  };
-
-  const onSubmit = (data: NycCategoryFormData) => {
-    if (editingCategory) {
-      updateMutation.mutate({ id: editingCategory.id, data });
-    } else {
-      createMutation.mutate(data);
-    }
-  };
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="font-serif text-2xl font-semibold">NYC Eats Categories</h2>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => handleOpenDialog()} data-testid="button-add-nyc-category">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Category
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="font-serif text-2xl">
-                {editingCategory ? "Edit Category" : "Add New Category"}
-              </DialogTitle>
-            </DialogHeader>
-
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          onChange={(e) => handleNameChange(e.target.value)}
-                          placeholder="Best Pizza"
-                          data-testid="input-nyc-name"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="slug"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>URL Slug</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="best-pizza" data-testid="input-nyc-slug" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description (Optional)</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} placeholder="Describe this category..." data-testid="input-nyc-description" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="space-y-2">
-                  <Label>Cover Image (Optional)</Label>
-                  <div className="flex items-center gap-3">
-                    {uploadedImageUrl && (
-                      <div className="w-20 h-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                        <img
-                          src={uploadedImageUrl}
-                          alt="Cover preview"
-                          className="w-full h-full object-cover"
-                          data-testid="nyc-image-preview"
-                        />
-                      </div>
-                    )}
-                    <ObjectUploader
-                      maxFileSize={10485760}
-                      onGetUploadParameters={handleGetUploadParameters}
-                      onComplete={handleUploadComplete}
-                    >
-                      <Image className="w-4 h-4 mr-2" />
-                      {uploadedImageUrl ? "Change Cover" : "Upload Cover"}
-                    </ObjectUploader>
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3">
-                  <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
-                    {(createMutation.isPending || updateMutation.isPending) && (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    )}
-                    {editingCategory ? "Save Changes" : "Create Category"}
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
-      ) : categories.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground mb-4">No NYC categories yet. Add your first category!</p>
-            <Button onClick={() => handleOpenDialog()}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Category
-            </Button>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {categories.map((category) => (
-            <Card key={category.id} data-testid={`card-nyc-${category.id}`}>
-              <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
-                <CardTitle className="font-serif text-lg">{category.name}</CardTitle>
-                <div className="flex items-center gap-1">
-                  <Button size="icon" variant="ghost" onClick={() => handleOpenDialog(category)}>
-                    <Pencil className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    onClick={() => {
-                      if (confirm("Are you sure you want to delete this category?")) {
-                        deleteMutation.mutate(category.id);
-                      }
-                    }}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {category.description || "No description"}
                 </p>
               </CardContent>
             </Card>
@@ -2271,7 +1901,6 @@ const PAGE_CONFIGS = [
   { slug: "about", name: "About" },
   { slug: "content", name: "Content" },
   { slug: "reviews", name: "Reviews" },
-  { slug: "nyc-eats", name: "NYC Eats" },
   { slug: "cuisines", name: "Cuisines" },
   { slug: "top-10", name: "Top 10 Lists" },
   { slug: "locations", name: "Locations" },
@@ -2932,7 +2561,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="reviews" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="reviews" data-testid="tab-reviews">
               <Star className="w-4 h-4 mr-2" />
               Reviews
@@ -2940,10 +2569,6 @@ export default function Admin() {
             <TabsTrigger value="cuisines" data-testid="tab-cuisines">
               <Utensils className="w-4 h-4 mr-2" />
               Cuisines
-            </TabsTrigger>
-            <TabsTrigger value="nyc-eats" data-testid="tab-nyc-eats">
-              <MapPin className="w-4 h-4 mr-2" />
-              NYC Eats
             </TabsTrigger>
             <TabsTrigger value="top-ten" data-testid="tab-top-ten">
               <List className="w-4 h-4 mr-2" />
@@ -2969,10 +2594,6 @@ export default function Admin() {
 
           <TabsContent value="cuisines">
             <CuisinesTab />
-          </TabsContent>
-
-          <TabsContent value="nyc-eats">
-            <NycEatsTab />
           </TabsContent>
 
           <TabsContent value="top-ten">
