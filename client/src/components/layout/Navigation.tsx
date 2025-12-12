@@ -74,7 +74,7 @@ export default function Navigation() {
             <Link href="/" data-testid="logo-link">
               <span className="font-serif md:text-3xl text-foreground tracking-tight cursor-pointer hover:text-primary transition-colors duration-300 text-[27px] font-normal">bigbackliving</span>
             </Link>
-            <div className="hidden md:flex items-center gap-2">
+            <div className="flex items-center gap-2">
               {socialSettings.map((social) => {
                 const Icon = platformIcons[social.platform.toLowerCase()];
                 if (!Icon) return null;
