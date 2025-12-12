@@ -79,19 +79,12 @@ export default function Social() {
 
   return (
     <div className="min-h-screen" data-testid="social-page">
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || foodPhotographyImage})` }}
         />
         <div className="absolute inset-0 bg-black/60" />
-        
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary via-primary to-transparent" />
-          <div className="absolute top-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary via-primary to-transparent" />
-          <div className="absolute bottom-1/3 left-1/2 w-px h-24 bg-gradient-to-b from-transparent via-primary/50 via-primary/50 to-transparent" />
-          <div className="absolute top-1/2 right-1/4 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 via-primary/50 to-transparent" />
-        </div>
         
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <AnimatedSection animation="fade-in-up">
