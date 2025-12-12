@@ -109,7 +109,7 @@ export default function ReviewDetail() {
             {review.aboutBusiness && (
               <div data-testid="about-business">
                 <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
-                  About the Business
+                  About the Restaurant
                 </h2>
                 <p className="font-sans text-base md:text-lg text-foreground leading-relaxed">
                   {review.aboutBusiness}

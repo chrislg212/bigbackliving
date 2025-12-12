@@ -562,7 +562,7 @@ function ReviewsTab() {
                   name="aboutBusiness"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>About the Business (Optional)</FormLabel>
+                      <FormLabel>About the Restaurant (Optional)</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
