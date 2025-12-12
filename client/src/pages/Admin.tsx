@@ -62,6 +62,7 @@ const reviewFormSchema = z.object({
   address: z.string().optional(),
   website: z.string().optional(),
   vibes: z.array(z.string()).optional(),
+  aboutBusiness: z.string().optional(),
 });
 
 const cuisineFormSchema = z.object({
@@ -138,6 +139,7 @@ function ReviewsTab() {
       address: "",
       website: "",
       vibes: [],
+      aboutBusiness: "",
     },
   });
 
@@ -208,6 +210,7 @@ function ReviewsTab() {
         address: review.address || "",
         website: review.website || "",
         vibes: review.vibes || [],
+        aboutBusiness: review.aboutBusiness || "",
       });
       setUploadedImageUrl(review.image || "");
     } else {
@@ -549,6 +552,25 @@ function ReviewsTab() {
                         />
                       </FormControl>
                       <p className="text-xs text-muted-foreground">Separate vibes with commas</p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aboutBusiness"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>About the Business (Optional)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="Brief description about the business, its history, or what makes it special..."
+                          rows={3}
+                          data-testid="input-about-business"
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
