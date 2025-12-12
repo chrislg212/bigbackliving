@@ -15,7 +15,9 @@
       "atmosphere": "",
       "mustTry": [],
       "visitDate": "",
-      "galleryImages": null
+      "galleryImages": null,
+      "address": "16 W 22nd St, New York, NY 10010",
+      "website": "https://www.cotekoreansteakhouse.com/nycdinnermenu"
     },
     {
       "id": 2,
@@ -32,7 +34,9 @@
       "atmosphere": "",
       "mustTry": [],
       "visitDate": "",
-      "galleryImages": null
+      "galleryImages": null,
+      "address": null,
+      "website": null
     },
     {
       "id": 3,
@@ -66,7 +70,9 @@
           "url": "/images/497076fd-a9f1-4a36-8610-f9666f152521.jpg",
           "caption": "Braised Pork Belly"
         }
-      ]
+      ],
+      "address": null,
+      "website": null
     }
   ],
   "cuisines": [

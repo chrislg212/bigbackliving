@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import useEmblaCarousel from "embla-carousel-react";
 import type { GalleryImage } from "@shared/schema";
 
 interface PhotoGalleryProps {
@@ -8,9 +9,45 @@ interface PhotoGalleryProps {
   title?: string;
 }
 
-export default function PhotoGallery({ images, title = "Photo Gallery" }: PhotoGalleryProps) {
+export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    slidesToScroll: 1,
+  });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
+    [emblaApi]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
   if (!images || images.length === 0) {
     return null;
@@ -51,30 +88,80 @@ export default function PhotoGallery({ images, title = "Photo Gallery" }: PhotoG
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {images.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => openLightbox(index)}
-              className="group relative aspect-square rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-              data-testid={`gallery-image-${index}`}
-            >
-              <img
-                src={image.url}
-                alt={image.caption || `Gallery photo ${index + 1}`}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-              {image.caption && (
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="font-sans text-xs text-white line-clamp-2">
-                    {image.caption}
-                  </p>
+        <div className="relative">
+          <div className="overflow-hidden rounded-md" ref={emblaRef}>
+            <div className="flex gap-4">
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className="flex-[0_0_80%] md:flex-[0_0_45%] lg:flex-[0_0_32%] min-w-0"
+                >
+                  <button
+                    onClick={() => openLightbox(index)}
+                    className="group relative aspect-[4/3] w-full rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    data-testid={`gallery-image-${index}`}
+                  >
+                    <img
+                      src={image.url}
+                      alt={image.caption || `Gallery photo ${index + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                    {image.caption && (
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p className="font-sans text-xs text-white line-clamp-2">
+                          {image.caption}
+                        </p>
+                      </div>
+                    )}
+                  </button>
                 </div>
-              )}
-            </button>
-          ))}
+              ))}
+            </div>
+          </div>
+
+          {images.length > 1 && (
+            <>
+              <Button
+                variant="outline"
+                size="icon"
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-primary/20 hover:bg-background z-10"
+                onClick={scrollPrev}
+                data-testid="carousel-prev"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </Button>
+
+              <Button
+                variant="outline"
+                size="icon"
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-primary/20 hover:bg-background z-10"
+                onClick={scrollNext}
+                data-testid="carousel-next"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </Button>
+            </>
+          )}
         </div>
+
+        {images.length > 1 && (
+          <div className="flex justify-center gap-2" data-testid="carousel-dots">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollTo(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === selectedIndex
+                    ? "bg-primary"
+                    : "bg-primary/30 hover:bg-primary/50"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+                data-testid={`carousel-dot-${index}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {lightboxOpen && (
