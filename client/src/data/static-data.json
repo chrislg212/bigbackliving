@@ -267,21 +267,21 @@
       "name": "New York City",
       "slug": "nyc",
       "description": "The culinary capital of America - from iconic delis to Michelin-starred restaurants",
-      "image": null
+      "image": "/images/75b304f8-6c80-4b61-ac1d-3eda0453925e.jpg"
     },
     {
       "id": 2,
       "name": "DMV Area",
       "slug": "dmv",
       "description": "The best dining spots in DC, Maryland, and Virginia",
-      "image": null
+      "image": "/images/602cb014-7a22-4a58-b268-8c14eeb7b0ea.jpg"
     },
     {
       "id": 3,
       "name": "Europe",
       "slug": "europe",
       "description": "Culinary adventures across the European continent",
-      "image": null
+      "image": "/images/7fdd0de1-f843-4a45-9a7f-8220eafe9070.jpg"
     }
   ],
   "locationCategories": [],
