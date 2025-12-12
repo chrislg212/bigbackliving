@@ -51,24 +51,26 @@ export default function ReviewDetail() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 md:pb-12 w-full">
-          <Link href="/reviews">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-white/80 hover:text-white hover:bg-white/10 mb-4"
-              data-testid="back-button"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              All Reviews
-            </Button>
-          </Link>
+          <div className="flex items-center gap-3 mb-4">
+            <Link href="/reviews">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white/80 hover:text-white hover:bg-white/10"
+                data-testid="back-button"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                All Reviews
+              </Button>
+            </Link>
 
-          <Badge
-            variant="secondary"
-            className="bg-primary/90 text-primary-foreground border-0 mb-3"
-          >
-            {review.cuisine}
-          </Badge>
+            <Badge
+              variant="secondary"
+              className="bg-primary/90 text-primary-foreground border-0"
+            >
+              {review.cuisine}
+            </Badge>
+          </div>
 
           <h1
             className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-4"
