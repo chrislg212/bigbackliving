@@ -1,5 +1,5 @@
 import { useParams, Link } from "wouter";
-import { ArrowLeft, MapPin, DollarSign, Clock, Utensils } from "lucide-react";
+import { ArrowLeft, MapPin, DollarSign, Clock, Utensils, Globe, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -153,6 +153,46 @@ export default function ReviewDetail() {
                         <div className="font-sans text-sm text-foreground">
                           {review.visitDate}
                         </div>
+                      </div>
+                    </div>
+                  )}
+                  {review.address && (
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-4 h-4 text-primary mt-1" />
+                      <div>
+                        <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                          Address
+                        </div>
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(review.address)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-sans text-sm text-foreground hover:text-primary transition-colors flex items-center gap-1"
+                          data-testid="link-address"
+                        >
+                          {review.address}
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  {review.website && (
+                    <div className="flex items-start gap-3">
+                      <Globe className="w-4 h-4 text-primary mt-1" />
+                      <div>
+                        <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                          Website
+                        </div>
+                        <a
+                          href={review.website.startsWith('http') ? review.website : `https://${review.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-sans text-sm text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+                          data-testid="link-website"
+                        >
+                          Visit website
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
                       </div>
                     </div>
                   )}
