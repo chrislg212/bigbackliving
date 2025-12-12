@@ -1,8 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import type { GalleryImage } from "@shared/schema";
 
 interface PhotoGalleryProps {
@@ -13,31 +11,17 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      slidesToScroll: 1,
-      duration: 30,
-    },
-    [Autoplay({ delay: 0, stopOnInteraction: false, stopOnMouseEnter: true })]
-  );
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  const [isPaused, setIsPaused] = useState(false);
 
   if (!images || images.length === 0) {
     return null;
   }
 
+  const duplicatedImages = [...images, ...images, ...images];
+
   const openLightbox = (index: number) => {
-    setCurrentIndex(index);
+    const actualIndex = index % images.length;
+    setCurrentIndex(actualIndex);
     setLightboxOpen(true);
     document.body.style.overflow = "hidden";
   };
@@ -71,63 +55,78 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
           </h2>
         </div>
 
-        <div className="relative group">
-          <div className="overflow-hidden rounded-md" ref={emblaRef}>
-            <div className="flex">
-              {images.map((image, index) => (
-                <div
-                  key={index}
-                  className="flex-[0_0_80%] md:flex-[0_0_45%] lg:flex-[0_0_32%] min-w-0 pl-4 first:pl-0"
+        <div 
+          className="relative overflow-hidden rounded-md"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div 
+            className="flex gap-4"
+            style={{
+              animation: `scroll ${images.length * 5}s linear infinite`,
+              animationPlayState: isPaused ? 'paused' : 'running',
+            }}
+          >
+            {duplicatedImages.map((image, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-[280px] md:w-[320px] lg:w-[360px]"
+              >
+                <button
+                  onClick={() => openLightbox(index)}
+                  className="group relative aspect-[4/3] w-full rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  data-testid={`gallery-image-${index}`}
                 >
-                  <button
-                    onClick={() => openLightbox(index)}
-                    className="group/img relative aspect-[4/3] w-full rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    data-testid={`gallery-image-${index}`}
-                  >
-                    <img
-                      src={image.url}
-                      alt={image.caption || `Gallery photo ${index + 1}`}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/20 transition-colors duration-300" />
-                    {image.caption && (
-                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300">
-                        <p className="font-sans text-xs text-white line-clamp-2">
-                          {image.caption}
-                        </p>
-                      </div>
-                    )}
-                  </button>
-                </div>
-              ))}
-            </div>
+                  <img
+                    src={image.url}
+                    alt={image.caption || `Gallery photo ${(index % images.length) + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                  {image.caption && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="font-sans text-xs text-white line-clamp-2">
+                        {image.caption}
+                      </p>
+                    </div>
+                  )}
+                </button>
+              </div>
+            ))}
           </div>
-
-          {images.length > 1 && (
-            <>
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm border-primary/20 hover:bg-background shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                onClick={scrollPrev}
-                data-testid="carousel-prev"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm border-primary/20 hover:bg-background shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                onClick={scrollNext}
-                data-testid="carousel-next"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-            </>
-          )}
         </div>
       </div>
+
+      <style>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-${images.length} * (280px + 1rem)));
+          }
+        }
+        @media (min-width: 768px) {
+          @keyframes scroll {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(calc(-${images.length} * (320px + 1rem)));
+            }
+          }
+        }
+        @media (min-width: 1024px) {
+          @keyframes scroll {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(calc(-${images.length} * (360px + 1rem)));
+            }
+          }
+        }
+      `}</style>
 
       {lightboxOpen && (
         <div
