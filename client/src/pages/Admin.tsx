@@ -61,6 +61,7 @@ const reviewFormSchema = z.object({
   mustTry: z.array(z.string()).optional(),
   address: z.string().optional(),
   website: z.string().optional(),
+  vibes: z.array(z.string()).optional(),
 });
 
 const cuisineFormSchema = z.object({
@@ -136,6 +137,7 @@ function ReviewsTab() {
       mustTry: [],
       address: "",
       website: "",
+      vibes: [],
     },
   });
 
@@ -205,6 +207,7 @@ function ReviewsTab() {
         mustTry: review.mustTry || [],
         address: review.address || "",
         website: review.website || "",
+        vibes: review.vibes || [],
       });
       setUploadedImageUrl(review.image || "");
     } else {
@@ -524,6 +527,32 @@ function ReviewsTab() {
                     )}
                   />
                 </div>
+
+                <FormField
+                  control={form.control}
+                  name="vibes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Vibes / Tags (Optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          value={field.value?.join(", ") || ""}
+                          onChange={(e) => {
+                            const values = e.target.value
+                              .split(",")
+                              .map((v) => v.trim())
+                              .filter((v) => v.length > 0);
+                            field.onChange(values);
+                          }}
+                          placeholder="Date night, Trendy, Good for groups, Hidden gem"
+                          data-testid="input-vibes"
+                        />
+                      </FormControl>
+                      <p className="text-xs text-muted-foreground">Separate vibes with commas</p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <div className="flex justify-end gap-3">
                   <Button
