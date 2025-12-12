@@ -79,7 +79,7 @@ export default function Social() {
 
   return (
     <div className="min-h-screen" data-testid="social-page">
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[55vh] md:h-[65vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || foodPhotographyImage})` }}
