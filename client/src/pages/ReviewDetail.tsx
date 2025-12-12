@@ -89,7 +89,7 @@ export default function ReviewDetail() {
       </section>
 
       {review.vibes && review.vibes.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-3" data-testid="vibes-section">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6" data-testid="vibes-section">
           <div className="flex flex-wrap gap-2">
             {review.vibes.map((vibe) => (
               <Badge
@@ -103,7 +103,7 @@ export default function ReviewDetail() {
         </section>
       )}
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 md:pt-8 md:pb-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 md:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-3 space-y-8">
             {review.aboutBusiness && (
