@@ -2024,7 +2024,7 @@ const PAGE_CONFIGS = [
   { slug: "social", name: "Socials" },
   { slug: "reviews", name: "Reviews" },
   { slug: "cuisines", name: "Cuisines" },
-  { slug: "top-10", name: "Featured Guides" },
+  { slug: "featured-guides", name: "Featured Guides" },
   { slug: "locations", name: "Locations" },
 ];
 
