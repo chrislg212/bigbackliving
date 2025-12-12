@@ -42,6 +42,7 @@ export const reviews = pgTable("reviews", {
   galleryImages: jsonb("gallery_images").$type<GalleryImage[]>(),
   address: text("address"),
   website: text("website"),
+  aboutBusiness: text("about_business"),
 });
 
 export const insertReviewSchema = createInsertSchema(reviews).omit({
