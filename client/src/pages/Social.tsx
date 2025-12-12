@@ -84,7 +84,7 @@ export default function Social() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || foodPhotographyImage})` }}
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/80" />
         
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <AnimatedSection animation="fade-in-up">

@@ -46,7 +46,7 @@ export default function Locations() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || nycImage})` }}
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/80" />
         
         <div className="absolute top-8 left-8 opacity-30 hidden md:block">
           <Compass className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />

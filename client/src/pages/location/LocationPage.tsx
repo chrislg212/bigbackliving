@@ -81,7 +81,7 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || region?.image || nycBgImage})` }}
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/80" />
         
         <div className="absolute top-8 left-8 opacity-30 hidden md:block">
           <MapPin className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
