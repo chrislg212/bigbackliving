@@ -89,8 +89,8 @@ export default function ReviewDetail() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="lg:col-span-3">
             <article
               className="font-sans text-foreground leading-relaxed space-y-6"
               data-testid="review-content"
@@ -103,7 +103,7 @@ export default function ReviewDetail() {
             </article>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="lg:col-span-2 space-y-6">
             <Card className="border-0 shadow-sm">
               <CardContent className="p-6">
                 <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
