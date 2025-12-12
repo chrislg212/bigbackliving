@@ -79,7 +79,7 @@ export default function Cuisines() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      <section className="relative mt-8 md:-mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
+      <section className="relative mt-8 md:mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
         {cuisines.length === 0 ? (
           <div className="text-center py-12 bg-card rounded-lg">
             <Globe className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
