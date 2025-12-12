@@ -76,68 +76,72 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
 
   return (
     <div className="min-h-screen" data-testid={`location-page-${regionSlug}`}>
-      <section className="border-b border-primary/10 overflow-hidden">
-        <div className="grid md:grid-cols-2">
-          <div className="relative h-56 md:h-auto md:min-h-[400px] order-1 md:order-2">
-            <img 
-              src={customImage || region?.image || nycBgImage} 
-              alt={`${config.title} food scene`} 
-              className="absolute inset-0 w-full h-full object-cover animate-fade-in-up"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
-          </div>
-          
-          <div className="bg-background relative order-2 md:order-1">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl" />
+      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${customImage || region?.image || nycBgImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-background" />
+        
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
+          <div className="absolute top-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <div className="absolute bottom-1/3 left-1/2 w-px h-24 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+          <div className="absolute top-1/2 right-1/4 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        </div>
+        
+        <div className="absolute top-8 left-8 opacity-30 hidden md:block">
+          <MapPin className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
+        </div>
+        <div className="absolute bottom-12 right-12 opacity-20 hidden md:block">
+          <Navigation className="w-16 h-16 text-white" />
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <AnimatedSection animation="fade-in-up">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary" />
+              <Sparkles className="w-5 h-5 text-primary" />
+              <span className="font-sans text-sm tracking-[0.3em] uppercase text-white/80">
+                Local Favorites
+              </span>
+              <Sparkles className="w-5 h-5 text-primary" />
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary" />
             </div>
             
-            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-12 md:py-20">
-              <AnimatedSection animation="fade-in-up">
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-                  {config.title}
-                  <br />
-                  <span className="text-primary">{config.accentText}</span>
-                </h1>
-                
-                <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
-                
-                <p className="font-sans text-base md:text-lg text-muted-foreground mb-8">
-                  {config.description}
-                </p>
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-2">
+              {config.title}
+            </h1>
+            <span className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-primary">
+              {config.accentText}
+            </span>
+            
+            <p className="font-sans text-lg md:text-xl text-white/70 max-w-2xl mx-auto mt-6">
+              {config.description}
+            </p>
 
-                {categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {categories.map((category, index) => (
-                      <Link key={category.id} href={`/location/${regionSlug}/${category.slug}`}>
-                        <Badge
-                          variant="outline"
-                          className={`px-3 py-1.5 text-sm font-sans cursor-pointer opacity-0 animate-fade-in-up stagger-${index + 1}`}
-                        >
-                          <MapPin className="w-3 h-3 mr-1.5" />
-                          <span className="font-medium">{category.name}</span>
-                        </Badge>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="transition-all duration-300"
-                  data-testid="explore-region-btn"
-                >
-                  <Navigation className="w-4 h-4 mr-2" />
-                  Explore {config.title}
-                </Button>
-              </AnimatedSection>
-            </div>
-          </div>
+            {categories.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2 mt-8">
+                {categories.map((category) => (
+                  <Link key={category.id} href={`/location/${regionSlug}/${category.slug}`}>
+                    <Badge
+                      variant="outline"
+                      className="px-3 py-1.5 text-sm font-sans cursor-pointer bg-white/10 border-white/20 text-white hover:bg-white/20"
+                    >
+                      <MapPin className="w-3 h-3 mr-1.5" />
+                      <span className="font-medium">{category.name}</span>
+                    </Badge>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </AnimatedSection>
         </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-20">
+      <section className="relative -mt-16 z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pb-16 md:pb-24">
         {featuredReviews.length > 0 && (
           <>
             <AnimatedSection animation="fade-in-up" className="mb-8">

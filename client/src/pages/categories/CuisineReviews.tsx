@@ -1,8 +1,7 @@
 import { useParams, Link } from "wouter";
 import ReviewCard from "@/components/ReviewCard";
-import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
-import { ArrowLeft, Star, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, Star, ArrowRight, Sparkles, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import internationalCuisineImage from "@assets/stock_images/international_cuisin_869e3bef.jpg";
 import { getCuisineWithReviews } from "@/lib/staticData";
@@ -34,27 +33,62 @@ export default function CuisineReviews() {
 
   return (
     <div className="min-h-screen" data-testid="cuisine-reviews-page">
-      <PageHeader
-        title={`${cuisineName} Reviews`}
-        subtitle={cuisine.description || "Discover the best in authentic and innovative cooking"}
-        backgroundImage={cuisine.image || internationalCuisineImage}
-      />
+      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${cuisine.image || internationalCuisineImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-background" />
+        
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
+          <div className="absolute top-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <div className="absolute bottom-1/3 left-1/2 w-px h-24 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+          <div className="absolute top-1/2 right-1/4 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        </div>
+        
+        <div className="absolute top-8 left-8 opacity-30 hidden md:block">
+          <Utensils className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <AnimatedSection animation="fade-in-up">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary" />
+              <Sparkles className="w-5 h-5 text-primary" />
+              <span className="font-sans text-sm tracking-[0.3em] uppercase text-white/80">
+                Cuisine Collection
+              </span>
+              <Sparkles className="w-5 h-5 text-primary" />
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary" />
+            </div>
+            
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-6">
+              {cuisineName}
+            </h1>
+            
+            <p className="font-sans text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
+              {cuisine.description || `Discover the best in authentic and innovative ${cuisineName.toLowerCase()} cooking`}
+            </p>
+          </AnimatedSection>
+        </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <section className="relative -mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
         <Link href="/categories/cuisines">
           <Button
             variant="ghost"
             size="sm"
-            className="mb-6 -ml-2 text-muted-foreground"
+            className="mb-6 text-muted-foreground"
             data-testid="back-to-cuisines"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             All Cuisines
           </Button>
         </Link>
-      </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {reviews.length > 0 ? (
           <>
             <AnimatedSection animation="fade-in-up" className="mb-8">

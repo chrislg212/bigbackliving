@@ -21,63 +21,74 @@ export default function CollegeBudget() {
 
   return (
     <div className="min-h-screen" data-testid="college-budget-page">
-      <section className="border-b border-primary/10 overflow-hidden">
-        <div className="grid md:grid-cols-2">
-          <div className="relative h-48 md:h-auto md:min-h-[380px] order-1 md:order-2">
-            <img 
-              src={customImage || budgetFoodImage} 
-              alt="Budget friendly food" 
-              className="absolute inset-0 w-full h-full object-cover animate-fade-in-up"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
-          </div>
-          
-          <div className="bg-background relative order-2 md:order-1">
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
+      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${customImage || budgetFoodImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-background" />
+        
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
+          <div className="absolute top-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <div className="absolute bottom-1/3 left-1/2 w-px h-24 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+          <div className="absolute top-1/2 right-1/4 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        </div>
+        
+        <div className="absolute top-8 left-8 opacity-30 hidden md:block">
+          <DollarSign className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
+        </div>
+        <div className="absolute bottom-12 right-12 opacity-20 hidden md:block">
+          <Utensils className="w-16 h-16 text-white" />
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <AnimatedSection animation="fade-in-up">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary" />
+              <Sparkles className="w-5 h-5 text-primary" />
+              <span className="font-sans text-sm tracking-[0.3em] uppercase text-white/80">
+                Under $20
+              </span>
+              <Sparkles className="w-5 h-5 text-primary" />
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary" />
             </div>
             
-            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-12 md:py-16">
-              <AnimatedSection animation="fade-in-up">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground mb-6 animate-pulse-gold">
-                  <DollarSign className="w-4 h-4" />
-                  <span className="font-sans text-sm font-bold">Under $20</span>
-                </div>
-                
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-                  College Budget
-                  <br />
-                  <span className="text-primary">Eats</span>
-                </h1>
-                
-                <p className="font-sans text-lg text-muted-foreground mb-8">
-                  Proof that amazing food doesn't require a trust fund. Every restaurant here serves exceptional meals for under $20.
-                </p>
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-2">
+              College Budget
+            </h1>
+            <span className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-primary">
+              Eats
+            </span>
+            
+            <p className="font-sans text-lg md:text-xl text-white/70 max-w-2xl mx-auto mt-6">
+              Proof that amazing food doesn't require a trust fund. Every restaurant here serves exceptional meals for under $20.
+            </p>
 
-                <div className="grid grid-cols-3 gap-3">
-                  {priceHighlights.map((item, index) => (
-                    <AnimatedSection 
-                      key={item.label} 
-                      animation="scale-in" 
-                      delay={200 + index * 100}
-                    >
-                      <Card className="border-0 bg-card shadow-sm">
-                        <CardContent className="p-3 text-center">
-                          <item.icon className="w-4 h-4 text-primary mx-auto mb-1" />
-                          <div className="font-serif text-xl font-bold text-foreground">{item.value}</div>
-                          <div className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{item.label}</div>
-                        </CardContent>
-                      </Card>
-                    </AnimatedSection>
-                  ))}
-                </div>
-              </AnimatedSection>
+            <div className="grid grid-cols-3 gap-3 mt-8 max-w-md mx-auto">
+              {priceHighlights.map((item, index) => (
+                <AnimatedSection 
+                  key={item.label} 
+                  animation="scale-in" 
+                  delay={200 + index * 100}
+                >
+                  <Card className="border-0 bg-white/10 backdrop-blur-sm shadow-sm">
+                    <CardContent className="p-3 text-center">
+                      <item.icon className="w-4 h-4 text-primary mx-auto mb-1" />
+                      <div className="font-serif text-xl font-bold text-white">{item.value}</div>
+                      <div className="font-sans text-xs text-white/60 uppercase tracking-wider">{item.label}</div>
+                    </CardContent>
+                  </Card>
+                </AnimatedSection>
+              ))}
             </div>
-          </div>
+          </AnimatedSection>
         </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+      <section className="relative -mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
         <AnimatedSection animation="fade-in-up" className="mb-10">
           <div className="flex items-center gap-3 mb-2">
             <Sparkles className="w-5 h-5 text-primary" />
