@@ -38,7 +38,7 @@ export default function CuisineReviews() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${cuisine.image || internationalCuisineImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/95 via-black/90 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/95" />
         
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
