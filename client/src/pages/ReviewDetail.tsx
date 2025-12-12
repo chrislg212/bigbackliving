@@ -88,6 +88,22 @@ export default function ReviewDetail() {
         </div>
       </section>
 
+      {review.vibes && review.vibes.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6" data-testid="vibes-section">
+          <div className="flex flex-wrap gap-2">
+            {review.vibes.map((vibe) => (
+              <Badge
+                key={vibe}
+                variant="outline"
+                className="font-sans text-sm px-3 py-1.5 border-primary/30 text-foreground"
+              >
+                {vibe}
+              </Badge>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-3 space-y-8">
@@ -114,94 +130,94 @@ export default function ReviewDetail() {
           </div>
 
           <aside className="lg:col-span-2 space-y-6">
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6">
-                <h3 className="font-serif text-lg font-semibold text-foreground mb-4">
+            <Card className="border-0 shadow-md">
+              <CardContent className="p-8">
+                <h3 className="font-serif text-xl font-semibold text-foreground mb-6">
                   Quick Info
                 </h3>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Utensils className="w-4 h-4 text-primary mt-1" />
+                <div className="space-y-5">
+                  <div className="flex items-start gap-4">
+                    <Utensils className="w-5 h-5 text-primary mt-1" />
                     <div>
-                      <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                      <div className="font-sans text-sm uppercase tracking-wider text-muted-foreground mb-1">
                         Cuisine
                       </div>
-                      <div className="font-sans text-sm text-foreground">
+                      <div className="font-sans text-base text-foreground">
                         {review.cuisine}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-4 h-4 text-primary mt-1" />
+                  <div className="flex items-start gap-4">
+                    <MapPin className="w-5 h-5 text-primary mt-1" />
                     <div>
-                      <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                      <div className="font-sans text-sm uppercase tracking-wider text-muted-foreground mb-1">
                         Location
                       </div>
-                      <div className="font-sans text-sm text-foreground">
+                      <div className="font-sans text-base text-foreground">
                         {review.location}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <DollarSign className="w-4 h-4 text-primary mt-1" />
+                  <div className="flex items-start gap-4">
+                    <DollarSign className="w-5 h-5 text-primary mt-1" />
                     <div>
-                      <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                      <div className="font-sans text-sm uppercase tracking-wider text-muted-foreground mb-1">
                         Price Range
                       </div>
-                      <div className="font-sans text-sm text-foreground">
+                      <div className="font-sans text-base text-foreground">
                         {review.priceRange}
                       </div>
                     </div>
                   </div>
                   {review.visitDate && (
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-4 h-4 text-primary mt-1" />
+                    <div className="flex items-start gap-4">
+                      <Clock className="w-5 h-5 text-primary mt-1" />
                       <div>
-                        <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                        <div className="font-sans text-sm uppercase tracking-wider text-muted-foreground mb-1">
                           Visited
                         </div>
-                        <div className="font-sans text-sm text-foreground">
+                        <div className="font-sans text-base text-foreground">
                           {review.visitDate}
                         </div>
                       </div>
                     </div>
                   )}
                   {review.address && (
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-4 h-4 text-primary mt-1" />
+                    <div className="flex items-start gap-4">
+                      <MapPin className="w-5 h-5 text-primary mt-1" />
                       <div>
-                        <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                        <div className="font-sans text-sm uppercase tracking-wider text-muted-foreground mb-1">
                           Address
                         </div>
                         <a
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(review.address)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-sans text-sm text-foreground hover:text-primary transition-colors flex items-center gap-1"
+                          className="font-sans text-base text-foreground hover:text-primary transition-colors flex items-center gap-1"
                           data-testid="link-address"
                         >
                           {review.address}
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-4 h-4" />
                         </a>
                       </div>
                     </div>
                   )}
                   {review.website && (
-                    <div className="flex items-start gap-3">
-                      <Globe className="w-4 h-4 text-primary mt-1" />
+                    <div className="flex items-start gap-4">
+                      <Globe className="w-5 h-5 text-primary mt-1" />
                       <div>
-                        <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                        <div className="font-sans text-sm uppercase tracking-wider text-muted-foreground mb-1">
                           Website
                         </div>
                         <a
                           href={review.website.startsWith('http') ? review.website : `https://${review.website}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-sans text-sm text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+                          className="font-sans text-base text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
                           data-testid="link-website"
                         >
                           Visit website
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-4 h-4" />
                         </a>
                       </div>
                     </div>

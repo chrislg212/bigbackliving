@@ -43,6 +43,7 @@ export const reviews = pgTable("reviews", {
   address: text("address"),
   website: text("website"),
   aboutBusiness: text("about_business"),
+  vibes: text("vibes").array(),
 });
 
 export const insertReviewSchema = createInsertSchema(reviews).omit({

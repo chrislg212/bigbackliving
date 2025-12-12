@@ -17,7 +17,8 @@
       "visitDate": "",
       "galleryImages": null,
       "address": "876 6th Ave 2nd Floor, New York, NY 10001",
-      "website": "https://www.sendo.nyc/menu"
+      "website": "https://www.sendo.nyc/menu",
+      "aboutBusiness": null
     },
     {
       "id": 1,
@@ -31,12 +32,13 @@
       "priceRange": "$$$$",
       "fullReview": "Cote brings together high-end Korean BBQ with a lively, youthful energy that makes every visit feel like a celebration. It's upscale yet unpretentious, perfect for Gen Z and millennial foodies.\n\nI've been five times, and the service has never missed--servers are friendly, engaging, and expertly pace each dish. The Butcher's Feast is the highlight: every cut was tender and perfectly cooked, with the A5 Wagyu stealing the show despite its additional $30/oz price tag. The sides impress too, especially the fluffy egg souffle and rich soft serve. The music and ambiance keep the mood upbeat and social, without sacrificing refinement.\n\nEasily a 5-star experience--Cote is hands-down the best Korean BBQ in NYC and absolutely worth visiting.",
       "highlights": [],
-      "atmosphere": "",
+      "atmosphere": "Casual",
       "mustTry": [],
       "visitDate": "",
       "galleryImages": null,
       "address": "16 W 22nd St, New York, NY 10010",
-      "website": "https://www.cotekoreansteakhouse.com/nycdinnermenu"
+      "website": "https://www.cotekoreansteakhouse.com/nycdinnermenu",
+      "aboutBusiness": null
     },
     {
       "id": 3,
@@ -50,7 +52,7 @@
       "priceRange": "$$",
       "fullReview": "Near the heart of Koreatown, a laid-back Korean-chic dining experience. A perfect place to wind down. They take traditional Korean recipes and add a modern, street food-inspired twist.   I love the decor of the interior. Lego walls to the right, and the place was filled with people, adding to the casual environment. I reserved a table near the window, and it was quite spacious. A waitress took our order quickly, and I kid you not, the food came instantly. One second we ordered, and another second, the food was in front of us. \n\nI got the braised pork belly, my friends got the popcorn chicken and cod roe seafood udon. My pork belly was filled to the brim with pork and a sweet salad in the middle, sitting on top of cabbage. The pork is alright, I wish it had more flavor, as I was expecting a juicier kick. Fortunately, I tried my friend’s udon, and it was the best udon ever! It was very creamy, and every bite had a hint of shrimp. Every bite was made to perfection. I could eat that dish for an entree and a side. Alongside the popcorn chicken, which came a bit later. I can see why it took a bit more time because it came piping hot. The outside was crispy, and it held all of the flavors and juice inside perfectly. It was savory with a hint of spice. It was amazing, but I bet it would slap even harder with some ranch.  \n\nOverall, the vibe was like a breath of fresh air, the service was very quick, and the food had so many different flavors. I would come back again for the udon or to grab some casual drinks with my friends.",
       "highlights": [],
-      "atmosphere": "",
+      "atmosphere": "Casual",
       "mustTry": [],
       "visitDate": "",
       "galleryImages": [
@@ -72,7 +74,8 @@
         }
       ],
       "address": "15 E 31st St, New York, NY 10016",
-      "website": "https://www.mytake31.com/menu"
+      "website": "https://www.mytake31.com/menu",
+      "aboutBusiness": null
     }
   ],
   "cuisines": [
