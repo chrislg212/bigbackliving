@@ -222,17 +222,16 @@ export default function Social() {
 
       <section 
         id="tiktok-section" 
-        className="relative min-h-screen py-20 overflow-hidden bg-foreground/[0.02]"
+        className="relative min-h-screen py-20 overflow-hidden bg-zinc-900 dark:bg-zinc-950"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-background to-pink-900/10" />
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection animation="fade-in-up" className="text-center mb-16">
             <div className="inline-block mb-8">
-              <div className="w-24 h-24 mx-auto rounded-2xl bg-foreground p-1 -rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
-                  <SiTiktok className="w-12 h-12 text-foreground" />
+              <div className="w-24 h-24 mx-auto rounded-2xl bg-white p-1 -rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="w-full h-full rounded-xl bg-zinc-900 flex items-center justify-center">
+                  <SiTiktok className="w-12 h-12 text-white" />
                 </div>
               </div>
             </div>
@@ -241,11 +240,11 @@ export default function Social() {
               Short Form Content
             </span>
             
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
               TikTok
             </h2>
             
-            <p className="font-sans text-xl text-muted-foreground mb-6">
+            <p className="font-sans text-xl text-zinc-400 mb-6">
               {tiktokSettings?.username || "@bigbackliving"}
             </p>
             
