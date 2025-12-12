@@ -14,7 +14,8 @@
       "highlights": [],
       "atmosphere": "",
       "mustTry": [],
-      "visitDate": ""
+      "visitDate": "",
+      "galleryImages": null
     },
     {
       "id": 2,
@@ -30,7 +31,8 @@
       "highlights": [],
       "atmosphere": "",
       "mustTry": [],
-      "visitDate": ""
+      "visitDate": "",
+      "galleryImages": null
     },
     {
       "id": 3,
@@ -46,7 +48,25 @@
       "highlights": [],
       "atmosphere": "",
       "mustTry": [],
-      "visitDate": ""
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/0b8364be-9086-4107-a181-6c9410d7dd1d.jpg",
+          "caption": "Rice Cakes"
+        },
+        {
+          "url": "/images/a74ac0fc-c311-40fd-8faf-05a1d6f722c8.jpg",
+          "caption": "Popcorn Chicken"
+        },
+        {
+          "url": "/images/7fe0b15d-e4fd-40f7-9ad8-250961d9c9f8.jpg",
+          "caption": "Cod Roe Seafood Udon"
+        },
+        {
+          "url": "/images/497076fd-a9f1-4a36-8610-f9666f152521.jpg",
+          "caption": "Braised Pork Belly"
+        }
+      ]
     }
   ],
   "cuisines": [

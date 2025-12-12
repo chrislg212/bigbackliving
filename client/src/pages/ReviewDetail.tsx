@@ -208,7 +208,7 @@ export default function ReviewDetail() {
           <div className="mt-12 pt-12 border-t border-primary/10">
             <PhotoGallery 
               images={review.galleryImages as GalleryImage[]} 
-              title="Dishes & Atmosphere"
+              title="Photos"
             />
           </div>
         )}
