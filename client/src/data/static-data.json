@@ -85,6 +85,33 @@
         "After Work",
         "Late Night"
       ]
+    },
+    {
+      "id": 4,
+      "slug": "sake-no-hana",
+      "name": "Sake No Hana",
+      "cuisine": "Japanese",
+      "location": "Lower East Side, New York, NY",
+      "rating": 4.7,
+      "excerpt": "Festive Izakaya beneath the Moxy Lower East Side hotel featuring creative sushi, sake, and cocktails.",
+      "image": "/images/53930801-b422-452a-9a6b-b6406296e8a6.jpg",
+      "priceRange": "$$$",
+      "fullReview": "Upon entering the restaurant, I was astonished by the Japanese aesthetic while preserving a fancy vibe. Place had perfect lighting and the stairs to the restaurant was beautiful. The place was cozy and warm & the bathroom was top tier.\n\nThe service made me feel like a VIP. I felt very welcomed with all of the service I was provided. They were attentive to our needs and questions. \n\nAs for the food, it was rich and creative. We were presented with the best complimentary chips a restaurant had to offer. The parmesan cheese is an addictive substance; truly to die for. \n\nThe the first entree I had was the fatty bluefin tuna. $22 for a piece seems like a lot, but the quality made up for it. Truly an unforgettable piece. \n\nI also had the Waygu carbonara, which was honestly a bit overrated, but was very delectable. On top of that, I got the tuna tartare. It was just as I expected, not too amazing, but just right. \n\nAfter that, the matcha tiramisu finished off the meal perfectly. I would get it again as it was vibrant and creamy.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": null,
+      "address": "145 Bowery, New York, NY 10002",
+      "website": "https://taogroup.com/venues/sake-no-hana-new-york/",
+      "aboutBusiness": "Occupying a dramatic, festive space beneath the catwalk entry of Moxy Lower East Side, Japanese restaurant Sake no Hana serves free-spirited izakaya dishes invigorated with New York attitude. With a shareable menu of grilled teppanyaki dishes, yakitori skewers, Wagyu beef, creative sushi rolls, and a curated list of sakes, beers, and cocktails highlighting Japanese spirits. The space buzzes with alluring energy perfect for any celebration.",
+      "vibes": [
+        "Atmsphere",
+        "Date Night",
+        "Cocktails",
+        "Birthdays",
+        "Fine Dining"
+      ]
     }
   ],
   "cuisines": [
@@ -294,13 +321,17 @@
   ],
   "reviewCuisineMap": {
     "1": [
-      1
+      1,
+      6
     ],
     "2": [
       3
     ],
     "3": [
       1
+    ],
+    "4": [
+      3
     ]
   },
   "reviewNycCategoryMap": {
