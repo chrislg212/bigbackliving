@@ -143,7 +143,7 @@ export default function Social() {
 
       <section 
         id="instagram-section" 
-        className="relative min-h-screen py-20 overflow-hidden bg-black"
+        className="relative min-h-screen py-20 overflow-hidden bg-white"
       >
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         
@@ -151,7 +151,7 @@ export default function Social() {
           <AnimatedSection animation="fade-in-up" className="text-center mb-16">
             <div className="inline-block mb-8">
               <div className="w-24 h-24 mx-auto rounded-2xl bg-primary p-1 rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div className="w-full h-full rounded-xl bg-black flex items-center justify-center">
+                <div className="w-full h-full rounded-xl bg-white flex items-center justify-center">
                   <SiInstagram className="w-12 h-12 text-primary" />
                 </div>
               </div>
@@ -161,11 +161,11 @@ export default function Social() {
               The Visual Feed
             </span>
             
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-4">
               Instagram
             </h2>
             
-            <p className="font-sans text-xl text-amber-100 mb-6">
+            <p className="font-sans text-xl text-gray-600 mb-6">
               {instagramSettings?.username || "@bigbackliving"}
             </p>
             
@@ -192,7 +192,7 @@ export default function Social() {
                   data-testid={`embed-${embed.id}`}
                 >
                   {embed.title && (
-                    <p className="text-sm text-amber-100 mb-3 font-sans">{embed.title}</p>
+                    <p className="text-sm text-gray-600 mb-3 font-sans">{embed.title}</p>
                   )}
                   <div className="transform hover:scale-[1.02] transition-transform duration-300">
                     <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
@@ -202,10 +202,10 @@ export default function Social() {
             </div>
           ) : (
             <AnimatedSection animation="fade-in" className="text-center py-16">
-              <div className="w-20 h-20 mx-auto rounded-full bg-primary/20 flex items-center justify-center mb-6">
+              <div className="w-20 h-20 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6">
                 <SiInstagram className="w-10 h-10 text-primary" />
               </div>
-              <p className="text-amber-100 font-sans">No Instagram posts yet. Add embeds in the admin panel.</p>
+              <p className="text-gray-600 font-sans">No Instagram posts yet. Add embeds in the admin panel.</p>
             </AnimatedSection>
           )}
         </div>
@@ -221,7 +221,7 @@ export default function Social() {
 
       <section 
         id="tiktok-section" 
-        className="relative min-h-screen py-20 overflow-hidden bg-black"
+        className="relative min-h-screen py-20 overflow-hidden bg-white"
       >
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         
@@ -229,7 +229,7 @@ export default function Social() {
           <AnimatedSection animation="fade-in-up" className="text-center mb-16">
             <div className="inline-block mb-8">
               <div className="w-24 h-24 mx-auto rounded-2xl bg-primary p-1 -rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div className="w-full h-full rounded-xl bg-black flex items-center justify-center">
+                <div className="w-full h-full rounded-xl bg-white flex items-center justify-center">
                   <SiTiktok className="w-12 h-12 text-primary" />
                 </div>
               </div>
@@ -239,11 +239,11 @@ export default function Social() {
               Short Form Content
             </span>
             
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-4">
               TikTok
             </h2>
             
-            <p className="font-sans text-xl text-amber-100 mb-6">
+            <p className="font-sans text-xl text-gray-600 mb-6">
               {tiktokSettings?.username || "@bigbackliving"}
             </p>
             
@@ -270,7 +270,7 @@ export default function Social() {
                   data-testid={`embed-${embed.id}`}
                 >
                   {embed.title && (
-                    <p className="text-sm text-amber-100 mb-3 font-sans">{embed.title}</p>
+                    <p className="text-sm text-gray-600 mb-3 font-sans">{embed.title}</p>
                   )}
                   <div className="transform hover:scale-[1.02] transition-transform duration-300">
                     <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
@@ -280,10 +280,10 @@ export default function Social() {
             </div>
           ) : (
             <AnimatedSection animation="fade-in" className="text-center py-16">
-              <div className="w-20 h-20 mx-auto rounded-full bg-primary/20 flex items-center justify-center mb-6">
+              <div className="w-20 h-20 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6">
                 <SiTiktok className="w-10 h-10 text-primary" />
               </div>
-              <p className="text-amber-100 font-sans">No TikTok videos yet. Add embeds in the admin panel.</p>
+              <p className="text-gray-600 font-sans">No TikTok videos yet. Add embeds in the admin panel.</p>
             </AnimatedSection>
           )}
         </div>
