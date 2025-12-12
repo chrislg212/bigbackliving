@@ -89,13 +89,13 @@ export default function Social() {
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <AnimatedSection animation="fade-in-up">
             <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-primary" />
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary" />
               <Sparkles className="w-5 h-5 text-primary" />
               <span className="font-sans text-sm tracking-[0.3em] uppercase text-white/80">
                 Behind the Scenes
               </span>
               <Sparkles className="w-5 h-5 text-primary" />
-              <div className="w-12 h-px bg-primary" />
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary" />
             </div>
             
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-6">
@@ -111,8 +111,8 @@ export default function Social() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button 
                 size="lg"
-                className="gap-3"
-                onClick={() => scrollToSection("socials-content")}
+                className="gap-3 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white border-0"
+                onClick={() => scrollToSection("instagram-section")}
                 data-testid="scroll-instagram"
               >
                 <SiInstagram className="w-5 h-5" />
@@ -122,7 +122,7 @@ export default function Social() {
                 size="lg"
                 variant="outline"
                 className="gap-3 bg-black/50 border-white/20 text-white hover:bg-white/10"
-                onClick={() => scrollToSection("socials-content")}
+                onClick={() => scrollToSection("tiktok-section")}
                 data-testid="scroll-tiktok"
               >
                 <SiTiktok className="w-5 h-5" />
@@ -133,7 +133,7 @@ export default function Social() {
         </div>
 
         <button 
-          onClick={() => scrollToSection("socials-content")}
+          onClick={() => scrollToSection("instagram-section")}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors animate-bounce"
           aria-label="Scroll down"
         >
@@ -141,138 +141,167 @@ export default function Social() {
         </button>
       </section>
 
-      <section id="socials-content" className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
+      <section 
+        id="instagram-section" 
+        className="relative min-h-screen py-20 overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-pink-900/10 to-orange-900/20" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection animation="fade-in-up" className="text-center mb-16">
+            <div className="inline-block mb-8">
+              <div className="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-tr from-purple-600 via-pink-600 to-orange-500 p-1 rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
+                  <SiInstagram className="w-12 h-12 text-foreground" />
+                </div>
+              </div>
+            </div>
             
-            <div className="flex-1 flex flex-col lg:pr-12 lg:border-r lg:border-border">
-              <AnimatedSection animation="fade-in-up" className="text-center mb-10">
-                <div className="inline-block mb-6">
-                  <div className="w-20 h-20 mx-auto rounded-2xl border-2 border-primary p-1">
-                    <div className="w-full h-full rounded-xl bg-card flex items-center justify-center">
-                      <SiInstagram className="w-10 h-10 text-primary" />
-                    </div>
-                  </div>
-                </div>
-                
-                <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-2">
-                  Instagram
-                </h2>
-                
-                <p className="font-sans text-lg text-muted-foreground mb-4">
-                  {instagramSettings?.username || "@bigbackliving"}
-                </p>
-                
-                <Button 
-                  size="default"
-                  className="gap-2"
-                  onClick={() => handleFollowClick(instagramSettings?.profileUrl)}
-                  disabled={!instagramSettings?.profileUrl}
-                  data-testid="button-follow-instagram"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Follow on Instagram
-                </Button>
-              </AnimatedSection>
+            <span className="font-sans text-sm tracking-[0.3em] uppercase text-primary mb-4 block">
+              The Visual Feed
+            </span>
+            
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+              Instagram
+            </h2>
+            
+            <p className="font-sans text-xl text-muted-foreground mb-6">
+              {instagramSettings?.username || "@bigbackliving"}
+            </p>
+            
+            <Button 
+              size="lg"
+              className="gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white border-0"
+              onClick={() => handleFollowClick(instagramSettings?.profileUrl)}
+              disabled={!instagramSettings?.profileUrl}
+              data-testid="button-follow-instagram"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Follow on Instagram
+            </Button>
+          </AnimatedSection>
 
-              <div className="flex-1">
-                {instagramEmbeds.length > 0 ? (
-                  <div className="space-y-6" data-testid="instagram-embeds">
-                    {instagramEmbeds.map((embed, index) => (
-                      <AnimatedSection 
-                        key={embed.id} 
-                        animation="fade-in-up" 
-                        delay={index * 100}
-                        className="flex flex-col items-center"
-                        data-testid={`embed-${embed.id}`}
-                      >
-                        {embed.title && (
-                          <p className="text-sm text-muted-foreground mb-3 font-sans">{embed.title}</p>
-                        )}
-                        <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
-                      </AnimatedSection>
-                    ))}
+          {instagramEmbeds.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-testid="instagram-embeds">
+              {instagramEmbeds.map((embed, index) => (
+                <AnimatedSection 
+                  key={embed.id} 
+                  animation="scale-in" 
+                  delay={index * 100}
+                  className="flex flex-col items-center"
+                  data-testid={`embed-${embed.id}`}
+                >
+                  {embed.title && (
+                    <p className="text-sm text-muted-foreground mb-3 font-sans">{embed.title}</p>
+                  )}
+                  <div className="transform hover:scale-[1.02] transition-transform duration-300">
+                    <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
                   </div>
-                ) : (
-                  <div className="text-center py-12 bg-card rounded-lg border border-border">
-                    <div className="w-16 h-16 mx-auto rounded-full border-2 border-primary/30 flex items-center justify-center mb-4">
-                      <SiInstagram className="w-8 h-8 text-muted-foreground" />
-                    </div>
-                    <p className="text-muted-foreground font-sans">No Instagram posts yet.</p>
-                  </div>
-                )}
+                </AnimatedSection>
+              ))}
+            </div>
+          ) : (
+            <AnimatedSection animation="fade-in" className="text-center py-16">
+              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-purple-600/20 via-pink-600/20 to-orange-500/20 flex items-center justify-center mb-6">
+                <SiInstagram className="w-10 h-10 text-muted-foreground" />
+              </div>
+              <p className="text-muted-foreground font-sans">No Instagram posts yet. Add embeds in the admin panel.</p>
+            </AnimatedSection>
+          )}
+        </div>
+
+        <button 
+          onClick={() => scrollToSection("tiktok-section")}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce"
+          aria-label="Scroll to TikTok"
+        >
+          <ChevronDown className="w-8 h-8" />
+        </button>
+      </section>
+
+      <section 
+        id="tiktok-section" 
+        className="relative min-h-screen py-20 overflow-hidden bg-foreground/[0.02]"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-background to-pink-900/10" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection animation="fade-in-up" className="text-center mb-16">
+            <div className="inline-block mb-8">
+              <div className="w-24 h-24 mx-auto rounded-2xl bg-foreground p-1 -rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
+                  <SiTiktok className="w-12 h-12 text-foreground" />
+                </div>
               </div>
             </div>
+            
+            <span className="font-sans text-sm tracking-[0.3em] uppercase text-primary mb-4 block">
+              Short Form Content
+            </span>
+            
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+              TikTok
+            </h2>
+            
+            <p className="font-sans text-xl text-muted-foreground mb-6">
+              {tiktokSettings?.username || "@bigbackliving"}
+            </p>
+            
+            <Button 
+              size="lg"
+              variant="default"
+              className="gap-2"
+              onClick={() => handleFollowClick(tiktokSettings?.profileUrl)}
+              disabled={!tiktokSettings?.profileUrl}
+              data-testid="button-follow-tiktok"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Follow on TikTok
+            </Button>
+          </AnimatedSection>
 
-            <div className="flex-1 flex flex-col lg:pl-12">
-              <AnimatedSection animation="fade-in-up" delay={100} className="text-center mb-10">
-                <div className="inline-block mb-6">
-                  <div className="w-20 h-20 mx-auto rounded-2xl border-2 border-primary p-1">
-                    <div className="w-full h-full rounded-xl bg-card flex items-center justify-center">
-                      <SiTiktok className="w-10 h-10 text-primary" />
-                    </div>
-                  </div>
-                </div>
-                
-                <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-2">
-                  TikTok
-                </h2>
-                
-                <p className="font-sans text-lg text-muted-foreground mb-4">
-                  {tiktokSettings?.username || "@bigbackliving"}
-                </p>
-                
-                <Button 
-                  size="default"
-                  className="gap-2"
-                  onClick={() => handleFollowClick(tiktokSettings?.profileUrl)}
-                  disabled={!tiktokSettings?.profileUrl}
-                  data-testid="button-follow-tiktok"
+          {tiktokEmbeds.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-testid="tiktok-embeds">
+              {tiktokEmbeds.map((embed, index) => (
+                <AnimatedSection 
+                  key={embed.id} 
+                  animation="scale-in" 
+                  delay={index * 100}
+                  className="flex flex-col items-center"
+                  data-testid={`embed-${embed.id}`}
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  Follow on TikTok
-                </Button>
-              </AnimatedSection>
-
-              <div className="flex-1">
-                {tiktokEmbeds.length > 0 ? (
-                  <div className="space-y-6" data-testid="tiktok-embeds">
-                    {tiktokEmbeds.map((embed, index) => (
-                      <AnimatedSection 
-                        key={embed.id} 
-                        animation="fade-in-up" 
-                        delay={index * 100}
-                        className="flex flex-col items-center"
-                        data-testid={`embed-${embed.id}`}
-                      >
-                        {embed.title && (
-                          <p className="text-sm text-muted-foreground mb-3 font-sans">{embed.title}</p>
-                        )}
-                        <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
-                      </AnimatedSection>
-                    ))}
+                  {embed.title && (
+                    <p className="text-sm text-muted-foreground mb-3 font-sans">{embed.title}</p>
+                  )}
+                  <div className="transform hover:scale-[1.02] transition-transform duration-300">
+                    <EmbedRenderer embedCode={embed.embedCode} platform={embed.platform} />
                   </div>
-                ) : (
-                  <div className="text-center py-12 bg-card rounded-lg border border-border">
-                    <div className="w-16 h-16 mx-auto rounded-full border-2 border-primary/30 flex items-center justify-center mb-4">
-                      <SiTiktok className="w-8 h-8 text-muted-foreground" />
-                    </div>
-                    <p className="text-muted-foreground font-sans">No TikTok videos yet.</p>
-                  </div>
-                )}
-              </div>
+                </AnimatedSection>
+              ))}
             </div>
-          </div>
+          ) : (
+            <AnimatedSection animation="fade-in" className="text-center py-16">
+              <div className="w-20 h-20 mx-auto rounded-full bg-foreground/10 flex items-center justify-center mb-6">
+                <SiTiktok className="w-10 h-10 text-muted-foreground" />
+              </div>
+              <p className="text-muted-foreground font-sans">No TikTok videos yet. Add embeds in the admin panel.</p>
+            </AnimatedSection>
+          )}
         </div>
       </section>
 
-      <section className="py-16 border-t border-border">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection animation="fade-in-up">
             <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-8 h-px bg-primary" />
+              <div className="w-8 h-px bg-gradient-to-r from-transparent to-primary" />
               <Sparkles className="w-4 h-4 text-primary" />
-              <div className="w-8 h-px bg-primary" />
+              <div className="w-8 h-px bg-gradient-to-l from-transparent to-primary" />
             </div>
             
             <h3 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -286,7 +315,7 @@ export default function Social() {
             <div className="flex flex-wrap justify-center gap-4">
               <Button 
                 size="lg"
-                className="gap-3"
+                className="gap-3 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white border-0"
                 onClick={() => handleFollowClick(instagramSettings?.profileUrl)}
                 disabled={!instagramSettings?.profileUrl}
               >
@@ -295,7 +324,7 @@ export default function Social() {
               </Button>
               <Button 
                 size="lg"
-                variant="outline"
+                variant="default"
                 className="gap-3"
                 onClick={() => handleFollowClick(tiktokSettings?.profileUrl)}
                 disabled={!tiktokSettings?.profileUrl}
