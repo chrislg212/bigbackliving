@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { MapPin, ArrowRight } from "lucide-react";
+import { MapPin, ArrowRight, Compass, Globe, Plane } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { usePageHeader } from "@/hooks/use-page-header";
 import { getRegions, getReviewsByRegion } from "@/lib/staticData";
@@ -12,6 +12,12 @@ const defaultRegionImages: Record<string, string> = {
   nyc: nycImage,
   dmv: worldCuisineImage,
   europe: internationalImage,
+};
+
+const regionCoordinates: Record<string, string> = {
+  nyc: "40.7128° N, 74.0060° W",
+  dmv: "38.9072° N, 77.0369° W",
+  europe: "48.8566° N, 2.3522° E",
 };
 
 export default function Locations() {
@@ -29,108 +35,153 @@ export default function Locations() {
     return getReviewsByRegion(regionSlug).length;
   };
 
+  const getCoordinates = (slug: string) => {
+    return regionCoordinates[slug.toLowerCase()] || "";
+  };
+
   return (
     <div className="min-h-screen" data-testid="locations-page">
-      <section className="border-b border-primary/10 overflow-hidden">
-        <div className="grid md:grid-cols-2">
-          <div className="relative h-48 md:h-auto md:min-h-[320px] order-1 md:order-2">
-            <img 
-              src={customImage || nycImage} 
-              alt="Explore locations" 
-              className="absolute inset-0 w-full h-full object-cover animate-fade-in-up"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
-          </div>
-          
-          <div className="bg-background relative order-2 md:order-1">
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
+      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${customImage || nycImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-background" />
+        
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
+          <div className="absolute top-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <div className="absolute bottom-1/3 left-1/2 w-px h-24 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+          <div className="absolute top-1/2 right-1/4 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        </div>
+        
+        <div className="absolute top-8 left-8 opacity-30 hidden md:block">
+          <Compass className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
+        </div>
+        <div className="absolute bottom-12 right-12 opacity-20 hidden md:block">
+          <Globe className="w-16 h-16 text-white" />
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <AnimatedSection animation="fade-in-up">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary" />
+              <Plane className="w-5 h-5 text-primary" />
+              <span className="font-sans text-sm tracking-[0.3em] uppercase text-white/80">
+                Culinary Destinations
+              </span>
+              <Plane className="w-5 h-5 text-primary transform -scale-x-100" />
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary" />
             </div>
             
-            <div className="relative max-w-xl mx-auto md:ml-auto md:mr-0 px-6 lg:px-12 py-16 md:py-24">
-              <AnimatedSection animation="fade-in-up">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
-                  <MapPin className="w-4 h-4" />
-                  <span className="font-sans text-sm font-medium">Discover by Region</span>
-                </div>
-                
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">
-                  Locations
-                </h1>
-                
-                <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-transparent mb-6" />
-                
-                <p className="font-sans text-lg text-muted-foreground">
-                  Explore our curated dining experiences across different regions. From the bustling streets of NYC to European adventures.
-                </p>
-              </AnimatedSection>
-            </div>
-          </div>
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-6">
+              Explore the World
+            </h1>
+            
+            <p className="font-sans text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
+              Journey through our curated dining experiences across the globe. 
+              Each destination tells a unique culinary story.
+            </p>
+          </AnimatedSection>
         </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <AnimatedSection animation="fade-in-up" className="mb-10">
-          <div className="flex items-center gap-3 mb-2">
-            <MapPin className="w-5 h-5 text-primary" />
-            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">
-              Browse by Location
-            </h2>
-          </div>
-          <p className="font-sans text-muted-foreground">Click to explore restaurants in each region</p>
-        </AnimatedSection>
-
+      <section className="relative -mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
         {regions.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No locations have been created yet.</p>
-            <p className="text-sm text-muted-foreground">Check back soon for location categories!</p>
+          <div className="text-center py-12 bg-card rounded-lg">
+            <Globe className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <p className="text-muted-foreground mb-2">No destinations have been added yet.</p>
+            <p className="text-sm text-muted-foreground">Check back soon for new culinary adventures!</p>
           </div>
         ) : (
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-            data-testid="locations-grid"
-          >
+          <div className="space-y-8" data-testid="locations-grid">
             {regions.map((region, index) => {
               const reviewCount = getRegionReviewCount(region.slug);
+              const isEven = index % 2 === 0;
+              
               return (
                 <AnimatedSection
                   key={region.slug}
-                  animation="scale-in"
-                  delay={index * 100}
+                  animation="fade-in-up"
+                  delay={index * 150}
                 >
                   <Link
                     href={`/location/${region.slug}`}
                     data-testid={`location-tile-${region.slug}`}
                   >
-                    <div className="group relative aspect-[4/3] rounded-md overflow-hidden cursor-pointer card-hover-lift gold-glow-hover">
+                    <div className={`group relative rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover ${
+                      index === 0 ? 'aspect-[21/9]' : 'aspect-[21/9] md:aspect-[3/1]'
+                    }`}>
                       <img
                         src={getRegionImage(region)}
                         alt={region.name}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 transition-all duration-300 group-hover:from-black/85 group-hover:via-black/50" />
                       
-                      <div className="absolute top-4 left-4">
-                        {reviewCount > 0 && (
-                          <span className="px-2 py-1 rounded-full bg-white/20 backdrop-blur text-white text-xs font-sans">
-                            {reviewCount} {reviewCount === 1 ? 'Review' : 'Reviews'}
-                          </span>
-                        )}
+                      <div className={`absolute inset-0 transition-all duration-500 ${
+                        isEven 
+                          ? 'bg-gradient-to-r from-black/85 via-black/60 to-black/20 group-hover:from-black/90'
+                          : 'bg-gradient-to-l from-black/85 via-black/60 to-black/20 group-hover:from-black/90'
+                      }`} />
+                      
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50" />
+                        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50" />
                       </div>
                       
-                      <div className="absolute inset-0 flex flex-col justify-end p-6">
-                        <h3 className="font-serif text-3xl md:text-4xl font-bold text-white mb-2 transition-transform duration-300 group-hover:translate-x-2">
-                          {region.name}
-                        </h3>
-                        {region.description && (
-                          <p className="font-sans text-sm text-white/70 mb-4 line-clamp-2">
-                            {region.description}
-                          </p>
-                        )}
-                        <span className="inline-flex items-center font-sans text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                          Explore Region
-                          <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2" />
-                        </span>
+                      <div className={`absolute inset-0 flex items-center ${
+                        isEven ? 'justify-start' : 'justify-end'
+                      }`}>
+                        <div className={`p-8 md:p-12 lg:p-16 max-w-2xl ${
+                          isEven ? 'text-left' : 'text-right'
+                        }`}>
+                          <div className={`flex items-center gap-2 mb-3 ${
+                            isEven ? '' : 'justify-end'
+                          }`}>
+                            <MapPin className="w-4 h-4 text-primary" />
+                            <span className="font-mono text-xs text-white/50 tracking-wider">
+                              {getCoordinates(region.slug)}
+                            </span>
+                          </div>
+                          
+                          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 transition-transform duration-300 group-hover:translate-x-2">
+                            {region.name}
+                          </h2>
+                          
+                          {region.description && (
+                            <p className="font-sans text-base md:text-lg text-white/70 mb-4 line-clamp-2 max-w-md">
+                              {region.description}
+                            </p>
+                          )}
+                          
+                          <div className={`flex items-center gap-4 ${
+                            isEven ? '' : 'justify-end'
+                          }`}>
+                            {reviewCount > 0 && (
+                              <span className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-sans border border-white/10">
+                                {reviewCount} {reviewCount === 1 ? 'Review' : 'Reviews'}
+                              </span>
+                            )}
+                            
+                            <span className={`inline-flex items-center font-sans text-sm font-medium text-primary transition-all duration-300 ${
+                              isEven ? 'translate-x-0 group-hover:translate-x-2' : '-translate-x-0 group-hover:-translate-x-2'
+                            }`}>
+                              {isEven ? (
+                                <>
+                                  Explore Destination
+                                  <ArrowRight className="w-4 h-4 ml-2" />
+                                </>
+                              ) : (
+                                <>
+                                  <ArrowRight className="w-4 h-4 mr-2 transform rotate-180" />
+                                  Explore Destination
+                                </>
+                              )}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -139,6 +190,18 @@ export default function Locations() {
             })}
           </div>
         )}
+        
+        <AnimatedSection animation="fade-in-up" delay={400}>
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center gap-4 text-muted-foreground">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent to-border" />
+              <Compass className="w-5 h-5 text-primary" />
+              <span className="font-sans text-sm tracking-wider uppercase">More destinations coming soon</span>
+              <Compass className="w-5 h-5 text-primary" />
+              <div className="w-16 h-px bg-gradient-to-l from-transparent to-border" />
+            </div>
+          </div>
+        </AnimatedSection>
       </section>
     </div>
   );
