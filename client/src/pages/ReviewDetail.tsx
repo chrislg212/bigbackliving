@@ -106,16 +106,6 @@ export default function ReviewDetail() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 md:pt-8 md:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-3 space-y-8">
-            {review.aboutBusiness && (
-              <div data-testid="about-business">
-                <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
-                  About the Business
-                </h2>
-                <p className="font-sans text-base md:text-lg text-foreground leading-relaxed">
-                  {review.aboutBusiness}
-                </p>
-              </div>
-            )}
             <article
               className="font-sans text-foreground leading-relaxed space-y-6"
               data-testid="review-content"
@@ -126,6 +116,16 @@ export default function ReviewDetail() {
                 </p>
               ))}
             </article>
+            {review.aboutBusiness && (
+              <div data-testid="about-business">
+                <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+                  About the Business
+                </h2>
+                <p className="font-sans text-base md:text-lg text-foreground leading-relaxed">
+                  {review.aboutBusiness}
+                </p>
+              </div>
+            )}
           </div>
 
           <aside className="lg:col-span-2 space-y-6">
