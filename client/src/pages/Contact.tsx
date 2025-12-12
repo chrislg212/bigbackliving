@@ -92,7 +92,9 @@ export default function Contact() {
                     <div>
                       <h3 className="font-serif text-lg font-semibold text-foreground mb-1">Email</h3>
                       <a
-                        href="mailto:bigbackliving@gmail.com"
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=bigbackliving@gmail.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="font-sans text-primary hover:underline"
                         data-testid="contact-email-link"
                       >
