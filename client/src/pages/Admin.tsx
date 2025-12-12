@@ -59,6 +59,8 @@ const reviewFormSchema = z.object({
   visitDate: z.string().optional(),
   highlights: z.array(z.string()).optional(),
   mustTry: z.array(z.string()).optional(),
+  address: z.string().optional(),
+  website: z.string().optional(),
 });
 
 const cuisineFormSchema = z.object({
@@ -132,6 +134,8 @@ function ReviewsTab() {
       visitDate: "",
       highlights: [],
       mustTry: [],
+      address: "",
+      website: "",
     },
   });
 
@@ -199,6 +203,8 @@ function ReviewsTab() {
         visitDate: review.visitDate || "",
         highlights: review.highlights || [],
         mustTry: review.mustTry || [],
+        address: review.address || "",
+        website: review.website || "",
       });
       setUploadedImageUrl(review.image || "");
     } else {
@@ -483,6 +489,35 @@ function ReviewsTab() {
                         <FormLabel>Visit Date (Optional)</FormLabel>
                         <FormControl>
                           <Input {...field} placeholder="November 2024" data-testid="input-visit-date" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address (Optional)</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="229 W 43rd St, New York, NY, 10036" data-testid="input-address" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="website"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Website (Optional)</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="https://restaurant.com" data-testid="input-website" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

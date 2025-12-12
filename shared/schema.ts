@@ -40,6 +40,8 @@ export const reviews = pgTable("reviews", {
   mustTry: text("must_try").array(),
   visitDate: text("visit_date"),
   galleryImages: jsonb("gallery_images").$type<GalleryImage[]>(),
+  address: text("address"),
+  website: text("website"),
 });
 
 export const insertReviewSchema = createInsertSchema(reviews).omit({
