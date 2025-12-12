@@ -41,7 +41,7 @@ export default function Locations() {
 
   return (
     <div className="min-h-screen" data-testid="locations-page">
-      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[35vh] md:h-[40vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || nycImage})` }}
@@ -96,7 +96,7 @@ export default function Locations() {
             <p className="text-sm text-muted-foreground">Check back soon for new culinary adventures!</p>
           </div>
         ) : (
-          <div className="space-y-8" data-testid="locations-grid">
+          <div className="space-y-4" data-testid="locations-grid">
             {regions.map((region, index) => {
               const reviewCount = getRegionReviewCount(region.slug);
               const isEven = index % 2 === 0;
@@ -111,7 +111,7 @@ export default function Locations() {
                     href={`/location/${region.slug}`}
                     data-testid={`location-tile-${region.slug}`}
                   >
-                    <div className="group relative rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover aspect-[16/9] md:aspect-[4/1]">
+                    <div className="group relative rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover aspect-[16/9] md:aspect-[5/1]">
                       <img
                         src={getRegionImage(region)}
                         alt={region.name}
@@ -132,7 +132,7 @@ export default function Locations() {
                       <div className={`absolute inset-0 flex items-center ${
                         isEven ? 'justify-start' : 'justify-end'
                       }`}>
-                        <div className={`p-8 md:p-12 lg:p-16 max-w-2xl ${
+                        <div className={`p-6 md:p-8 lg:p-10 max-w-2xl ${
                           isEven ? 'text-left' : 'text-right'
                         }`}>
                           <div className={`flex items-center gap-2 mb-3 ${
@@ -144,7 +144,7 @@ export default function Locations() {
                             </span>
                           </div>
                           
-                          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 transition-transform duration-300 group-hover:translate-x-2">
+                          <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 transition-transform duration-300 group-hover:translate-x-2">
                             {region.name}
                           </h2>
                           
