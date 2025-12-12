@@ -1899,7 +1899,7 @@ function SocialMediaTab() {
 const PAGE_CONFIGS = [
   { slug: "home", name: "Home" },
   { slug: "about", name: "About" },
-  { slug: "content", name: "Content" },
+  { slug: "social", name: "Social" },
   { slug: "reviews", name: "Reviews" },
   { slug: "cuisines", name: "Cuisines" },
   { slug: "top-10", name: "Top 10 Lists" },

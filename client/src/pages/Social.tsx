@@ -28,9 +28,9 @@ function EmbedRenderer({ embedCode, platform }: { embedCode: string; platform: s
   );
 }
 
-export default function Content() {
+export default function Social() {
   const [activePlatform, setActivePlatform] = useState<Platform>("instagram");
-  const { customImage } = usePageHeader("content");
+  const { customImage } = usePageHeader("social");
 
   const socialSettings = getSocialSettings();
   const embeds = getSocialEmbeds();
@@ -79,7 +79,7 @@ export default function Content() {
   };
 
   return (
-    <div className="min-h-screen" data-testid="content-page">
+    <div className="min-h-screen" data-testid="social-page">
       <PageHeader
         title="Follow My Journey"
         subtitle="Behind the reviews, beyond the plates"

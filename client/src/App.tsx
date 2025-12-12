@@ -9,7 +9,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
 import Reviews from "@/pages/Reviews";
 import About from "@/pages/About";
-import Content from "@/pages/Content";
+import Social from "@/pages/Social";
 import ReviewDetail from "@/pages/ReviewDetail";
 import Admin from "@/pages/Admin";
 import NYCEats from "@/pages/rankings/NYCEats";
@@ -38,7 +38,7 @@ function Router() {
       <Route path="/rankings/top-10" component={Top10Lists} />
       <Route path="/top-10/:slug" component={Top10Detail} />
       <Route path="/rankings/college-budget" component={CollegeBudget} />
-      <Route path="/content" component={Content} />
+      <Route path="/social" component={Social} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       <Route path="/review/:slug" component={ReviewDetail} />

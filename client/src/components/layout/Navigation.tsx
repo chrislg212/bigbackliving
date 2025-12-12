@@ -24,7 +24,7 @@ const categoriesLinks = [
 ];
 
 const afterListsLinks = [
-  { href: "/content", label: "Content" },
+  { href: "/social", label: "Social" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
