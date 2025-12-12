@@ -12,13 +12,13 @@ import About from "@/pages/About";
 import Social from "@/pages/Social";
 import ReviewDetail from "@/pages/ReviewDetail";
 import Admin from "@/pages/Admin";
-import NYCEats from "@/pages/rankings/NYCEats";
-import Cuisines from "@/pages/rankings/Cuisines";
-import CuisineReviews from "@/pages/rankings/CuisineReviews";
-import FeaturedGuidesList from "@/pages/rankings/FeaturedGuidesList";
-import FeaturedGuideDetail from "@/pages/rankings/FeaturedGuideDetail";
-import CollegeBudget from "@/pages/rankings/CollegeBudget";
-import Locations from "@/pages/rankings/Locations";
+import NYCEats from "@/pages/categories/NYCEats";
+import Cuisines from "@/pages/categories/Cuisines";
+import CuisineReviews from "@/pages/categories/CuisineReviews";
+import FeaturedGuidesList from "@/pages/categories/FeaturedGuidesList";
+import FeaturedGuideDetail from "@/pages/categories/FeaturedGuideDetail";
+import CollegeBudget from "@/pages/categories/CollegeBudget";
+import Locations from "@/pages/categories/Locations";
 import LocationPage from "@/pages/location/LocationPage";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
@@ -28,16 +28,16 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/reviews" component={Reviews} />
-      <Route path="/rankings/nyc-eats" component={NYCEats} />
-      <Route path="/rankings/locations" component={Locations} />
+      <Route path="/categories/nyc-eats" component={NYCEats} />
+      <Route path="/categories/locations" component={Locations} />
       <Route path="/location/nyc">{() => <LocationPage regionSlug="nyc" />}</Route>
       <Route path="/location/dmv">{() => <LocationPage regionSlug="dmv" />}</Route>
       <Route path="/location/europe">{() => <LocationPage regionSlug="europe" />}</Route>
-      <Route path="/rankings/cuisines" component={Cuisines} />
+      <Route path="/categories/cuisines" component={Cuisines} />
       <Route path="/cuisines/:cuisine" component={CuisineReviews} />
-      <Route path="/rankings/featured-guides" component={FeaturedGuidesList} />
+      <Route path="/categories/featured-guides" component={FeaturedGuidesList} />
       <Route path="/featured-guides/:slug" component={FeaturedGuideDetail} />
-      <Route path="/rankings/college-budget" component={CollegeBudget} />
+      <Route path="/categories/college-budget" component={CollegeBudget} />
       <Route path="/social" component={Social} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />

@@ -52,7 +52,7 @@ export default function FeaturedGuideDetail() {
         <div className="text-center">
           <h1 className="font-serif text-3xl font-semibold text-foreground mb-4">List Not Found</h1>
           <p className="text-muted-foreground mb-6">The list you're looking for doesn't exist.</p>
-          <Link href="/rankings/featured-guides">
+          <Link href="/categories/featured-guides">
             <Button variant="outline">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Featured Guides
@@ -89,7 +89,7 @@ export default function FeaturedGuideDetail() {
         <div className="absolute inset-0 flex flex-col justify-end">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-16 w-full">
             <AnimatedSection animation="fade-in-up">
-              <Link href="/rankings/featured-guides">
+              <Link href="/categories/featured-guides">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -203,7 +203,7 @@ export default function FeaturedGuideDetail() {
           <p className="font-sans text-sm text-muted-foreground mb-4">
             This list is updated regularly based on our latest reviews and experiences.
           </p>
-          <Link href="/rankings/top-10">
+          <Link href="/categories/featured-guides">
             <Button variant="outline" className="btn-hover-lift gap-2">
               Explore More Guides
               <ArrowRight className="w-4 h-4" />

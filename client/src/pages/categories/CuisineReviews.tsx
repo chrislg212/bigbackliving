@@ -18,7 +18,7 @@ export default function CuisineReviews() {
         <div className="text-center">
           <h1 className="font-serif text-3xl font-semibold text-foreground mb-4">Cuisine Not Found</h1>
           <p className="text-muted-foreground mb-6">The cuisine you're looking for doesn't exist.</p>
-          <Link href="/rankings/cuisines">
+          <Link href="/categories/cuisines">
             <Button variant="outline" data-testid="back-to-cuisines">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Cuisines
@@ -41,7 +41,7 @@ export default function CuisineReviews() {
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <Link href="/rankings/cuisines">
+        <Link href="/categories/cuisines">
           <Button
             variant="ghost"
             size="sm"
@@ -151,7 +151,7 @@ export default function CuisineReviews() {
             <p className="font-sans text-muted-foreground mb-6">
               No reviews have been added to this cuisine yet.
             </p>
-            <Link href="/rankings/cuisines">
+            <Link href="/categories/cuisines">
               <Button variant="outline" data-testid="browse-other-cuisines">
                 Browse Other Cuisines
               </Button>

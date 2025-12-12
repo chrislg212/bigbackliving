@@ -19,10 +19,10 @@ const cuisinesList = [
 ];
 
 const listsList = [
-  { name: "NYC Eats", href: "/rankings/nyc-eats" },
-  { name: "Cuisines", href: "/rankings/cuisines" },
-  { name: "Featured Guides", href: "/rankings/featured-guides" },
-  { name: "College Budget Eats", href: "/rankings/college-budget" },
+  { name: "NYC Eats", href: "/categories/nyc-eats" },
+  { name: "Cuisines", href: "/categories/cuisines" },
+  { name: "Featured Guides", href: "/categories/featured-guides" },
+  { name: "College Budget Eats", href: "/categories/college-budget" },
 ];
 
 export default function SearchBar() {

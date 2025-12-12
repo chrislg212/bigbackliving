@@ -18,9 +18,9 @@ const mainNavLinks = [
 ];
 
 const categoriesLinks = [
-  { href: "/rankings/locations", label: "Locations" },
-  { href: "/rankings/cuisines", label: "Cuisines" },
-  { href: "/rankings/featured-guides", label: "Featured Guides" },
+  { href: "/categories/locations", label: "Locations" },
+  { href: "/categories/cuisines", label: "Cuisines" },
+  { href: "/categories/featured-guides", label: "Featured Guides" },
 ];
 
 const afterListsLinks = [
@@ -61,7 +61,7 @@ export default function Navigation() {
 
   const socialSettings = getSocialSettings();
 
-  const isCategoriesActive = location.startsWith("/location") || location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/featured-guides");
+  const isCategoriesActive = location.startsWith("/location") || location.startsWith("/categories") || location.startsWith("/cuisines") || location.startsWith("/featured-guides");
 
   return (
     <header
@@ -144,8 +144,8 @@ export default function Navigation() {
                       <span
                         className={`w-full font-sans text-sm ${
                           location === link.href || 
-                          (link.href === '/rankings/locations' && location.startsWith('/location/')) ||
-                          location.startsWith(link.href.replace('/rankings/', '/')) 
+                          (link.href === '/categories/locations' && location.startsWith('/location/')) ||
+                          location.startsWith(link.href.replace('/categories/', '/')) 
                             ? "text-primary font-medium" : ""
                         }`}
                         data-testid={`nav-category-${link.href.split("/").pop()}`}
@@ -212,8 +212,8 @@ export default function Navigation() {
                   <span
                     className={`block py-2.5 px-3 pl-6 rounded-md font-sans text-sm cursor-pointer transition-colors duration-150 ${
                       location === link.href || 
-                      (link.href === '/rankings/locations' && location.startsWith('/location/')) ||
-                      location.startsWith(link.href.replace('/rankings/', '/'))
+                      (link.href === '/categories/locations' && location.startsWith('/location/')) ||
+                      location.startsWith(link.href.replace('/categories/', '/'))
                         ? "bg-primary/10 text-primary"
                         : "text-foreground hover:bg-muted"
                     }`}
