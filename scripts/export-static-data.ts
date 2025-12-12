@@ -123,6 +123,13 @@ async function exportStaticData() {
     if (review.image) {
       review.image = await downloadAndSaveImage(review.image, imagesOutputDir);
     }
+    if (review.galleryImages && Array.isArray(review.galleryImages)) {
+      for (const galleryImage of review.galleryImages) {
+        if (galleryImage.url) {
+          galleryImage.url = await downloadAndSaveImage(galleryImage.url, imagesOutputDir);
+        }
+      }
+    }
   }
   
   for (const cuisine of allCuisines) {

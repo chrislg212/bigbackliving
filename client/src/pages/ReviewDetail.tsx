@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "@/components/StarRating";
 import ReviewCard from "@/components/ReviewCard";
+import PhotoGallery from "@/components/PhotoGallery";
 import { getReviews, getReviewBySlug } from "@/lib/staticData";
+import type { GalleryImage } from "@shared/schema";
 
 export default function ReviewDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -201,6 +203,15 @@ export default function ReviewDetail() {
             )}
           </aside>
         </div>
+
+        {review.galleryImages && (review.galleryImages as GalleryImage[]).length > 0 && (
+          <div className="mt-12 pt-12 border-t border-primary/10">
+            <PhotoGallery 
+              images={review.galleryImages as GalleryImage[]} 
+              title="Dishes & Atmosphere"
+            />
+          </div>
+        )}
       </section>
 
       {relatedReviews.length > 0 && (

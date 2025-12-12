@@ -570,6 +570,12 @@ function ReviewCard({
   onDelete: () => void;
 }) {
   const { toast } = useToast();
+  const [galleryImages, setGalleryImages] = useState<Array<{ url: string; caption?: string }>>(
+    (review.galleryImages as Array<{ url: string; caption?: string }>) || []
+  );
+  const [newCaption, setNewCaption] = useState("");
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
+
   const { data: reviewCuisines = [] } = useQuery<Cuisine[]>({
     queryKey: ["/api/reviews", review.id, "cuisines"],
   });
@@ -598,6 +604,66 @@ function ReviewCard({
       queryClient.invalidateQueries({ queryKey: ["/api/reviews", review.id, "cuisines"] });
     },
   });
+
+  const updateGalleryMutation = useMutation({
+    mutationFn: async (images: Array<{ url: string; caption?: string }>) => {
+      return apiRequest("PATCH", `/api/reviews/${review.id}`, { galleryImages: images });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
+      toast({ title: "Gallery updated" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update gallery", variant: "destructive" });
+    },
+  });
+
+  const handleGalleryUploadParams = async () => {
+    const response = await fetch("/api/objects/upload", { method: "POST" });
+    const { uploadURL } = await response.json();
+    return { method: "PUT" as const, url: uploadURL };
+  };
+
+  const handleGalleryUploadComplete = async (result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        setIsUploadingGallery(false);
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) throw new Error("Failed to process image");
+        const { normalizedPath } = await response.json();
+        const newImages = [...galleryImages, { url: normalizedPath, caption: newCaption || undefined }];
+        setGalleryImages(newImages);
+        updateGalleryMutation.mutate(newImages);
+        setNewCaption("");
+        toast({ title: "Image added to gallery" });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+      setIsUploadingGallery(false);
+    }
+  };
+
+  const removeGalleryImage = (index: number) => {
+    const newImages = galleryImages.filter((_, i) => i !== index);
+    setGalleryImages(newImages);
+    updateGalleryMutation.mutate(newImages);
+  };
+
+  const updateImageCaption = (index: number, caption: string) => {
+    const newImages = [...galleryImages];
+    newImages[index] = { ...newImages[index], caption };
+    setGalleryImages(newImages);
+    updateGalleryMutation.mutate(newImages);
+  };
 
   const displayedCuisineIds = reviewCuisines.map(c => c.id);
 
@@ -665,7 +731,7 @@ function ReviewCard({
         </div>
 
         {isExpanded && (
-          <div className="mt-4 pt-4 border-t space-y-4">
+          <div className="mt-4 pt-4 border-t space-y-6">
             <div>
               <Label className="text-sm font-medium mb-2 block">Assign to Cuisines</Label>
               <div className="flex flex-wrap gap-2">
@@ -687,6 +753,62 @@ function ReviewCard({
               </div>
             </div>
 
+            <div>
+              <Label className="text-sm font-medium mb-3 block">Photo Gallery</Label>
+              
+              {galleryImages.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
+                  {galleryImages.map((img, index) => (
+                    <div key={index} className="relative group">
+                      <div className="aspect-square rounded-md overflow-hidden bg-muted">
+                        <img
+                          src={img.url}
+                          alt={img.caption || `Gallery ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <button
+                        onClick={() => removeGalleryImage(index)}
+                        className="absolute top-1 right-1 p-1 bg-black/60 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        data-testid={`button-remove-gallery-${index}`}
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                      <Input
+                        placeholder="Caption..."
+                        value={img.caption || ""}
+                        onChange={(e) => updateImageCaption(index, e.target.value)}
+                        className="mt-1 text-xs"
+                        data-testid={`input-caption-${index}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex items-end gap-3">
+                <div className="flex-1">
+                  <Label className="text-xs text-muted-foreground mb-1 block">Caption (optional)</Label>
+                  <Input
+                    placeholder="e.g., Signature Pasta, Interior..."
+                    value={newCaption}
+                    onChange={(e) => setNewCaption(e.target.value)}
+                    data-testid="input-new-caption"
+                  />
+                </div>
+                <ObjectUploader
+                  maxFileSize={10485760}
+                  onGetUploadParameters={handleGalleryUploadParams}
+                  onComplete={handleGalleryUploadComplete}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Photo
+                </ObjectUploader>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Add photos of dishes, atmosphere, or memorable moments from this restaurant.
+              </p>
+            </div>
           </div>
         )}
       </CardContent>

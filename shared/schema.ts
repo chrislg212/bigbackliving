@@ -1,7 +1,14 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, real, serial, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, real, serial, integer, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+export const galleryImageSchema = z.object({
+  url: z.string(),
+  caption: z.string().optional(),
+});
+
+export type GalleryImage = z.infer<typeof galleryImageSchema>;
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -32,6 +39,7 @@ export const reviews = pgTable("reviews", {
   atmosphere: text("atmosphere"),
   mustTry: text("must_try").array(),
   visitDate: text("visit_date"),
+  galleryImages: jsonb("gallery_images").$type<GalleryImage[]>(),
 });
 
 export const insertReviewSchema = createInsertSchema(reviews).omit({
