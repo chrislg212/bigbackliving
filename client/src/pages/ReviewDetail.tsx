@@ -94,7 +94,7 @@ export default function ReviewDetail() {
             {review.vibes.map((vibe) => (
               <Badge
                 key={vibe}
-                className="font-sans text-sm px-3 py-1.5 bg-primary text-primary-foreground border-0"
+                className="font-sans text-sm px-4 py-1.5 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground border border-primary/30 shadow-md hover:scale-105 transition-transform duration-200"
               >
                 {vibe}
               </Badge>
