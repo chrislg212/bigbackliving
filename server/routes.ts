@@ -1,7 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { spawn } from "child_process";
 import { storage } from "./storage";
-import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema, insertPageHeaderSchema, insertContactSubmissionSchema } from "@shared/schema";
+import { insertReviewSchema, insertCuisineSchema, insertNycEatsCategorySchema, insertTopTenListSchema, insertSocialSettingsSchema, insertSocialEmbedSchema, insertPageHeaderSchema, insertContactSubmissionSchema, insertRegionSchema, insertLocationCategorySchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(
@@ -851,6 +852,112 @@ export async function registerRoutes(
 
   app.get("/api/admin/status", (req, res) => {
     res.json({ isAdmin: req.session.isAdmin === true });
+  });
+
+  // Regions routes
+  app.get("/api/regions", async (req, res) => {
+    try {
+      const regions = await storage.getAllRegions();
+      res.json(regions);
+    } catch (error) {
+      console.error("Error fetching regions:", error);
+      res.status(500).json({ error: "Failed to fetch regions" });
+    }
+  });
+
+  app.patch("/api/regions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid region ID" });
+      }
+      const parsed = insertRegionSchema.partial().safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const region = await storage.updateRegion(id, parsed.data);
+      if (!region) {
+        return res.status(404).json({ error: "Region not found" });
+      }
+      res.json(region);
+    } catch (error) {
+      console.error("Error updating region:", error);
+      res.status(500).json({ error: "Failed to update region" });
+    }
+  });
+
+  // Location Categories routes
+  app.get("/api/location-categories", async (req, res) => {
+    try {
+      const categories = await storage.getAllLocationCategories();
+      res.json(categories);
+    } catch (error) {
+      console.error("Error fetching location categories:", error);
+      res.status(500).json({ error: "Failed to fetch location categories" });
+    }
+  });
+
+  app.patch("/api/location-categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid location category ID" });
+      }
+      const parsed = insertLocationCategorySchema.partial().safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.errors });
+      }
+      const category = await storage.updateLocationCategory(id, parsed.data);
+      if (!category) {
+        return res.status(404).json({ error: "Location category not found" });
+      }
+      res.json(category);
+    } catch (error) {
+      console.error("Error updating location category:", error);
+      res.status(500).json({ error: "Failed to update location category" });
+    }
+  });
+
+  // Static data export endpoint
+  app.post("/api/static/export", async (req, res) => {
+    if (req.session.isAdmin !== true) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    
+    try {
+      const child = spawn("npx", ["tsx", "scripts/export-static-data.ts"], {
+        cwd: process.cwd(),
+        shell: true,
+      });
+      
+      let stdout = "";
+      let stderr = "";
+      
+      child.stdout.on("data", (data) => {
+        stdout += data.toString();
+      });
+      
+      child.stderr.on("data", (data) => {
+        stderr += data.toString();
+      });
+      
+      child.on("close", (code) => {
+        if (code === 0) {
+          res.json({ success: true, message: "Static data exported successfully", output: stdout });
+        } else {
+          console.error("Export script failed:", stderr);
+          res.status(500).json({ success: false, error: "Export failed", details: stderr });
+        }
+      });
+      
+      child.on("error", (error) => {
+        console.error("Error spawning export script:", error);
+        res.status(500).json({ success: false, error: "Failed to start export" });
+      });
+    } catch (error) {
+      console.error("Error running static export:", error);
+      res.status(500).json({ error: "Failed to run static export" });
+    }
   });
 
   return httpServer;

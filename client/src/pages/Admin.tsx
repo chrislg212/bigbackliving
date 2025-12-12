@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2, ImageIcon, Upload, Check, MessageSquare, Mail, Eye, Download, FileUp } from "lucide-react";
+import { Plus, Pencil, Trash2, Image, Loader2, Star, Utensils, MapPin, List, ChevronDown, ChevronUp, Share2, ImageIcon, Upload, Check, MessageSquare, Mail, Eye, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -42,7 +42,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader, ContactSubmission } from "@shared/schema";
+import type { Review, Cuisine, NycEatsCategory, TopTenList, SocialSettings, SocialEmbed, PageHeader, ContactSubmission, Region, LocationCategory } from "@shared/schema";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 
 const reviewFormSchema = z.object({
@@ -114,52 +114,7 @@ function ReviewsTab() {
   const [editingReview, setEditingReview] = useState<Review | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const [expandedReviewId, setExpandedReviewId] = useState<number | null>(null);
-  const [isExporting, setIsExporting] = useState(false);
-  const [isImporting, setIsImporting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-
-  const handleExport = async () => {
-    setIsExporting(true);
-    try {
-      const response = await fetch("/api/export/reviews");
-      const data = await response.json();
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "reviews-export.json";
-      a.click();
-      URL.revokeObjectURL(url);
-      toast({ title: `Exported ${data.reviews.length} reviews` });
-    } catch (error) {
-      toast({ title: "Failed to export reviews", variant: "destructive" });
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    
-    setIsImporting(true);
-    try {
-      const text = await file.text();
-      const data = JSON.parse(text);
-      const response = await apiRequest("POST", "/api/import/reviews", data);
-      const result = await response.json();
-      queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
-      toast({ title: result.message });
-    } catch (error) {
-      toast({ title: "Failed to import reviews", variant: "destructive" });
-    } finally {
-      setIsImporting(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    }
-  };
 
   const { data: reviews = [], isLoading } = useQuery<Review[]>({
     queryKey: ["/api/reviews"],
@@ -327,32 +282,6 @@ function ReviewsTab() {
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <h2 className="font-serif text-2xl font-semibold">Reviews</h2>
         <div className="flex items-center gap-2 flex-wrap">
-          <Button 
-            variant="outline" 
-            onClick={handleExport} 
-            disabled={isExporting}
-            data-testid="button-export-reviews"
-          >
-            {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
-            Export
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => fileInputRef.current?.click()} 
-            disabled={isImporting}
-            data-testid="button-import-reviews"
-          >
-            {isImporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
-            Import
-          </Button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImport}
-            accept=".json"
-            className="hidden"
-            data-testid="input-import-file"
-          />
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button onClick={() => handleOpenDialog()} data-testid="button-add-review">
@@ -2345,7 +2274,7 @@ const PAGE_CONFIGS = [
   { slug: "nyc-eats", name: "NYC Eats" },
   { slug: "cuisines", name: "Cuisines" },
   { slug: "top-10", name: "Top 10 Lists" },
-  { slug: "college-budget", name: "College Budget" },
+  { slug: "locations", name: "Locations" },
 ];
 
 function PageHeadersTab() {
@@ -2353,6 +2282,14 @@ function PageHeadersTab() {
 
   const { data: headers = [], isLoading } = useQuery<PageHeader[]>({
     queryKey: ["/api/page-headers"],
+  });
+
+  const { data: regions = [], isLoading: regionsLoading } = useQuery<Region[]>({
+    queryKey: ["/api/regions"],
+  });
+
+  const { data: locationCategories = [], isLoading: categoriesLoading } = useQuery<LocationCategory[]>({
+    queryKey: ["/api/location-categories"],
   });
 
   const getHeaderForPage = (pageSlug: string) => {
@@ -2381,6 +2318,32 @@ function PageHeadersTab() {
     },
     onError: () => {
       toast({ title: "Failed to update page header", variant: "destructive" });
+    },
+  });
+
+  const updateRegionMutation = useMutation({
+    mutationFn: async ({ id, image }: { id: number; image: string | null }) => {
+      return apiRequest("PATCH", `/api/regions/${id}`, { image });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/regions"] });
+      toast({ title: "Region image updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update region image", variant: "destructive" });
+    },
+  });
+
+  const updateLocationCategoryMutation = useMutation({
+    mutationFn: async ({ id, image }: { id: number; image: string | null }) => {
+      return apiRequest("PATCH", `/api/location-categories/${id}`, { image });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/location-categories"] });
+      toast({ title: "Location category image updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update location category image", variant: "destructive" });
     },
   });
 
@@ -2419,6 +2382,64 @@ function PageHeadersTab() {
     }
   };
 
+  const handleRegionUploadComplete = async (regionId: number, result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) {
+          toast({ title: "Failed to process image", variant: "destructive" });
+          return;
+        }
+        const { normalizedPath } = await response.json();
+        if (!normalizedPath) {
+          toast({ title: "Failed to get image path", variant: "destructive" });
+          return;
+        }
+        updateRegionMutation.mutate({ id: regionId, image: normalizedPath });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+    }
+  };
+
+  const handleLocationCategoryUploadComplete = async (categoryId: number, result: { successful: Array<{ uploadURL?: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadedUrl = result.successful[0].uploadURL;
+      if (!uploadedUrl) {
+        toast({ title: "Failed to get upload URL", variant: "destructive" });
+        return;
+      }
+      try {
+        const response = await fetch("/api/public-images", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: uploadedUrl }),
+        });
+        if (!response.ok) {
+          toast({ title: "Failed to process image", variant: "destructive" });
+          return;
+        }
+        const { normalizedPath } = await response.json();
+        if (!normalizedPath) {
+          toast({ title: "Failed to get image path", variant: "destructive" });
+          return;
+        }
+        updateLocationCategoryMutation.mutate({ id: categoryId, image: normalizedPath });
+      } catch {
+        toast({ title: "Failed to process image", variant: "destructive" });
+      }
+    }
+  };
+
   const handleRemoveImage = (pageSlug: string) => {
     const currentHeader = getHeaderForPage(pageSlug);
     upsertMutation.mutate({
@@ -2429,7 +2450,21 @@ function PageHeadersTab() {
     });
   };
 
-  if (isLoading) {
+  const handleRemoveRegionImage = (regionId: number) => {
+    updateRegionMutation.mutate({ id: regionId, image: null });
+  };
+
+  const handleRemoveLocationCategoryImage = (categoryId: number) => {
+    updateLocationCategoryMutation.mutate({ id: categoryId, image: null });
+  };
+
+  const getRegionName = (regionId: number | null) => {
+    if (!regionId) return "No Region";
+    const region = regions.find(r => r.id === regionId);
+    return region?.name || "Unknown Region";
+  };
+
+  if (isLoading || regionsLoading || categoriesLoading) {
     return (
       <div className="flex items-center justify-center py-12">
         <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
@@ -2438,23 +2473,86 @@ function PageHeadersTab() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="font-serif text-2xl font-semibold">Page Headers</h2>
+    <div className="space-y-8">
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-serif text-2xl font-semibold">Page Headers</h2>
+        </div>
+
+        <div className="grid gap-4">
+          {PAGE_CONFIGS.map((page) => {
+            const header = getHeaderForPage(page.slug);
+            return (
+              <Card key={page.slug} data-testid={`card-page-header-${page.slug}`}>
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-4">
+                    <div className="relative w-32 h-20 bg-muted rounded-md overflow-hidden flex-shrink-0">
+                      {header?.image ? (
+                        <img 
+                          src={header.image} 
+                          alt={`${page.name} header`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-lg" data-testid={`text-page-name-${page.slug}`}>
+                        {page.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {header?.image ? "Custom header image set" : "Using default header"}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {header?.image && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRemoveImage(page.slug)}
+                          disabled={upsertMutation.isPending}
+                          data-testid={`button-remove-header-${page.slug}`}
+                        >
+                          <Trash2 className="w-4 h-4 mr-1" />
+                          Remove
+                        </Button>
+                      )}
+                      <ObjectUploader
+                        onGetUploadParameters={handleGetUploadParameters}
+                        onComplete={(result) => handleUploadComplete(page.slug, result)}
+                      >
+                        <Upload className="w-4 h-4 mr-1" />
+                        {header?.image ? "Change" : "Upload"}
+                      </ObjectUploader>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="grid gap-4">
-        {PAGE_CONFIGS.map((page) => {
-          const header = getHeaderForPage(page.slug);
-          return (
-            <Card key={page.slug} data-testid={`card-page-header-${page.slug}`}>
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-serif text-2xl font-semibold">Region Images</h2>
+        </div>
+
+        <div className="grid gap-4">
+          {regions.map((region) => (
+            <Card key={region.id} data-testid={`card-region-${region.id}`}>
               <CardContent className="p-4">
                 <div className="flex items-start gap-4">
                   <div className="relative w-32 h-20 bg-muted rounded-md overflow-hidden flex-shrink-0">
-                    {header?.image ? (
+                    {region.image ? (
                       <img 
-                        src={header.image} 
-                        alt={`${page.name} header`}
+                        src={region.image} 
+                        alt={`${region.name} image`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -2465,22 +2563,22 @@ function PageHeadersTab() {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-lg" data-testid={`text-page-name-${page.slug}`}>
-                      {page.name}
+                    <h3 className="font-medium text-lg" data-testid={`text-region-name-${region.id}`}>
+                      {region.name}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      {header?.image ? "Custom header image set" : "Using default header"}
+                      {region.image ? "Custom image set" : "No image set"}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {header?.image && (
+                    {region.image && (
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleRemoveImage(page.slug)}
-                        disabled={upsertMutation.isPending}
-                        data-testid={`button-remove-header-${page.slug}`}
+                        onClick={() => handleRemoveRegionImage(region.id)}
+                        disabled={updateRegionMutation.isPending}
+                        data-testid={`button-remove-region-image-${region.id}`}
                       >
                         <Trash2 className="w-4 h-4 mr-1" />
                         Remove
@@ -2488,17 +2586,84 @@ function PageHeadersTab() {
                     )}
                     <ObjectUploader
                       onGetUploadParameters={handleGetUploadParameters}
-                      onComplete={(result) => handleUploadComplete(page.slug, result)}
+                      onComplete={(result) => handleRegionUploadComplete(region.id, result)}
                     >
                       <Upload className="w-4 h-4 mr-1" />
-                      {header?.image ? "Change" : "Upload"}
+                      {region.image ? "Change" : "Upload"}
                     </ObjectUploader>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          );
-        })}
+          ))}
+          {regions.length === 0 && (
+            <p className="text-muted-foreground text-center py-8">No regions found</p>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-serif text-2xl font-semibold">Location Category Images</h2>
+        </div>
+
+        <div className="grid gap-4">
+          {locationCategories.map((category) => (
+            <Card key={category.id} data-testid={`card-location-category-${category.id}`}>
+              <CardContent className="p-4">
+                <div className="flex items-start gap-4">
+                  <div className="relative w-32 h-20 bg-muted rounded-md overflow-hidden flex-shrink-0">
+                    {category.image ? (
+                      <img 
+                        src={category.image} 
+                        alt={`${category.name} image`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-lg" data-testid={`text-location-category-name-${category.id}`}>
+                      {category.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {getRegionName(category.regionId)} {category.image ? "• Custom image set" : "• No image set"}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {category.image && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleRemoveLocationCategoryImage(category.id)}
+                        disabled={updateLocationCategoryMutation.isPending}
+                        data-testid={`button-remove-location-category-image-${category.id}`}
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Remove
+                      </Button>
+                    )}
+                    <ObjectUploader
+                      onGetUploadParameters={handleGetUploadParameters}
+                      onComplete={(result) => handleLocationCategoryUploadComplete(category.id, result)}
+                    >
+                      <Upload className="w-4 h-4 mr-1" />
+                      {category.image ? "Change" : "Upload"}
+                    </ObjectUploader>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {locationCategories.length === 0 && (
+            <p className="text-muted-foreground text-center py-8">No location categories found</p>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -2693,6 +2858,9 @@ function AdminLoginForm({ onLogin }: { onLogin: () => void }) {
 }
 
 export default function Admin() {
+  const [isRefreshingStatic, setIsRefreshingStatic] = useState(false);
+  const { toast } = useToast();
+
   const { data: authStatus, isLoading: authLoading } = useQuery<{ isAdmin: boolean }>({
     queryKey: ["/api/admin/status"],
   });
@@ -2700,6 +2868,23 @@ export default function Admin() {
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
     queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] });
+  };
+
+  const handleRefreshStaticData = async () => {
+    setIsRefreshingStatic(true);
+    try {
+      const response = await apiRequest("POST", "/api/static/export");
+      const result = await response.json();
+      if (result.success) {
+        toast({ title: "Static data exported successfully" });
+      } else {
+        toast({ title: result.error || "Export failed", variant: "destructive" });
+      }
+    } catch (error) {
+      toast({ title: "Failed to export static data", variant: "destructive" });
+    } finally {
+      setIsRefreshingStatic(false);
+    }
   };
 
   if (authLoading) {
@@ -2730,9 +2915,20 @@ export default function Admin() {
               Manage your restaurant reviews and categories
             </p>
           </div>
-          <Button variant="outline" onClick={handleLogout} data-testid="button-admin-logout">
-            Logout
-          </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button 
+              variant="outline" 
+              onClick={handleRefreshStaticData}
+              disabled={isRefreshingStatic}
+              data-testid="button-refresh-static-data"
+            >
+              {isRefreshingStatic ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
+              Refresh Static Data
+            </Button>
+            <Button variant="outline" onClick={handleLogout} data-testid="button-admin-logout">
+              Logout
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="reviews" className="space-y-6">

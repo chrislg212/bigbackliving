@@ -8,8 +8,11 @@ import {
   type SocialEmbed, type InsertSocialEmbed,
   type PageHeader, type InsertPageHeader,
   type ContactSubmission, type InsertContactSubmission,
+  type Region, type InsertRegion,
+  type LocationCategory, type InsertLocationCategory,
   reviews, users, cuisines, nycEatsCategories, topTenLists,
-  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders, contactSubmissions
+  reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders, contactSubmissions,
+  regions, locationCategories
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc } from "drizzle-orm";
@@ -76,6 +79,14 @@ export interface IStorage {
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
   markContactSubmissionRead(id: number): Promise<ContactSubmission | undefined>;
   deleteContactSubmission(id: number): Promise<boolean>;
+  
+  getAllRegions(): Promise<Region[]>;
+  getRegionById(id: number): Promise<Region | undefined>;
+  updateRegion(id: number, data: Partial<InsertRegion>): Promise<Region | undefined>;
+  
+  getAllLocationCategories(): Promise<LocationCategory[]>;
+  getLocationCategoryById(id: number): Promise<LocationCategory | undefined>;
+  updateLocationCategory(id: number, data: Partial<InsertLocationCategory>): Promise<LocationCategory | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -365,6 +376,34 @@ export class DatabaseStorage implements IStorage {
   async deleteContactSubmission(id: number): Promise<boolean> {
     const result = await db.delete(contactSubmissions).where(eq(contactSubmissions.id, id)).returning();
     return result.length > 0;
+  }
+
+  async getAllRegions(): Promise<Region[]> {
+    return db.select().from(regions);
+  }
+
+  async getRegionById(id: number): Promise<Region | undefined> {
+    const [region] = await db.select().from(regions).where(eq(regions.id, id));
+    return region;
+  }
+
+  async updateRegion(id: number, updateData: Partial<InsertRegion>): Promise<Region | undefined> {
+    const [region] = await db.update(regions).set(updateData).where(eq(regions.id, id)).returning();
+    return region;
+  }
+
+  async getAllLocationCategories(): Promise<LocationCategory[]> {
+    return db.select().from(locationCategories);
+  }
+
+  async getLocationCategoryById(id: number): Promise<LocationCategory | undefined> {
+    const [category] = await db.select().from(locationCategories).where(eq(locationCategories.id, id));
+    return category;
+  }
+
+  async updateLocationCategory(id: number, updateData: Partial<InsertLocationCategory>): Promise<LocationCategory | undefined> {
+    const [category] = await db.update(locationCategories).set(updateData).where(eq(locationCategories.id, id)).returning();
+    return category;
   }
 }
 
