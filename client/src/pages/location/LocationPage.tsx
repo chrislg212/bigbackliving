@@ -130,8 +130,6 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
             )}
           </AnimatedSection>
         </div>
-        
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       <section className="relative mt-8 md:mt-16 z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pb-16 md:pb-24">
