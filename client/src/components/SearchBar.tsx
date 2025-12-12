@@ -21,7 +21,7 @@ const cuisinesList = [
 const listsList = [
   { name: "NYC Eats", href: "/rankings/nyc-eats" },
   { name: "Cuisines", href: "/rankings/cuisines" },
-  { name: "Top 10 Guides", href: "/rankings/top-10" },
+  { name: "Featured Guides", href: "/rankings/top-10" },
   { name: "College Budget Eats", href: "/rankings/college-budget" },
 ];
 

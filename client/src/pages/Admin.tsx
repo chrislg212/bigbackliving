@@ -1140,7 +1140,7 @@ function TopTenListsTab() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="font-serif text-2xl font-semibold">Top 10 Lists</h2>
+        <h2 className="font-serif text-2xl font-semibold">Featured Guides</h2>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => handleOpenDialog()} data-testid="button-add-list">
@@ -1902,7 +1902,7 @@ const PAGE_CONFIGS = [
   { slug: "social", name: "Socials" },
   { slug: "reviews", name: "Reviews" },
   { slug: "cuisines", name: "Cuisines" },
-  { slug: "top-10", name: "Top 10 Lists" },
+  { slug: "top-10", name: "Featured Guides" },
   { slug: "locations", name: "Locations" },
 ];
 
@@ -2572,7 +2572,7 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="top-ten" data-testid="tab-top-ten">
               <List className="w-4 h-4 mr-2" />
-              Top 10
+              Featured Guides
             </TabsTrigger>
             <TabsTrigger value="social" data-testid="tab-social">
               <Share2 className="w-4 h-4 mr-2" />
