@@ -222,7 +222,7 @@ export default function Social() {
 
       <section 
         id="tiktok-section" 
-        className="relative min-h-screen py-20 overflow-hidden bg-zinc-900 dark:bg-zinc-950"
+        className="relative min-h-screen py-20 overflow-hidden bg-slate-900 dark:bg-slate-950"
       >
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         
