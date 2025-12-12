@@ -51,7 +51,7 @@ export default function ReviewDetail() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 md:pb-12 w-full">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-3 mb-4 -ml-3">
             <Link href="/reviews">
               <Button
                 variant="ghost"
