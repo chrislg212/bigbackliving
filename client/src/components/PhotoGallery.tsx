@@ -48,12 +48,14 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
   return (
     <>
       <div className="space-y-6" data-testid="photo-gallery">
-        <div className="flex items-center gap-3">
-          <Camera className="w-5 h-5 text-primary" />
-          <h2 className="font-serif text-2xl font-semibold text-foreground">
-            {title}
-          </h2>
-        </div>
+        {title && (
+          <div className="flex items-center gap-3 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Camera className="w-5 h-5 text-primary" />
+            <h2 className="font-serif text-2xl font-semibold text-foreground">
+              {title}
+            </h2>
+          </div>
+        )}
 
         <div 
           className="relative overflow-hidden rounded-md"

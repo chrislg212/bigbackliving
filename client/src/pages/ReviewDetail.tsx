@@ -88,6 +88,15 @@ export default function ReviewDetail() {
         </div>
       </section>
 
+      {review.galleryImages && (review.galleryImages as GalleryImage[]).length > 0 && (
+        <section className="py-6 md:py-8">
+          <PhotoGallery 
+            images={review.galleryImages as GalleryImage[]} 
+            title=""
+          />
+        </section>
+      )}
+
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
@@ -244,14 +253,6 @@ export default function ReviewDetail() {
           </aside>
         </div>
 
-        {review.galleryImages && (review.galleryImages as GalleryImage[]).length > 0 && (
-          <div className="mt-12 pt-12 border-t border-primary/10">
-            <PhotoGallery 
-              images={review.galleryImages as GalleryImage[]} 
-              title="Photos"
-            />
-          </div>
-        )}
       </section>
 
       {relatedReviews.length > 0 && (
