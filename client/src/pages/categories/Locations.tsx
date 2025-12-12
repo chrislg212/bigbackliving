@@ -111,9 +111,7 @@ export default function Locations() {
                     href={`/location/${region.slug}`}
                     data-testid={`location-tile-${region.slug}`}
                   >
-                    <div className={`group relative rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover ${
-                      index === 0 ? 'aspect-[21/9]' : 'aspect-[21/9] md:aspect-[3/1]'
-                    }`}>
+                    <div className="group relative rounded-lg overflow-hidden cursor-pointer card-hover-lift gold-glow-hover aspect-[16/9] md:aspect-[4/1]">
                       <img
                         src={getRegionImage(region)}
                         alt={region.name}
