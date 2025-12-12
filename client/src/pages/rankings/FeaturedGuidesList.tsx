@@ -30,8 +30,8 @@ const listAccents: string[] = [
   "from-indigo-600",
 ];
 
-export default function Top10Lists() {
-  const { customImage } = usePageHeader("top-10");
+export default function FeaturedGuidesList() {
+  const { customImage } = usePageHeader("featured-guides");
   
   const lists = getTopTenLists();
 
@@ -48,7 +48,7 @@ export default function Top10Lists() {
   const gridLists = lists.slice(1);
 
   return (
-    <div className="min-h-screen" data-testid="top10-page">
+    <div className="min-h-screen" data-testid="featured-guides-page">
       <section className="border-b border-primary/10 overflow-hidden">
         <div className="grid md:grid-cols-2">
           <div className="relative h-48 md:h-auto md:min-h-[320px] order-1 md:order-2">
@@ -98,7 +98,7 @@ export default function Top10Lists() {
             </AnimatedSection>
 
             <AnimatedSection animation="scale-in" delay={100}>
-              <Link href={`/top-10/${heroList.slug}`} data-testid="hero-card">
+              <Link href={`/featured-guides/${heroList.slug}`} data-testid="hero-card">
                 <div className="group relative w-full aspect-[21/9] md:aspect-[3/1] rounded-lg overflow-hidden cursor-pointer mb-12 md:mb-16 card-hover-lift gold-glow-hover">
                   <img
                     src={getListImage(heroList)}
@@ -151,7 +151,7 @@ export default function Top10Lists() {
                       delay={300 + index * 100}
                     >
                       <Link
-                        href={`/top-10/${list.slug}`}
+                        href={`/featured-guides/${list.slug}`}
                         data-testid={`list-card-${list.slug}`}
                       >
                         <div className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer shadow-sm card-hover-lift">

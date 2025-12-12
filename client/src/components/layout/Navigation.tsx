@@ -20,7 +20,7 @@ const mainNavLinks = [
 const categoriesLinks = [
   { href: "/rankings/locations", label: "Locations" },
   { href: "/rankings/cuisines", label: "Cuisines" },
-  { href: "/rankings/top-10", label: "Featured Guides" },
+  { href: "/rankings/featured-guides", label: "Featured Guides" },
 ];
 
 const afterListsLinks = [
@@ -61,7 +61,7 @@ export default function Navigation() {
 
   const socialSettings = getSocialSettings();
 
-  const isCategoriesActive = location.startsWith("/location") || location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/top-10");
+  const isCategoriesActive = location.startsWith("/location") || location.startsWith("/rankings") || location.startsWith("/cuisines") || location.startsWith("/featured-guides");
 
   return (
     <header

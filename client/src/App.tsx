@@ -15,8 +15,8 @@ import Admin from "@/pages/Admin";
 import NYCEats from "@/pages/rankings/NYCEats";
 import Cuisines from "@/pages/rankings/Cuisines";
 import CuisineReviews from "@/pages/rankings/CuisineReviews";
-import Top10Lists from "@/pages/rankings/Top10Lists";
-import Top10Detail from "@/pages/rankings/Top10Detail";
+import FeaturedGuidesList from "@/pages/rankings/FeaturedGuidesList";
+import FeaturedGuideDetail from "@/pages/rankings/FeaturedGuideDetail";
 import CollegeBudget from "@/pages/rankings/CollegeBudget";
 import Locations from "@/pages/rankings/Locations";
 import LocationPage from "@/pages/location/LocationPage";
@@ -35,8 +35,8 @@ function Router() {
       <Route path="/location/europe">{() => <LocationPage regionSlug="europe" />}</Route>
       <Route path="/rankings/cuisines" component={Cuisines} />
       <Route path="/cuisines/:cuisine" component={CuisineReviews} />
-      <Route path="/rankings/top-10" component={Top10Lists} />
-      <Route path="/top-10/:slug" component={Top10Detail} />
+      <Route path="/rankings/featured-guides" component={FeaturedGuidesList} />
+      <Route path="/featured-guides/:slug" component={FeaturedGuideDetail} />
       <Route path="/rankings/college-budget" component={CollegeBudget} />
       <Route path="/social" component={Social} />
       <Route path="/about" component={About} />

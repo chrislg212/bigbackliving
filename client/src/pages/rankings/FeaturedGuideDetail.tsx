@@ -33,7 +33,7 @@ const listGradients: string[] = [
   "from-indigo-900/80 via-indigo-800/60 to-transparent",
 ];
 
-export default function Top10Detail() {
+export default function FeaturedGuideDetail() {
   const { slug } = useParams<{ slug: string }>();
 
   const data = getTopTenListWithItems(slug || "");
@@ -52,7 +52,7 @@ export default function Top10Detail() {
         <div className="text-center">
           <h1 className="font-serif text-3xl font-semibold text-foreground mb-4">List Not Found</h1>
           <p className="text-muted-foreground mb-6">The list you're looking for doesn't exist.</p>
-          <Link href="/rankings/top-10">
+          <Link href="/rankings/featured-guides">
             <Button variant="outline">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Featured Guides
@@ -66,7 +66,7 @@ export default function Top10Detail() {
   const { list, items } = data;
 
   return (
-    <div className="min-h-screen" data-testid="top10-detail-page">
+    <div className="min-h-screen" data-testid="featured-guide-detail-page">
       <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
         <div className="absolute inset-0">
           <img
@@ -89,7 +89,7 @@ export default function Top10Detail() {
         <div className="absolute inset-0 flex flex-col justify-end">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-16 w-full">
             <AnimatedSection animation="fade-in-up">
-              <Link href="/rankings/top-10">
+              <Link href="/rankings/featured-guides">
                 <Button
                   variant="ghost"
                   size="sm"
