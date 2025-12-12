@@ -1,9 +1,8 @@
 import { Link } from "wouter";
 import ReviewCard from "@/components/ReviewCard";
-import PageHeader from "@/components/PageHeader";
 import AnimatedSection from "@/components/AnimatedSection";
 import { usePageHeader } from "@/hooks/use-page-header";
-import { Star, ArrowRight, Award } from "lucide-react";
+import { Star, ArrowRight, Award, Sparkles, BookOpen } from "lucide-react";
 import nycRestaurantsImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
 import { getReviews } from "@/lib/staticData";
 
@@ -13,12 +12,54 @@ export default function Reviews() {
 
   return (
     <div className="min-h-screen" data-testid="reviews-page">
-      <PageHeader
-        title="My Reviews"
-        subtitle="Thoughtful, honest reviews of the restaurants that shaped my palate. From quiet neighborhood discoveries to the city's most iconic dining rooms. A personal guide to exceptional food."
-        backgroundImage={customImage || nycRestaurantsImage}
-      />
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${customImage || nycRestaurantsImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-background" />
+        
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
+          <div className="absolute top-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <div className="absolute bottom-1/3 left-1/2 w-px h-24 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+          <div className="absolute top-1/2 right-1/4 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        </div>
+        
+        <div className="absolute top-8 left-8 opacity-30 hidden md:block">
+          <BookOpen className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
+        </div>
+        <div className="absolute bottom-12 right-12 opacity-20 hidden md:block">
+          <Award className="w-16 h-16 text-white" />
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <AnimatedSection animation="fade-in-up">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary" />
+              <Sparkles className="w-5 h-5 text-primary" />
+              <span className="font-sans text-sm tracking-[0.3em] uppercase text-white/80">
+                Honest Opinions
+              </span>
+              <Sparkles className="w-5 h-5 text-primary" />
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary" />
+            </div>
+            
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-6">
+              My Reviews
+            </h1>
+            
+            <p className="font-sans text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
+              Thoughtful, honest reviews of the restaurants that shaped my palate. 
+              From quiet neighborhood discoveries to the city's most iconic dining rooms.
+            </p>
+          </AnimatedSection>
+        </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      </section>
+
+      <section className="relative -mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
         <AnimatedSection animation="fade-in-up" className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <Award className="w-5 h-5 text-primary" />
