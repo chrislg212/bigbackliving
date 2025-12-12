@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
@@ -12,42 +12,13 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
+  const [emblaRef] = useEmblaCarousel({
+    loop: false,
     align: "start",
-    slidesToScroll: 1,
+    dragFree: true,
+    containScroll: "trimSnaps",
   });
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  const scrollTo = useCallback(
-    (index: number) => {
-      if (emblaApi) emblaApi.scrollTo(index);
-    },
-    [emblaApi]
-  );
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi, onSelect]);
 
   if (!images || images.length === 0) {
     return null;
@@ -120,48 +91,7 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
             </div>
           </div>
 
-          {images.length > 1 && (
-            <>
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-primary/20 hover:bg-background z-10"
-                onClick={scrollPrev}
-                data-testid="carousel-prev"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-primary/20 hover:bg-background z-10"
-                onClick={scrollNext}
-                data-testid="carousel-next"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-            </>
-          )}
         </div>
-
-        {images.length > 1 && (
-          <div className="flex justify-center gap-2" data-testid="carousel-dots">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollTo(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === selectedIndex
-                    ? "bg-primary"
-                    : "bg-primary/30 hover:bg-primary/50"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-                data-testid={`carousel-dot-${index}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       {lightboxOpen && (
