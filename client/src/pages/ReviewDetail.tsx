@@ -89,13 +89,12 @@ export default function ReviewDetail() {
       </section>
 
       {review.vibes && review.vibes.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6" data-testid="vibes-section">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-3" data-testid="vibes-section">
           <div className="flex flex-wrap gap-2">
             {review.vibes.map((vibe) => (
               <Badge
                 key={vibe}
-                variant="outline"
-                className="font-sans text-sm px-3 py-1.5 border-primary/30 text-foreground"
+                className="font-sans text-sm px-3 py-1.5 bg-primary text-primary-foreground border-0"
               >
                 {vibe}
               </Badge>
