@@ -1899,7 +1899,7 @@ function SocialMediaTab() {
 const PAGE_CONFIGS = [
   { slug: "home", name: "Home" },
   { slug: "about", name: "About" },
-  { slug: "social", name: "Social" },
+  { slug: "social", name: "Socials" },
   { slug: "reviews", name: "Reviews" },
   { slug: "cuisines", name: "Cuisines" },
   { slug: "top-10", name: "Top 10 Lists" },
@@ -2576,7 +2576,7 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="social" data-testid="tab-social">
               <Share2 className="w-4 h-4 mr-2" />
-              Social
+              Socials
             </TabsTrigger>
             <TabsTrigger value="headers" data-testid="tab-headers">
               <ImageIcon className="w-4 h-4 mr-2" />
