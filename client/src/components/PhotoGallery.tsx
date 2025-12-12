@@ -21,7 +21,7 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
       slidesToScroll: 1,
       duration: 30,
     },
-    [Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })]
+    [Autoplay({ delay: 0, stopOnInteraction: false, stopOnMouseEnter: true })]
   );
 
   const scrollPrev = useCallback(() => {
