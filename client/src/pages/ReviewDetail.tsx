@@ -245,7 +245,7 @@ export default function ReviewDetail() {
         </div>
 
         {review.galleryImages && (review.galleryImages as GalleryImage[]).length > 0 && (
-          <div className="mt-12 pt-12 border-t border-primary/10">
+          <div className="mt-6 pt-6 border-t border-primary/10">
             <PhotoGallery 
               images={review.galleryImages as GalleryImage[]} 
               title="Photos"
