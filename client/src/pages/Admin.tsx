@@ -536,8 +536,8 @@ function ReviewsTab() {
                       <FormLabel>Vibes / Tags (Optional)</FormLabel>
                       <FormControl>
                         <Input
-                          value={field.value?.join(", ") || ""}
-                          onChange={(e) => {
+                          defaultValue={field.value?.join(", ") || ""}
+                          onBlur={(e) => {
                             const values = e.target.value
                               .split(",")
                               .map((v) => v.trim())
