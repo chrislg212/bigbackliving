@@ -200,6 +200,21 @@ export default function ReviewDetail() {
               </CardContent>
             </Card>
 
+            <Card className="border-0 shadow-sm overflow-hidden" data-testid="ad-placement">
+              <CardContent className="p-0">
+                <div className="bg-muted/50 flex items-center justify-center min-h-[250px]">
+                  <div className="text-center p-6">
+                    <div className="font-sans text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                      Advertisement
+                    </div>
+                    <div className="font-sans text-sm text-muted-foreground">
+                      Ad Space
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {review.mustTry && review.mustTry.length > 0 && (
               <Card className="border-0 shadow-sm">
                 <CardContent className="p-6">
