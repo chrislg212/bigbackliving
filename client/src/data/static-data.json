@@ -1,6 +1,25 @@
 {
   "reviews": [
     {
+      "id": 2,
+      "slug": "sendo",
+      "name": "Sendo",
+      "cuisine": "Japanese",
+      "location": "Koreatown, NY",
+      "rating": 4.8,
+      "excerpt": "Combines authenticity, minimalism, and exceptional quality. Inspired by traditional Tokyo\ncasual sushi counters, our obsession with the fundamentals is a core philosophy. ",
+      "image": "/images/798b62c5-7503-43cb-b015-54414c003e81.jpg",
+      "priceRange": "$$",
+      "fullReview": "At first, it was hard to find the way to this hidden gem. It was tucked next to a pizza place, and you have to walk up some stairs, and it is a small door on the 2nd floor. I got seated pretty quickly since I got there at 5 pm, right when it opened.\n\nIt is an intimate experience as I was seated at the bar facing the sushi chefs, making each piece was a grace and perfection. I got the omakase, and it was only $55. The best pieces were the tuna and salmon. They both melted in my mouth, with the flavors treating my tongue with care. Omakases usually go for a more expensive price, so you have to go here to make the most out of your buck.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": null,
+      "address": "876 6th Ave 2nd Floor, New York, NY 10001",
+      "website": "https://www.sendo.nyc/menu"
+    },
+    {
       "id": 1,
       "slug": "cote-korean-steakhouse",
       "name": "COTE Korean Steakhouse",
@@ -18,25 +37,6 @@
       "galleryImages": null,
       "address": "16 W 22nd St, New York, NY 10010",
       "website": "https://www.cotekoreansteakhouse.com/nycdinnermenu"
-    },
-    {
-      "id": 2,
-      "slug": "sendo",
-      "name": "Sendo",
-      "cuisine": "Japanese",
-      "location": "Koreatown, NY",
-      "rating": 4.8,
-      "excerpt": "Combines authenticity, minimalism, and exceptional quality. Inspired by traditional Tokyo\ncasual sushi counters, our obsession with the fundamentals is a core philosophy. ",
-      "image": "/images/798b62c5-7503-43cb-b015-54414c003e81.jpg",
-      "priceRange": "$$",
-      "fullReview": "At first, it was hard to find the way to this hidden gem. It was tucked next to a pizza place, and you have to walk up some stairs, and it is a small door on the 2nd floor. I got seated pretty quickly since I got there at 5 pm, right when it opened.\n\nIt is an intimate experience as I was seated at the bar facing the sushi chefs, making each piece was a grace and perfection. I got the omakase, and it was only $55. The best pieces were the tuna and salmon. They both melted in my mouth, with the flavors treating my tongue with care. Omakases usually go for a more expensive price, so you have to go here to make the most out of your buck.",
-      "highlights": [],
-      "atmosphere": "",
-      "mustTry": [],
-      "visitDate": "",
-      "galleryImages": null,
-      "address": null,
-      "website": null
     },
     {
       "id": 3,
@@ -71,8 +71,8 @@
           "caption": "Braised Pork Belly"
         }
       ],
-      "address": null,
-      "website": null
+      "address": "15 E 31st St, New York, NY 10016",
+      "website": "https://www.mytake31.com/menu"
     }
   ],
   "cuisines": [

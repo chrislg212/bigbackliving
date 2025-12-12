@@ -11,7 +11,6 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
   if (!images || images.length === 0) {
     return null;
@@ -55,16 +54,11 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
           </h2>
         </div>
 
-        <div 
-          className="relative overflow-hidden rounded-md"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        <div className="relative overflow-hidden rounded-md">
           <div 
             className="flex gap-4"
             style={{
               animation: `scroll ${images.length * 5}s linear infinite`,
-              animationPlayState: isPaused ? 'paused' : 'running',
             }}
           >
             {duplicatedImages.map((image, index) => (
