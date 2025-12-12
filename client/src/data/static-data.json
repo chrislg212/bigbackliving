@@ -166,18 +166,46 @@
   ],
   "topTenLists": [
     {
-      "id": 3,
-      "name": "Top 10 Omakases",
-      "slug": "top-10-omakases",
-      "description": "",
-      "image": "/images/b3a0e2c4-50b1-4ab9-8c41-fc2d3ca8bc30.jpg"
-    },
-    {
       "id": 1,
       "name": "Top Korean BBQs",
       "slug": "top-korean-bbqs",
       "description": "",
-      "image": ""
+      "image": "/images/0c97bc7d-db68-497a-ae80-7e06fe19b469.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Top Ramen Spots",
+      "slug": "top-ramen-spots",
+      "description": "",
+      "image": "/images/c6a3752f-54f1-49f5-973b-da6b075d5c71.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Top Chinatown Spots",
+      "slug": "top-chinatown-spots",
+      "description": "",
+      "image": "/images/b20ba2b5-e9a9-4aaa-8143-039b9ce98464.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Top Brunch Restaurants",
+      "slug": "top-brunch-restaurants",
+      "description": "",
+      "image": "/images/3ec95f2d-973b-4912-bd5d-47041e0e16fc.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Top Cocktail Bars",
+      "slug": "top-cocktail-bars",
+      "description": "",
+      "image": "/images/a374631e-6cdb-4b89-9b3d-98b975a9e694.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Top NYC Omakases",
+      "slug": "top-10-omakases",
+      "description": "",
+      "image": "/images/6f874ef6-0ef3-4df1-a28e-f85b2430d463.webp"
     }
   ],
   "topTenListItems": [
