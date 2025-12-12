@@ -84,7 +84,7 @@ export default function Social() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || foodPhotographyImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-black/90" />
         
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />

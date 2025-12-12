@@ -81,7 +81,7 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${customImage || region?.image || nycBgImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-background" />
         
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent" />
