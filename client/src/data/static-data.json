@@ -101,7 +101,32 @@
       "atmosphere": "",
       "mustTry": [],
       "visitDate": "",
-      "galleryImages": null,
+      "galleryImages": [
+        {
+          "url": "/images/d6100051-fb26-4a4b-9ffb-7a42dec9e524.jpg",
+          "caption": "Waygu Carbonara"
+        },
+        {
+          "url": "/images/1701d861-9097-4140-8cb2-429b91bc8bb2.jpg",
+          "caption": "Matcha Tiramisu"
+        },
+        {
+          "url": "/images/ada4e94f-18e3-4afa-9b7b-fd1ed6ed1ef5.jpg",
+          "caption": "Tuna Tartare"
+        },
+        {
+          "url": "/images/94e26da4-2e56-4071-8843-f01257f356c5.jpg",
+          "caption": "Fatty Bluefin Tuna"
+        },
+        {
+          "url": "/images/8e549cc8-fefd-43d8-b2c6-2ed4721395a1.jpg",
+          "caption": "Chips & Cheese"
+        },
+        {
+          "url": "/images/f46c9891-8040-46f1-a710-bae8aa131179.jpg",
+          "caption": "Dreamy Kawaii"
+        }
+      ],
       "address": "145 Bowery, New York, NY 10002",
       "website": "https://taogroup.com/venues/sake-no-hana-new-york/",
       "aboutBusiness": "Occupying a dramatic, festive space beneath the catwalk entry of Moxy Lower East Side, Japanese restaurant Sake no Hana serves free-spirited izakaya dishes invigorated with New York attitude. With a shareable menu of grilled teppanyaki dishes, yakitori skewers, Wagyu beef, creative sushi rolls, and a curated list of sakes, beers, and cocktails highlighting Japanese spirits. The space buzzes with alluring energy perfect for any celebration.",
