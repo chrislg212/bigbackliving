@@ -1,14 +1,17 @@
+import { useState } from "react";
 import Hero from "@/components/Hero";
 import ReviewCard from "@/components/ReviewCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { usePageHeader } from "@/hooks/use-page-header";
 import { getReviews } from "@/lib/staticData";
+import ContactFormModal from "@/components/ContactFormModal";
 
 export default function Home() {
   const { customImage } = usePageHeader("home");
   const reviews = getReviews();
   const recentReviews = reviews.slice(0, 6);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   return (
     <div data-testid="home-page">
@@ -61,18 +64,23 @@ export default function Home() {
             Have a Restaurant Recommendation?
           </h2>
           <p className="font-sans text-muted-foreground mb-8 max-w-lg mx-auto">I'm always on the hunt for my next great meal. Share your favorite spots and I might feature them!</p>
-          <a href="mailto:bigbackliving@gmail.com">
-            <Button
-              variant="default"
-              size="lg"
-              className="font-sans uppercase tracking-wider"
-              data-testid="contact-cta"
-            >
-              Get in Touch
-            </Button>
-          </a>
+          <Button
+            variant="default"
+            size="lg"
+            className="font-sans uppercase tracking-wider"
+            data-testid="contact-cta"
+            onClick={() => setContactModalOpen(true)}
+          >
+            Get in Touch
+          </Button>
         </div>
       </section>
+
+      <ContactFormModal 
+        open={contactModalOpen} 
+        onOpenChange={setContactModalOpen}
+        showTrigger={false}
+      />
     </div>
   );
 }

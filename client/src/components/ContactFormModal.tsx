@@ -20,9 +20,22 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-export default function ContactFormModal() {
-  const [open, setOpen] = useState(false);
+interface ContactFormModalProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showTrigger?: boolean;
+}
+
+export default function ContactFormModal({ 
+  open: controlledOpen, 
+  onOpenChange: controlledOnOpenChange,
+  showTrigger = true 
+}: ContactFormModalProps = {}) {
+  const [internalOpen, setInternalOpen] = useState(false);
   const { toast } = useToast();
+
+  const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setOpen = controlledOnOpenChange || setInternalOpen;
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -60,12 +73,14 @@ export default function ContactFormModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" variant="outline" data-testid="button-contact-form">
-          <MessageSquare className="w-4 h-4 mr-2" />
-          Send Message
-        </Button>
-      </DialogTrigger>
+      {showTrigger && (
+        <DialogTrigger asChild>
+          <Button size="sm" variant="outline" data-testid="button-contact-form">
+            <MessageSquare className="w-4 h-4 mr-2" />
+            Send Message
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="font-serif text-xl">Get in Touch</DialogTitle>
