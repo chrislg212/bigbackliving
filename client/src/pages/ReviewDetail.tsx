@@ -106,16 +106,6 @@ export default function ReviewDetail() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 md:pt-8 md:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-3 space-y-8">
-            <article
-              className="font-sans text-foreground leading-relaxed space-y-6"
-              data-testid="review-content"
-            >
-              {(review.fullReview || review.excerpt).split("\n\n").map((paragraph, idx) => (
-                <p key={idx} className="text-base md:text-lg">
-                  {paragraph}
-                </p>
-              ))}
-            </article>
             {review.aboutBusiness && (
               <div data-testid="about-business">
                 <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
@@ -126,6 +116,21 @@ export default function ReviewDetail() {
                 </p>
               </div>
             )}
+            <div data-testid="my-review">
+              <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+                My Review
+              </h2>
+              <article
+                className="font-sans text-foreground leading-relaxed space-y-6"
+                data-testid="review-content"
+              >
+                {(review.fullReview || review.excerpt).split("\n\n").map((paragraph, idx) => (
+                  <p key={idx} className="text-base md:text-lg">
+                    {paragraph}
+                  </p>
+                ))}
+              </article>
+            </div>
           </div>
 
           <aside className="lg:col-span-2 space-y-6">
