@@ -48,6 +48,14 @@ export default function Footer() {
                   About
                 </span>
               </Link>
+              <Link href="/social">
+                <span
+                  className="font-sans text-sm text-muted-foreground hover:text-primary cursor-pointer transition-colors"
+                  data-testid="footer-link-socials"
+                >
+                  Socials
+                </span>
+              </Link>
             </nav>
           </div>
 
