@@ -20,7 +20,7 @@ export default function Home() {
     <div data-testid="home-page">
       <Hero customImage={customImage} />
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8 md:pt-20 md:pb-10">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-2 md:pt-20 md:pb-4">
         <div className="relative text-center" data-testid="personal-quote">
           <Quote className="w-10 h-10 text-primary/30 mx-auto mb-4" />
           <blockquote className="font-serif text-xl md:text-2xl lg:text-3xl text-foreground italic leading-relaxed">
