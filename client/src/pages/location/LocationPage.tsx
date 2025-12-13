@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MapPin, Navigation, Sparkles, ChevronLeft, ChevronRight, Star, Globe } from "lucide-react";
+import { MapPin, Navigation, Sparkles, ChevronLeft, ChevronRight, Star, Globe, ArrowLeft } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,17 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
           style={{ backgroundImage: `url(${customImage || region?.image || nycBgImage})` }}
         />
         <div className="absolute inset-0 bg-black/80" />
+        
+        <Link href="/categories/locations" className="absolute top-6 left-6 z-20">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all duration-200 rounded-full"
+            data-testid="back-to-locations"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+        </Link>
         
         <div className="absolute top-8 left-8 opacity-30 hidden md:block">
           <MapPin className="w-12 h-12 text-primary animate-pulse" style={{ animationDuration: '4s' }} />
