@@ -242,7 +242,7 @@ export default function Navigation() {
               ))}
 
               <div className="pt-4 px-3" data-testid="mobile-search">
-                <SearchBar />
+                <SearchBar fullWidth />
               </div>
             </div>
           </div>

@@ -25,7 +25,11 @@ const listsList = [
   { name: "College Budget Eats", href: "/categories/college-budget" },
 ];
 
-export default function SearchBar() {
+interface SearchBarProps {
+  fullWidth?: boolean;
+}
+
+export default function SearchBar({ fullWidth = false }: SearchBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [location] = useLocation();
@@ -84,7 +88,7 @@ export default function SearchBar() {
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          className="pl-9 pr-9 w-40 md:w-56 text-sm bg-muted/50 border-primary/20 focus:border-primary/40"
+          className={`pl-9 pr-9 text-sm bg-muted/50 border-primary/20 focus:border-primary/40 ${fullWidth ? 'w-full' : 'w-40 md:w-56'}`}
           data-testid="search-input"
         />
         {query && (
