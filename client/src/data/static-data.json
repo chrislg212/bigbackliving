@@ -137,6 +137,58 @@
         "Birthdays",
         "Fine Dining"
       ]
+    },
+    {
+      "id": 5,
+      "slug": "lao-sze-chuan",
+      "name": "Lao Sze Chuan",
+      "cuisine": "Chinese",
+      "location": "North Bethesda, Maryland",
+      "rating": 3.6,
+      "excerpt": "Casual dining room serving traditional Sichuan dishes including Peking duck, plus drinks.\n",
+      "image": "/images/3697e389-ee86-4878-8ecf-46a28817141d.jpg",
+      "priceRange": "$$",
+      "fullReview": "Went here for my birthday celebration with my family. Wanted to try dim sum in my hometown ever since eating at numerous places in NYC. \n\nThe vibes and service weren't anything spectacular. I like the interior and the large round tables for big groups. Service was pretty fast, and we got our food pretty quickly.\n\nI got calamari for the appetizer and it was decent. I don't usually get it at a Chinese place and I probably won't again. \n\nThe pekking duck skin was to die for. Very crispy and flavorful, it melts in your mouth. However, the actual duck was very average and it got cold quickly. The pork xlb was very mid; it did not make me wanna eat another one. \n\nThe fried rice and noodles were pretty good though. I thought the whole meal was very filling and I was decently satisfied with all of the food combined. Individually, it could be better.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/f682e943-8379-4255-b91a-204f284324e1.jpg",
+          "caption": "Calamari"
+        },
+        {
+          "url": "/images/4f07cd26-b0c1-4c16-9590-5f39cd58d91f.jpg",
+          "caption": "Lo Mein"
+        },
+        {
+          "url": "/images/d65d0b01-f8fc-4122-bb26-737e62671bc2.jpg",
+          "caption": "Fried Rice"
+        },
+        {
+          "url": "/images/9f71a317-0a7f-45a6-b613-9f940f53e573.jpg",
+          "caption": "Fried Noodles"
+        },
+        {
+          "url": "/images/1218193f-5feb-4061-b158-df5c563cb9ab.jpg",
+          "caption": "Peking Duck"
+        },
+        {
+          "url": "/images/8c90b4c8-71a8-485c-aa38-a92513f21eb1.jpg",
+          "caption": "Sesame Chicken "
+        }
+      ],
+      "address": "20 Paseo Dr, North Bethesda, MD 20852",
+      "website": "https://order.peblla.com/lsc/order?sid=640148175017062400",
+      "aboutBusiness": "Located in North Bethesda, Lao Sze Chuan is a restaurant that provides a genuine Szechuan dining experience with bold flavors and typical Chinese cuisine. The restaurant specializes in the distinct spices used in Szechuan cuisine, such as chili peppers and Szechuan peppercorns, giving it a variety of dishes that are characterized by bold flavors. The restaurant offers a list of typical dishes such as stir-fry meals, noodles, and flavorful specials, which can suit a lover of spicy food and a person who wants to taste different flavors. With a focus on fresh ingredients and authentic preparation methods, Lao Sze Chuan is a restaurant that provides a memorable meal with bold flavors.",
+      "vibes": [
+        "Sharing",
+        "Large Groups",
+        "Large Portions",
+        "Birthdays",
+        "Casual Dinner"
+      ]
     }
   ],
   "cuisines": [
@@ -357,6 +409,9 @@
     ],
     "4": [
       3
+    ],
+    "5": [
+      7
     ]
   },
   "reviewNycCategoryMap": {
@@ -431,6 +486,9 @@
     ],
     "4": [
       1
+    ],
+    "5": [
+      2
     ]
   }
 }

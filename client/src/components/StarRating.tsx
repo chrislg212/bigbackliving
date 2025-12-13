@@ -45,17 +45,48 @@ export default function StarRating({
     <div className="flex items-center gap-1" data-testid="star-rating">
       <div className="flex gap-0.5">
         {Array.from({ length: maxRating }).map((_, index) => {
-          const filled = index < Math.floor(rating);
-          const halfFilled = !filled && index < rating;
+          const fillAmount = Math.min(Math.max(rating - index, 0), 1);
+          const isFull = fillAmount === 1;
+          const isEmpty = fillAmount === 0;
+          const isPartial = fillAmount > 0 && fillAmount < 1;
 
+          if (isEmpty) {
+            return (
+              <Star
+                key={index}
+                className={`${sizeClasses[size]} ${emptyColor}`}
+                data-testid={`star-${index + 1}`}
+              />
+            );
+          }
+
+          if (isFull) {
+            return (
+              <Star
+                key={index}
+                className={`${sizeClasses[size]} ${starColor}`}
+                data-testid={`star-${index + 1}`}
+              />
+            );
+          }
+
+          // Partial star - clip filled star to show decimal portion
           return (
-            <Star
-              key={index}
-              className={`${sizeClasses[size]} ${
-                filled || halfFilled ? starColor : emptyColor
-              }`}
-              data-testid={`star-${index + 1}`}
-            />
+            <div key={index} className="relative inline-block">
+              <Star
+                className={`${sizeClasses[size]} ${emptyColor}`}
+                data-testid={`star-${index + 1}-empty`}
+              />
+              <div
+                className="absolute inset-0 overflow-hidden"
+                style={{ width: `${fillAmount * 100}%` }}
+              >
+                <Star
+                  className={`${sizeClasses[size]} ${starColor}`}
+                  data-testid={`star-${index + 1}-partial`}
+                />
+              </div>
+            </div>
           );
         })}
       </div>
