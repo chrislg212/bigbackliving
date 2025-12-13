@@ -35,7 +35,13 @@ All main category pages use `/categories/` prefix:
 
 ## Recent Changes (Latest Session)
 
-### Route & Naming Restructuring
+### Review-Location Categories Feature
+- **Admin Panel**: Added location category multi-select to review form with checkboxes grouped by region
+- **API Endpoints**: GET/PUT `/api/reviews/:id/location-categories` for managing review-location associations
+- **Storage Layer**: Added methods getReviewLocationCategories, setReviewLocationCategories, getReviewsByLocationCategory
+- Reviews can now be assigned to multiple location categories (neighborhoods/areas) within regions
+
+### Previous Session: Route & Naming Restructuring
 - **Folder migration**: Renamed `client/src/pages/rankings/` → `client/src/pages/categories/`
 - **Route prefix change**: All routes changed from `/rankings/*` to `/categories/*`
 - **Component renames**: 
