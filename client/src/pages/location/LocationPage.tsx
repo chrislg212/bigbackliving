@@ -82,7 +82,7 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
         />
         <div className="absolute inset-0 bg-black/80" />
         
-        <Link href="/categories/locations" className="absolute top-8 left-8 z-20">
+        <Link href="/categories/locations" className="absolute bottom-8 left-8 z-20">
           <Button
             variant="ghost"
             className="text-white hover:bg-transparent hover:text-white/80 transition-all duration-200 gap-2 px-0"
