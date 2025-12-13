@@ -81,7 +81,11 @@ export default function About() {
                           asChild
                           data-testid="contact-email"
                         >
-                          <a href="mailto:bigbackliving@gmail.com">
+                          <a 
+                            href="https://mail.google.com/mail/?view=cm&fs=1&to=bigbackliving@gmail.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <Mail className="w-4 h-4 mr-2" />
                             bigbackliving@gmail.com
                           </a>
