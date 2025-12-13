@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, type WheelEvent } from "react";
 import { MapPin, Navigation, Sparkles, ChevronLeft, ChevronRight, Star, Globe, ArrowLeft } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Badge } from "@/components/ui/badge";
@@ -56,6 +56,7 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
 
   const featuredReviews = hasRegionReviews ? regionReviews.slice(0, 6) : [];
   const [currentSlide, setCurrentSlide] = useState(0);
+  const lastWheelTime = useRef(0);
 
   useEffect(() => {
     if (featuredReviews.length === 0) return;
@@ -71,6 +72,19 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + featuredReviews.length) % featuredReviews.length);
+  };
+
+  const handleWheel = (e: WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const now = Date.now();
+    if (now - lastWheelTime.current < 200) return; // Throttle to prevent too-fast scrolling
+    lastWheelTime.current = now;
+    
+    if (e.deltaY > 0 || e.deltaX > 0) {
+      nextSlide();
+    } else if (e.deltaY < 0 || e.deltaX < 0) {
+      prevSlide();
+    }
   };
 
   return (
@@ -142,7 +156,11 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
             <AnimatedSection animation="fade-in-up" delay={100} className="mb-20">
               <div className="relative">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="md:col-span-2 relative overflow-hidden rounded-md">
+                  <div 
+                    className="md:col-span-2 relative overflow-hidden rounded-md cursor-grab"
+                    onWheel={handleWheel}
+                    data-testid="carousel-container"
+                  >
                     {featuredReviews.map((review, index) => (
                       <div
                         key={review.id}
