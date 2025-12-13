@@ -240,6 +240,10 @@ export default function Navigation() {
                   </span>
                 </Link>
               ))}
+
+              <div className="pt-4 px-3" data-testid="mobile-search">
+                <SearchBar />
+              </div>
             </div>
           </div>
         )}
