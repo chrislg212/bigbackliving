@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
 import { usePageHeader } from "@/hooks/use-page-header";
-import { getRegions, getLocationCategoriesByRegion, getReviewsByRegion } from "@/lib/staticData";
+import { getRegions, getReviewsByRegion } from "@/lib/staticData";
 
 import nycBgImage from "@assets/stock_images/nyc_restaurants_food_2a9fc1d4.jpg";
 
@@ -50,7 +50,6 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
   
   const regions = getRegions();
   const region = regions.find(r => r.slug === regionSlug);
-  const categories = getLocationCategoriesByRegion(region?.id || 0);
   
   const regionReviews = getReviewsByRegion(regionSlug);
   const hasRegionReviews = regionReviews.length > 0;
@@ -112,22 +111,6 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
             <p className="font-sans text-lg md:text-xl text-white/70 max-w-2xl mx-auto mt-6">
               {config.description}
             </p>
-
-            {categories.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-2 mt-8">
-                {categories.map((category) => (
-                  <Link key={category.id} href={`/location/${regionSlug}/${category.slug}`}>
-                    <Badge
-                      variant="outline"
-                      className="px-3 py-1.5 text-sm font-sans cursor-pointer bg-white/10 border-white/20 text-white hover:bg-white/20"
-                    >
-                      <MapPin className="w-3 h-3 mr-1.5" />
-                      <span className="font-medium">{category.name}</span>
-                    </Badge>
-                  </Link>
-                ))}
-              </div>
-            )}
           </AnimatedSection>
         </div>
       </section>
@@ -268,64 +251,6 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
           </>
         )}
 
-        {categories.length > 0 && (
-          <>
-            <AnimatedSection animation="fade-in-up" delay={200} className="mb-12">
-              <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                Browse by Category
-              </h2>
-              <p className="font-sans text-muted-foreground">Explore {config.title} restaurants by category</p>
-            </AnimatedSection>
-
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16"
-              data-testid="categories-grid"
-            >
-              {categories.map((category, index) => (
-                <AnimatedSection 
-                  key={category.id} 
-                  animation="fade-in-up" 
-                  delay={300 + index * 75}
-                >
-                  <Link href={`/location/${regionSlug}/${category.slug}`}>
-                    <Card 
-                      className="overflow-hidden border-0 cursor-pointer group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-md bg-card"
-                      data-testid={`category-card-${category.slug}`}
-                    >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                        {category.image ? (
-                          <img
-                            src={category.image}
-                            alt={category.name}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <Globe className="w-12 h-12 text-muted-foreground/30" />
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
-                      
-                      <CardContent className="p-5">
-                        <h3 className="font-serif text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-200">
-                          {category.name}
-                        </h3>
-                        
-                        {category.description && (
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {category.description}
-                          </p>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </AnimatedSection>
-              ))}
-            </div>
-          </>
-        )}
-
         {regionReviews.length > 0 && (
           <>
             <AnimatedSection animation="fade-in-up" delay={200} className="mb-12">
@@ -393,7 +318,7 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
           </>
         )}
 
-        {regionReviews.length === 0 && categories.length === 0 && (
+        {regionReviews.length === 0 && (
           <div className="text-center py-12">
             <Globe className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
             <p className="text-muted-foreground mb-4">No reviews in {config.title} yet.</p>

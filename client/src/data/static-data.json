@@ -39,8 +39,8 @@
       "galleryImages": null,
       "address": "16 W 22nd St, New York, NY 10010",
       "website": "https://www.cotekoreansteakhouse.com/nycdinnermenu",
-      "aboutBusiness": null,
-      "vibes": null
+      "aboutBusiness": "",
+      "vibes": []
     },
     {
       "id": 3,
@@ -393,6 +393,44 @@
       "image": "/images/7fdd0de1-f843-4a45-9a7f-8220eafe9070.jpg"
     }
   ],
-  "locationCategories": [],
-  "reviewLocationCategoryMap": {}
+  "locationCategories": [
+    {
+      "id": 1,
+      "name": "NYC",
+      "slug": "nyc",
+      "description": null,
+      "image": null,
+      "regionId": 1
+    },
+    {
+      "id": 2,
+      "name": "DMV",
+      "slug": "dmv",
+      "description": null,
+      "image": null,
+      "regionId": 2
+    },
+    {
+      "id": 3,
+      "name": "Europe",
+      "slug": "europe",
+      "description": null,
+      "image": null,
+      "regionId": 3
+    }
+  ],
+  "reviewLocationCategoryMap": {
+    "1": [
+      1
+    ],
+    "2": [
+      1
+    ],
+    "3": [
+      1
+    ],
+    "4": [
+      1
+    ]
+  }
 }
