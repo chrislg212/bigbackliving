@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, X, Utensils, List, MapPin } from "lucide-react";
+import { Search, X, Utensils, List, MapPin, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { getReviews } from "@/lib/staticData";
+import { getReviews, getTopTenLists } from "@/lib/staticData";
 
 const cuisinesList = [
   { name: "Italian", href: "/cuisines/italian" },
@@ -37,6 +37,7 @@ export default function SearchBar({ fullWidth = false }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const dbReviews = getReviews();
+  const featuredGuides = getTopTenLists();
 
   useEffect(() => {
     setIsOpen(false);
@@ -72,7 +73,15 @@ export default function SearchBar({ fullWidth = false }: SearchBarProps) {
     ? listsList.filter((l) => l.name.toLowerCase().includes(searchQuery))
     : [];
 
-  const hasResults = filteredReviews.length > 0 || filteredCuisines.length > 0 || filteredLists.length > 0;
+  const filteredFeaturedGuides = searchQuery
+    ? featuredGuides.filter(
+        (g) =>
+          g.name.toLowerCase().includes(searchQuery) ||
+          (g.description && g.description.toLowerCase().includes(searchQuery))
+      )
+    : [];
+
+  const hasResults = filteredReviews.length > 0 || filteredCuisines.length > 0 || filteredLists.length > 0 || filteredFeaturedGuides.length > 0;
 
   return (
     <div className="relative" ref={containerRef}>
@@ -171,12 +180,41 @@ export default function SearchBar({ fullWidth = false }: SearchBarProps) {
                 </div>
               )}
 
+              {filteredFeaturedGuides.length > 0 && (
+                <div>
+                  <div className="px-3 py-2 bg-muted/50 border-b border-primary/10">
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                      <BookOpen className="w-3 h-3" />
+                      Featured Guides
+                    </span>
+                  </div>
+                  {filteredFeaturedGuides.slice(0, 5).map((guide) => (
+                    <Link key={guide.id} href={`/categories/featured-guides/${guide.slug}`}>
+                      <div
+                        className="px-3 py-2.5 hover-elevate cursor-pointer border-b border-primary/5 last:border-0"
+                        onClick={() => setIsOpen(false)}
+                        data-testid={`search-result-guide-${guide.slug}`}
+                      >
+                        <div className="font-sans text-sm font-medium text-foreground">
+                          {guide.name}
+                        </div>
+                        {guide.description && (
+                          <div className="font-sans text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                            {guide.description}
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
               {filteredLists.length > 0 && (
                 <div>
                   <div className="px-3 py-2 bg-muted/50 border-b border-primary/10">
                     <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                       <List className="w-3 h-3" />
-                      Guides
+                      Categories
                     </span>
                   </div>
                   {filteredLists.map((list) => (
