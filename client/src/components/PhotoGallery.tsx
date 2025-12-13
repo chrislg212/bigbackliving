@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, type WheelEvent } from "react";
 import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { GalleryImage } from "@shared/schema";
@@ -11,12 +11,24 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const lastWheelTime = useRef(0);
 
   if (!images || images.length === 0) {
     return null;
   }
 
   const duplicatedImages = [...images, ...images, ...images];
+  
+  // Calculate image width based on viewport (matching CSS)
+  const getImageWidth = () => {
+    if (typeof window === 'undefined') return 280;
+    if (window.innerWidth >= 1024) return 360;
+    if (window.innerWidth >= 768) return 320;
+    return 280;
+  };
 
   const openLightbox = (index: number) => {
     const actualIndex = index % images.length;
@@ -44,6 +56,43 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
     if (e.key === "ArrowRight") goToNext();
   };
 
+  const handleWheel = (e: WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    
+    // Throttle wheel events
+    const now = Date.now();
+    if (now - lastWheelTime.current < 50) return;
+    lastWheelTime.current = now;
+    
+    // Pause auto-scroll on interaction
+    if (!isPaused) {
+      setIsPaused(true);
+    }
+    
+    const imageWidth = getImageWidth() + 16; // width + gap
+    const maxScroll = images.length * imageWidth;
+    
+    // Calculate new scroll position
+    const delta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
+    const scrollAmount = delta > 0 ? 100 : -100;
+    
+    setScrollPosition(prev => {
+      let newPos = prev + scrollAmount;
+      // Loop around
+      if (newPos < 0) newPos = maxScroll + newPos;
+      if (newPos >= maxScroll) newPos = newPos - maxScroll;
+      return newPos;
+    });
+  };
+
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
+
   return (
     <>
       <div className="space-y-6" data-testid="photo-gallery">
@@ -54,10 +103,20 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
           </h2>
         </div>
 
-        <div className="relative overflow-hidden rounded-md">
+        <div 
+          className="relative overflow-hidden rounded-md cursor-grab"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onWheel={handleWheel}
+          ref={scrollRef}
+          data-testid="gallery-scroll-container"
+        >
           <div 
             className="flex gap-4"
-            style={{
+            style={isPaused ? {
+              transform: `translateX(-${scrollPosition}px)`,
+              transition: 'transform 0.1s ease-out',
+            } : {
               animation: `scroll ${images.length * 5}s linear infinite`,
             }}
           >
