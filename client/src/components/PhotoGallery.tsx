@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Camera, Grid, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { GalleryImage } from "@shared/schema";
 
@@ -11,6 +11,7 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showAllPhotos, setShowAllPhotos] = useState(false);
 
   if (!images || images.length === 0) {
     return null;
@@ -47,13 +48,60 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
   return (
     <>
       <div className="space-y-6" data-testid="photo-gallery">
-        <div className="flex items-center gap-3">
-          <Camera className="w-5 h-5 text-primary" />
-          <h2 className="font-serif text-2xl font-semibold text-foreground">
-            {title}
-          </h2>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <Camera className="w-5 h-5 text-primary" />
+            <h2 className="font-serif text-2xl font-semibold text-foreground">
+              {title}
+            </h2>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowAllPhotos(!showAllPhotos)}
+            className="gap-2"
+            data-testid="toggle-all-photos"
+          >
+            {showAllPhotos ? (
+              <>
+                <Play className="w-4 h-4" />
+                <span>Slideshow</span>
+              </>
+            ) : (
+              <>
+                <Grid className="w-4 h-4" />
+                <span>All Photos</span>
+              </>
+            )}
+          </Button>
         </div>
 
+        {showAllPhotos ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" data-testid="photo-grid">
+            {images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => openLightbox(index)}
+                className="group relative aspect-[4/3] w-full rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                data-testid={`grid-image-${index}`}
+              >
+                <img
+                  src={image.url}
+                  alt={image.caption || `Gallery photo ${index + 1}`}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                {image.caption && (
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="font-sans text-xs text-white line-clamp-2">
+                      {image.caption}
+                    </p>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        ) : (
         <div className="relative overflow-hidden rounded-md">
           <div 
             className="flex gap-4"
@@ -89,6 +137,7 @@ export default function PhotoGallery({ images, title = "Photos" }: PhotoGalleryP
             ))}
           </div>
         </div>
+        )}
       </div>
 
       <style>{`
