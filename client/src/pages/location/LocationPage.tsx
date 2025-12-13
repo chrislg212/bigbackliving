@@ -82,14 +82,14 @@ export default function LocationPage({ regionSlug }: LocationPageProps) {
         />
         <div className="absolute inset-0 bg-black/80" />
         
-        <Link href="/categories/locations" className="absolute top-6 left-6 z-20">
+        <Link href="/categories/locations" className="absolute top-8 left-8 z-20">
           <Button
             variant="ghost"
-            size="icon"
-            className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all duration-200 rounded-full"
+            className="text-white hover:bg-transparent hover:text-white/80 transition-all duration-200 gap-2 px-0"
             data-testid="back-to-locations"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4" />
+            <span className="font-sans text-sm font-medium">All Locations</span>
           </Button>
         </Link>
         
