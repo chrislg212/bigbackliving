@@ -110,6 +110,7 @@ function ReviewsTab() {
   const [editingReview, setEditingReview] = useState<Review | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const [expandedReviewId, setExpandedReviewId] = useState<number | null>(null);
+  const [selectedLocationCategoryIds, setSelectedLocationCategoryIds] = useState<number[]>([]);
   const { toast } = useToast();
 
   const { data: reviews = [], isLoading } = useQuery<Review[]>({
@@ -118,6 +119,14 @@ function ReviewsTab() {
 
   const { data: cuisines = [] } = useQuery<Cuisine[]>({
     queryKey: ["/api/cuisines"],
+  });
+
+  const { data: regions = [] } = useQuery<Region[]>({
+    queryKey: ["/api/regions"],
+  });
+
+  const { data: locationCategories = [] } = useQuery<LocationCategory[]>({
+    queryKey: ["/api/location-categories"],
   });
 
   const form = useForm<ReviewFormData>({
@@ -145,13 +154,21 @@ function ReviewsTab() {
 
   const createMutation = useMutation({
     mutationFn: async (data: ReviewFormData) => {
-      return apiRequest("POST", "/api/reviews", data);
+      const response = await apiRequest("POST", "/api/reviews", data);
+      const review = await response.json();
+      if (selectedLocationCategoryIds.length > 0) {
+        await apiRequest("PUT", `/api/reviews/${review.id}/location-categories`, {
+          locationCategoryIds: selectedLocationCategoryIds,
+        });
+      }
+      return review;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
       setIsDialogOpen(false);
       form.reset();
       setUploadedImageUrl("");
+      setSelectedLocationCategoryIds([]);
       toast({ title: "Review created successfully" });
     },
     onError: () => {
@@ -161,7 +178,11 @@ function ReviewsTab() {
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: ReviewFormData }) => {
-      return apiRequest("PATCH", `/api/reviews/${id}`, data);
+      await apiRequest("PATCH", `/api/reviews/${id}`, data);
+      await apiRequest("PUT", `/api/reviews/${id}/location-categories`, {
+        locationCategoryIds: selectedLocationCategoryIds,
+      });
+      return id;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
@@ -169,6 +190,7 @@ function ReviewsTab() {
       setEditingReview(null);
       form.reset();
       setUploadedImageUrl("");
+      setSelectedLocationCategoryIds([]);
       toast({ title: "Review updated successfully" });
     },
     onError: () => {
@@ -190,7 +212,7 @@ function ReviewsTab() {
   });
 
 
-  const handleOpenDialog = (review?: Review) => {
+  const handleOpenDialog = async (review?: Review) => {
     if (review) {
       setEditingReview(review);
       form.reset({
@@ -213,10 +235,21 @@ function ReviewsTab() {
         aboutBusiness: review.aboutBusiness || "",
       });
       setUploadedImageUrl(review.image || "");
+      try {
+        const response = await apiRequest("GET", `/api/reviews/${review.id}/location-categories`);
+        if (response.ok) {
+          const categories: LocationCategory[] = await response.json();
+          setSelectedLocationCategoryIds(categories.map(c => c.id));
+        }
+      } catch (error) {
+        console.error("Error fetching review location categories:", error);
+        toast({ title: "Failed to load location categories", variant: "destructive" });
+      }
     } else {
       setEditingReview(null);
       form.reset();
       setUploadedImageUrl("");
+      setSelectedLocationCategoryIds([]);
     }
     setIsDialogOpen(true);
   };
@@ -529,6 +562,50 @@ function ReviewsTab() {
                       </FormItem>
                     )}
                   />
+                </div>
+
+                <div className="space-y-3">
+                  <Label>Location Categories (Optional)</Label>
+                  <p className="text-xs text-muted-foreground">Select which locations this restaurant belongs to</p>
+                  <div className="max-h-48 overflow-y-auto border rounded-md p-3 space-y-4">
+                    {regions.map((region) => {
+                      const regionCategories = locationCategories.filter(
+                        (cat) => cat.regionId === region.id
+                      );
+                      if (regionCategories.length === 0) return null;
+                      return (
+                        <div key={region.id}>
+                          <h4 className="font-medium text-sm mb-2">{region.name}</h4>
+                          <div className="grid grid-cols-2 gap-2">
+                            {regionCategories.map((cat) => (
+                              <div key={cat.id} className="flex items-center gap-2">
+                                <Checkbox
+                                  id={`loc-cat-${cat.id}`}
+                                  checked={selectedLocationCategoryIds.includes(cat.id)}
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setSelectedLocationCategoryIds([...selectedLocationCategoryIds, cat.id]);
+                                    } else {
+                                      setSelectedLocationCategoryIds(
+                                        selectedLocationCategoryIds.filter((id) => id !== cat.id)
+                                      );
+                                    }
+                                  }}
+                                  data-testid={`checkbox-location-${cat.id}`}
+                                />
+                                <label
+                                  htmlFor={`loc-cat-${cat.id}`}
+                                  className="text-sm cursor-pointer"
+                                >
+                                  {cat.name}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <FormField

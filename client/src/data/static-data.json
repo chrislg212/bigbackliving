@@ -5,7 +5,7 @@
       "slug": "sendo",
       "name": "Sendo",
       "cuisine": "Japanese",
-      "location": "Koreatown, NY",
+      "location": "Koreatown, New York, NY",
       "rating": 4.8,
       "excerpt": "Combines authenticity, minimalism, and exceptional quality. Inspired by traditional Tokyo\ncasual sushi counters, our obsession with the fundamentals is a core philosophy. ",
       "image": "/images/798b62c5-7503-43cb-b015-54414c003e81.jpg",
@@ -18,8 +18,8 @@
       "galleryImages": null,
       "address": "876 6th Ave 2nd Floor, New York, NY 10001",
       "website": "https://www.sendo.nyc/menu",
-      "aboutBusiness": null,
-      "vibes": null
+      "aboutBusiness": "",
+      "vibes": []
     },
     {
       "id": 1,

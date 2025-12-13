@@ -918,6 +918,39 @@ export async function registerRoutes(
     }
   });
 
+  // Review-Location Categories association routes
+  app.get("/api/reviews/:id/location-categories", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid review ID" });
+      }
+      const categories = await storage.getReviewLocationCategories(id);
+      res.json(categories);
+    } catch (error) {
+      console.error("Error fetching review location categories:", error);
+      res.status(500).json({ error: "Failed to fetch review location categories" });
+    }
+  });
+
+  app.put("/api/reviews/:id/location-categories", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid review ID" });
+      }
+      const { locationCategoryIds } = req.body;
+      if (!Array.isArray(locationCategoryIds)) {
+        return res.status(400).json({ error: "locationCategoryIds must be an array" });
+      }
+      await storage.setReviewLocationCategories(id, locationCategoryIds);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error setting review location categories:", error);
+      res.status(500).json({ error: "Failed to set review location categories" });
+    }
+  });
+
   // Static data export endpoint
   app.post("/api/static/export", async (req, res) => {
     if (req.session.isAdmin !== true) {

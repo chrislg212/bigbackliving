@@ -12,7 +12,7 @@ import {
   type LocationCategory, type InsertLocationCategory,
   reviews, users, cuisines, nycEatsCategories, topTenLists,
   reviewsCuisines, reviewsNycCategories, topTenListItems, socialSettings, socialEmbeds, pageHeaders, contactSubmissions,
-  regions, locationCategories
+  regions, locationCategories, reviewsLocationCategories
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc } from "drizzle-orm";
@@ -87,6 +87,10 @@ export interface IStorage {
   getAllLocationCategories(): Promise<LocationCategory[]>;
   getLocationCategoryById(id: number): Promise<LocationCategory | undefined>;
   updateLocationCategory(id: number, data: Partial<InsertLocationCategory>): Promise<LocationCategory | undefined>;
+  
+  getReviewLocationCategories(reviewId: number): Promise<LocationCategory[]>;
+  setReviewLocationCategories(reviewId: number, locationCategoryIds: number[]): Promise<void>;
+  getReviewsByLocationCategory(locationCategoryId: number): Promise<Review[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -404,6 +408,33 @@ export class DatabaseStorage implements IStorage {
   async updateLocationCategory(id: number, updateData: Partial<InsertLocationCategory>): Promise<LocationCategory | undefined> {
     const [category] = await db.update(locationCategories).set(updateData).where(eq(locationCategories.id, id)).returning();
     return category;
+  }
+
+  async getReviewLocationCategories(reviewId: number): Promise<LocationCategory[]> {
+    const links = await db.select().from(reviewsLocationCategories).where(eq(reviewsLocationCategories.reviewId, reviewId));
+    const categoryList: LocationCategory[] = [];
+    for (const link of links) {
+      const category = await this.getLocationCategoryById(link.locationCategoryId);
+      if (category) categoryList.push(category);
+    }
+    return categoryList;
+  }
+
+  async setReviewLocationCategories(reviewId: number, locationCategoryIds: number[]): Promise<void> {
+    await db.delete(reviewsLocationCategories).where(eq(reviewsLocationCategories.reviewId, reviewId));
+    if (locationCategoryIds.length > 0) {
+      await db.insert(reviewsLocationCategories).values(locationCategoryIds.map(locationCategoryId => ({ reviewId, locationCategoryId })));
+    }
+  }
+
+  async getReviewsByLocationCategory(locationCategoryId: number): Promise<Review[]> {
+    const links = await db.select().from(reviewsLocationCategories).where(eq(reviewsLocationCategories.locationCategoryId, locationCategoryId));
+    const reviewList: Review[] = [];
+    for (const link of links) {
+      const review = await this.getReviewById(link.reviewId);
+      if (review) reviewList.push(review);
+    }
+    return reviewList;
   }
 }
 
