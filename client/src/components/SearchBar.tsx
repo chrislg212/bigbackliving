@@ -189,7 +189,7 @@ export default function SearchBar({ fullWidth = false }: SearchBarProps) {
                     </span>
                   </div>
                   {filteredFeaturedGuides.slice(0, 5).map((guide) => (
-                    <Link key={guide.id} href={`/categories/featured-guides/${guide.slug}`}>
+                    <Link key={guide.id} href={`/featured-guides/${guide.slug}`}>
                       <div
                         className="px-3 py-2.5 hover-elevate cursor-pointer border-b border-primary/5 last:border-0"
                         onClick={() => setIsOpen(false)}
