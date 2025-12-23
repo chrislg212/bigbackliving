@@ -189,6 +189,46 @@
         "Birthdays",
         "Casual Dinner"
       ]
+    },
+    {
+      "id": 6,
+      "slug": "uluh",
+      "name": "uluh",
+      "cuisine": "Chinese",
+      "location": "East Village, NY",
+      "rating": 4.8,
+      "excerpt": "Warm eatery and teahouse for Chinese fare, from Peking duck to Shanghai dumplings.",
+      "image": "/images/197db06b-93e5-4fcf-abd8-5575b942c678.jpg",
+      "priceRange": "$$",
+      "fullReview": "Uluh is located on Second Avenue, and the restaurant offers Chinese cuisine with a twist. The menu features dish components that are both traditional to the region and innovatively created. The interior decor is high-end, yet the dining experience remains homey and casual, with pleasant lighting, simple design, and a vibrant and relaxed ambiance.\n\nChecking in was easy and efficient thanks to a kiosk at the front, which made the process quick and organized. The service was fast, and the staff knew the menu well. They helped me choose a drink that fit what I was looking for, which I appreciated.\n\nMy friend and I shared the crab tofu and the Peking duck. The crab tofu was better than I expected. I’m usually not a tofu fan, but the seafood flavor was savory and unique, and the tofu sat in a creamy, flavorful sauce that tied everything together.\n\nPeking duck, however, was the true star. This was the best Peking duck experience I have ever had. The skin was a nice shade of brown and caramelized with sugar, and the flavor was incredibly rich and fatty. With the sweetness from the brown sauce and the pancakes, the experience of preparing my own duck wrap was an adventure in itself.\n\nThe meal felt complete and well thought out, almost like Szechuan cuisine presented as art. I’d definitely come back with a larger group to order the full Peking duck. To finish, the oolong tea cocktail was a great touch, balanced, lightly sweet, and smooth.\n\nOverall, the food, drinks, and atmosphere all worked together beautifully. Uluh does a great job representing modern Szechuan cuisine in both flavor and style.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/24ef9b77-8c19-4db5-84c0-96ba2f9ccddb.jpg",
+          "caption": "Crab Tofu"
+        },
+        {
+          "url": "/images/4aa7ad20-52a9-404d-8867-e84324ed4358.jpg",
+          "caption": "Oolong Tea (Alcoholic)"
+        },
+        {
+          "url": "/images/79d4ef44-d909-49ff-9f05-2b85f0ca24c9.jpg",
+          "caption": "Peking Duck"
+        }
+      ],
+      "address": "152A 2nd Ave, New York, NY 10003",
+      "website": "https://www.uluhny.com/",
+      "aboutBusiness": "In November 2019, uluh opened in Manhattan’s East Village, a neighborhood with a flourishing history that embodies a bold free-spirited energy and diversity of international community and cuisine - everything that makes New York City the only place you want to be.",
+      "vibes": [
+        "Sharing",
+        "Casual Dinner",
+        "Date Night",
+        "Atmosphere",
+        "Walk-Ins"
+      ]
     }
   ],
   "cuisines": [
@@ -412,6 +452,9 @@
     ],
     "5": [
       7
+    ],
+    "6": [
+      7
     ]
   },
   "reviewNycCategoryMap": {
@@ -489,6 +532,9 @@
     ],
     "5": [
       2
+    ],
+    "6": [
+      1
     ]
   }
 }
