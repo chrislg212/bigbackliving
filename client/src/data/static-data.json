@@ -1,27 +1,6 @@
 {
   "reviews": [
     {
-      "id": 2,
-      "slug": "sendo",
-      "name": "Sendo",
-      "cuisine": "Japanese",
-      "location": "Koreatown, New York, NY",
-      "rating": 4.8,
-      "excerpt": "Combines authenticity, minimalism, and exceptional quality. Inspired by traditional Tokyo\ncasual sushi counters, our obsession with the fundamentals is a core philosophy. ",
-      "image": "/images/798b62c5-7503-43cb-b015-54414c003e81.jpg",
-      "priceRange": "$$",
-      "fullReview": "At first, it was hard to find the way to this hidden gem. It was tucked next to a pizza place, and you have to walk up some stairs, and it is a small door on the 2nd floor. I got seated pretty quickly since I got there at 5 pm, right when it opened.\n\nIt is an intimate experience as I was seated at the bar facing the sushi chefs, making each piece was a grace and perfection. I got the omakase, and it was only $55. The best pieces were the tuna and salmon. They both melted in my mouth, with the flavors treating my tongue with care. Omakases usually go for a more expensive price, so you have to go here to make the most out of your buck.",
-      "highlights": [],
-      "atmosphere": "",
-      "mustTry": [],
-      "visitDate": "",
-      "galleryImages": null,
-      "address": "876 6th Ave 2nd Floor, New York, NY 10001",
-      "website": "https://www.sendo.nyc/menu",
-      "aboutBusiness": "",
-      "vibes": []
-    },
-    {
       "id": 1,
       "slug": "cote-korean-steakhouse",
       "name": "COTE Korean Steakhouse",
@@ -31,7 +10,7 @@
       "excerpt": "Upscale Korean steakhouse featuring tables with smokeless grills, plus an extensive wine list.",
       "image": "/images/6d301acd-30c3-4c04-9685-9487c9fcbe23.jpg",
       "priceRange": "$$$$",
-      "fullReview": "Cote brings together high-end Korean BBQ with a lively, youthful energy that makes every visit feel like a celebration. It's upscale yet unpretentious, perfect for Gen Z and millennial foodies.\n\nI've been five times, and the service has never missed--servers are friendly, engaging, and expertly pace each dish. The Butcher's Feast is the highlight: every cut was tender and perfectly cooked, with the A5 Wagyu stealing the show despite its additional $30/oz price tag. The sides impress too, especially the fluffy egg souffle and rich soft serve. The music and ambiance keep the mood upbeat and social, without sacrificing refinement.\n\nEasily a 5-star experience--Cote is hands-down the best Korean BBQ in NYC and absolutely worth visiting.",
+      "fullReview": "COTE Korean Steakhouse combines quality Korean barbecue and a dynamic, friendly environment that makes every experience there interesting. The restaurant offers a sophisticated setting that’s not only welcoming but also not too intimidating; it’s chic, vibrant, and perfect for those in search of quality eats but not the stiff formality of a fancy restaurant.\n\nWithin the five visits, the service that is offered is always excellent. The staff is hospitality personified, very attentive, and capable of timing the dishes to be served to the guest. The Butcher’s Feast clearly stands out as the dish to order, as all the meats provided are tender and perfectly cooked. Taking into consideration that the price for the A5 Wagyu is extra, its quality should be factored as it outshines the whole dining experience.\n\nThe other components of the dish demonstrate equal importance as the main ingredients. The egg soufflé is marked by its lightness, while the ending soft-serve dessert provides a satisfactory finish. The music accompanying the dishes promotes a convivial atmosphere without undermining the culinary experience.\n\nOverall, this experience is worthy of a five-star review. COTE is definitely one of the foremost Korean barbecue restaurants in New York City and definitely deserves consideration for a visit.",
       "highlights": [],
       "atmosphere": "Casual",
       "mustTry": [],
@@ -39,7 +18,7 @@
       "galleryImages": null,
       "address": "16 W 22nd St, New York, NY 10010",
       "website": "https://www.cotekoreansteakhouse.com/nycdinnermenu",
-      "aboutBusiness": "",
+      "aboutBusiness": "Cote Korean Steakhouse represents the modern Korean restaurant experience that marries Korean barbecue dining with the feel of a high-end steakhouse. Guests grill premium cuts of beef at the table, paired with traditional banchan and thoughtful sides, creating a refined but social dining experience focused on quality meat and bold flavors.",
       "vibes": []
     },
     {
@@ -87,58 +66,6 @@
       ]
     },
     {
-      "id": 4,
-      "slug": "sake-no-hana",
-      "name": "Sake No Hana",
-      "cuisine": "Japanese",
-      "location": "Lower East Side, New York, NY",
-      "rating": 4.4,
-      "excerpt": "Festive Izakaya beneath the Moxy Lower East Side hotel featuring creative sushi, sake, and cocktails.",
-      "image": "/images/53930801-b422-452a-9a6b-b6406296e8a6.jpg",
-      "priceRange": "$$$",
-      "fullReview": "Upon entering the restaurant, I was astonished by the Japanese aesthetic while preserving a fancy vibe. Place had perfect lighting and the stairs to the restaurant was beautiful. The place was cozy and warm & the bathroom was top tier.\n\nThe service made me feel like a VIP. I felt very welcomed with all of the service I was provided. They were attentive to our needs and questions. \n\nAs for the food, it was rich and creative. We were presented with the best complimentary chips a restaurant had to offer. The parmesan cheese is an addictive substance; truly to die for. \n\nThe the first entree I had was the fatty bluefin tuna. $22 for a piece seems like a lot, but the quality made up for it. Truly an unforgettable piece. \n\nI also had the Waygu carbonara, which was honestly a bit overrated, but was very delectable. On top of that, I got the tuna tartare. It was just as I expected, not too amazing, but just right. \n\nAfter that, the matcha tiramisu finished off the meal perfectly. I would get it again as it was vibrant and creamy.",
-      "highlights": [],
-      "atmosphere": "",
-      "mustTry": [],
-      "visitDate": "",
-      "galleryImages": [
-        {
-          "url": "/images/d6100051-fb26-4a4b-9ffb-7a42dec9e524.jpg",
-          "caption": "Waygu Carbonara"
-        },
-        {
-          "url": "/images/1701d861-9097-4140-8cb2-429b91bc8bb2.jpg",
-          "caption": "Matcha Tiramisu"
-        },
-        {
-          "url": "/images/ada4e94f-18e3-4afa-9b7b-fd1ed6ed1ef5.jpg",
-          "caption": "Tuna Tartare"
-        },
-        {
-          "url": "/images/94e26da4-2e56-4071-8843-f01257f356c5.jpg",
-          "caption": "Fatty Bluefin Tuna"
-        },
-        {
-          "url": "/images/8e549cc8-fefd-43d8-b2c6-2ed4721395a1.jpg",
-          "caption": "Chips & Cheese"
-        },
-        {
-          "url": "/images/f46c9891-8040-46f1-a710-bae8aa131179.jpg",
-          "caption": "Dreamy Kawaii"
-        }
-      ],
-      "address": "145 Bowery, New York, NY 10002",
-      "website": "https://taogroup.com/venues/sake-no-hana-new-york/",
-      "aboutBusiness": "Occupying a dramatic, festive space beneath the catwalk entry of Moxy Lower East Side, Japanese restaurant Sake no Hana serves free-spirited izakaya dishes invigorated with New York attitude. With a shareable menu of grilled teppanyaki dishes, yakitori skewers, Wagyu beef, creative sushi rolls, and a curated list of sakes, beers, and cocktails highlighting Japanese spirits. The space buzzes with alluring energy perfect for any celebration.",
-      "vibes": [
-        "Atmsphere",
-        "Date Night",
-        "Cocktails",
-        "Birthdays",
-        "Fine Dining"
-      ]
-    },
-    {
       "id": 5,
       "slug": "lao-sze-chuan",
       "name": "Lao Sze Chuan",
@@ -181,13 +108,65 @@
       ],
       "address": "20 Paseo Dr, North Bethesda, MD 20852",
       "website": "https://order.peblla.com/lsc/order?sid=640148175017062400",
-      "aboutBusiness": "Located in North Bethesda, Lao Sze Chuan is a restaurant that provides a genuine Szechuan dining experience with bold flavors and typical Chinese cuisine. The restaurant specializes in the distinct spices used in Szechuan cuisine, such as chili peppers and Szechuan peppercorns, giving it a variety of dishes that are characterized by bold flavors. \n\nThe restaurant offers a list of typical dishes such as stir-fry meals, noodles, and flavorful specials, which can suit a lover of spicy food and a person who wants to taste different flavors. With a focus on fresh ingredients and authentic preparation methods, Lao Sze Chuan is a restaurant that provides a memorable meal with bold flavors.",
+      "aboutBusiness": "Lao Sze Chuan brings the authentic Szechuan experience in cuisine, marked by the heavy use of chili peppers and Szechuan peppercorns in typical dishes like stir-fries and noodle plates. Through the incorporation of natural ingredients and traditional techniques, this restaurant is a good place for those who prefer dishes with a kick or intense flavor sensations.",
       "vibes": [
         "Sharing",
         "Large Groups",
         "Large Portions",
         "Birthdays",
         "Casual Dinner"
+      ]
+    },
+    {
+      "id": 4,
+      "slug": "sake-no-hana",
+      "name": "Sake No Hana",
+      "cuisine": "Japanese",
+      "location": "Lower East Side, New York, NY",
+      "rating": 4.4,
+      "excerpt": "Festive Izakaya beneath the Moxy Lower East Side hotel featuring creative sushi, sake, and cocktails.",
+      "image": "/images/53930801-b422-452a-9a6b-b6406296e8a6.jpg",
+      "priceRange": "$$$",
+      "fullReview": "Upon entering the restaurant, I was astonished by the Japanese aesthetic while preserving a fancy vibe. Place had perfect lighting and the stairs to the restaurant was beautiful. The place was cozy and warm & the bathroom was top tier.\n\nThe service made me feel like a VIP. I felt very welcomed with all of the service I was provided. They were attentive to our needs and questions. \n\nAs for the food, it was rich and creative. We were presented with the best complimentary chips a restaurant had to offer. The parmesan cheese is an addictive substance; truly to die for. \n\nThe the first entree I had was the fatty bluefin tuna. $22 for a piece seems like a lot, but the quality made up for it. Truly an unforgettable piece. \n\nI also had the Waygu carbonara, which was honestly a bit overrated, but was very delectable. On top of that, I got the tuna tartare. It was just as I expected, not too amazing, but just right. \n\nAfter that, the matcha tiramisu finished off the meal perfectly. I would get it again as it was vibrant and creamy.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/d6100051-fb26-4a4b-9ffb-7a42dec9e524.jpg",
+          "caption": "Waygu Carbonara"
+        },
+        {
+          "url": "/images/1701d861-9097-4140-8cb2-429b91bc8bb2.jpg",
+          "caption": "Matcha Tiramisu"
+        },
+        {
+          "url": "/images/ada4e94f-18e3-4afa-9b7b-fd1ed6ed1ef5.jpg",
+          "caption": "Tuna Tartare"
+        },
+        {
+          "url": "/images/94e26da4-2e56-4071-8843-f01257f356c5.jpg",
+          "caption": "Fatty Bluefin Tuna"
+        },
+        {
+          "url": "/images/8e549cc8-fefd-43d8-b2c6-2ed4721395a1.jpg",
+          "caption": "Chips & Cheese"
+        },
+        {
+          "url": "/images/f46c9891-8040-46f1-a710-bae8aa131179.jpg",
+          "caption": "Dreamy Kawaii"
+        }
+      ],
+      "address": "145 Bowery, New York, NY 10002",
+      "website": "https://taogroup.com/venues/sake-no-hana-new-york/",
+      "aboutBusiness": "Sake No Hana is an active Japanese izakaya, located inside the Moxy Lower East Side hotel. This type of restaurant is characterized by the offering of sharing plates, including yakitori, teppanyaki, Wagyu beef, and unique sushi, along with an assortment of sake, cocktails, and Japanese liquors.",
+      "vibes": [
+        "Atmsphere",
+        "Date Night",
+        "Cocktails",
+        "Birthdays",
+        "Fine Dining"
       ]
     },
     {
@@ -228,6 +207,55 @@
         "Date Night",
         "Atmosphere",
         "Walk-Ins"
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "sendo",
+      "name": "Sendo",
+      "cuisine": "Japanese",
+      "location": "Koreatown, New York, NY",
+      "rating": 4.8,
+      "excerpt": "Combines authenticity, minimalism, and exceptional quality. Inspired by traditional Tokyo\ncasual sushi counters, our obsession with the fundamentals is a core philosophy. ",
+      "image": "/images/798b62c5-7503-43cb-b015-54414c003e81.jpg",
+      "priceRange": "$$",
+      "fullReview": "\nAt first, the restaurant was a bit hard to find, which only added to its charm. Tucked beside a pizza shop, the entrance is up a small flight of stairs through a discreet second-floor door; it truly feels like a hidden gem. I arrived right at 5 p.m. when they opened and was seated almost immediately.\n\nThe experience also proved to be personal. I sat at the sushi bar, right in front of the sushi chefs as they prepared each piece of nigiri. It was apparent that much time and attention had been paid to every detail.\n\nI ordered the omakase, which was only $55 (an incredible value). The standout pieces were the tuna and salmon. Both were incredibly fresh and melted in my mouth, with clean, delicate flavors that felt perfectly balanced.\n\nOmakase experiences tend to have higher prices; therefore, this restaurant provides great value without sacrificing quality. Those looking for a luxurious experience at a relatively cheaper price might want to consider this.",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": null,
+      "address": "876 6th Ave 2nd Floor, New York, NY 10001",
+      "website": "https://www.sendo.nyc/menu",
+      "aboutBusiness": "Sendo Omakase is a low-key, exclusive sushi restaurant in the heart of New York City, offering a traditional omakase experience. Diners are seated around a bar as the chef methodically plates a series of dishes from day-selected, superior examples of fish. The focus is placed on delicate, precise sushi presented one piece at a time, in a serene, attentively personalized setting.",
+      "vibes": []
+    },
+    {
+      "id": 7,
+      "slug": "mojo-east",
+      "name": "Mojo East",
+      "cuisine": "Japanese",
+      "location": "Lower East Side, New York, NY",
+      "rating": 4.6,
+      "excerpt": "Casual Japanese eatery specializing in omakase menus featuring salmon and wagyu.",
+      "image": "/images/d1a3c7ae-f6d6-40e1-9fb7-5aa8242b856a.jpg",
+      "priceRange": "$$",
+      "fullReview": "Placeholder",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": null,
+      "address": "85 Stanton St, New York, NY 10002",
+      "website": "https://resy.com/cities/new-york-ny/venues/mojo-east?date=2026-01-04&seats=2",
+      "aboutBusiness": "Placeholder",
+      "vibes": [
+        "Date Night",
+        "Great Service",
+        "Atmosphere",
+        "Tasting Menu",
+        "Short List",
+        "Small Plates"
       ]
     }
   ],
@@ -534,6 +562,9 @@
       2
     ],
     "6": [
+      1
+    ],
+    "7": [
       1
     ]
   }
