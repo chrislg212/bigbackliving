@@ -93,7 +93,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
         className="group cursor-pointer overflow-hidden border-0 shadow-sm card-hover-lift card-hover-zoom"
         data-testid={`review-card-${review.id}`}
       >
-        <div className="aspect-[4/3] overflow-hidden">
+        <div className="aspect-[4/3] overflow-hidden rounded-md">
           <img
             src={imageUrl}
             alt={review.name}
@@ -101,52 +101,29 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
             data-testid={`review-image-${review.id}`}
           />
         </div>
-        <CardContent className="p-5">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span
-              className="text-xs font-sans font-medium uppercase tracking-wider text-primary"
-              data-testid={`review-cuisine-${review.id}`}
-            >
-              {review.cuisine}
-            </span>
-            <span className="text-xs font-sans text-muted-foreground">
-              {review.priceRange}
-            </span>
-          </div>
-
+        <CardContent className="p-4 pt-3">
           <h3
-            className="font-serif text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors"
+            className="font-serif text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-1"
             data-testid={`review-name-${review.id}`}
           >
             {review.name}
           </h3>
 
-          <div className="flex items-center gap-1 text-muted-foreground mb-3">
-            <MapPin className="w-3 h-3" />
-            <span
-              className="text-xs font-sans"
-              data-testid={`review-location-${review.id}`}
-            >
-              {review.location}
-            </span>
-          </div>
-
-          <StarRating rating={review.rating} size="sm" />
-
           <p
-            className="font-sans text-sm text-muted-foreground mt-3 line-clamp-2 leading-relaxed"
-            data-testid={`review-excerpt-${review.id}`}
+            className="text-sm font-sans text-muted-foreground mb-1"
+            data-testid={`review-location-${review.id}`}
           >
-            {review.excerpt}
+            {review.location}
           </p>
 
-          <span
-            className="inline-flex items-center gap-1 mt-4 text-sm font-sans font-medium text-primary group-hover:gap-2 transition-all"
-            data-testid={`review-link-${review.id}`}
+          <p
+            className="text-sm font-sans text-muted-foreground"
+            data-testid={`review-cuisine-${review.id}`}
           >
-            Read Review
-            <ArrowRight className="w-3 h-3 arrow-hover-right" />
-          </span>
+            <span>{review.priceRange}</span>
+            <span className="mx-1.5 text-muted-foreground/50">·</span>
+            <span>{review.cuisine}</span>
+          </p>
         </CardContent>
       </Card>
     </Link>
