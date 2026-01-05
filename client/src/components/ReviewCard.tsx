@@ -103,7 +103,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
         </div>
         <CardContent className="p-4 pt-3">
           <h3
-            className="font-serif text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-1"
+            className="font-serif text-xl font-semibold text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-1"
             data-testid={`review-name-${review.id}`}
           >
             {review.name}
