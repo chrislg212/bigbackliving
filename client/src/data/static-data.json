@@ -170,6 +170,62 @@
       ]
     },
     {
+      "id": 7,
+      "slug": "mojo-east",
+      "name": "Mojo East",
+      "cuisine": "Japanese",
+      "location": "Lower East Side, New York, NY",
+      "rating": 4.6,
+      "excerpt": "Casual Japanese eatery specializing in omakase menus featuring salmon and wagyu.",
+      "image": "/images/d1a3c7ae-f6d6-40e1-9fb7-5aa8242b856a.jpg",
+      "priceRange": "$$",
+      "fullReview": "Placeholder",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/18ccdcc4-0049-4b85-8d8e-533812fe3a41.jpg"
+        },
+        {
+          "url": "/images/d5820d16-b533-4ed8-b39e-cdaf0c360533.jpg"
+        },
+        {
+          "url": "/images/6c4b50ff-284f-47dd-84d0-f61ffa6ee1f6.jpg"
+        },
+        {
+          "url": "/images/5aaa4840-5799-4a6b-b815-7756603f8595.jpg"
+        },
+        {
+          "url": "/images/ce86d192-5ccf-4853-81b9-f05d7218936b.jpg"
+        },
+        {
+          "url": "/images/f140f0cf-1ea5-4e76-8ada-9bfc35aa5f0b.jpg"
+        },
+        {
+          "url": "/images/005a9fbe-f242-4b02-b4cc-6193a4a8b083.jpg"
+        },
+        {
+          "url": "/images/45bb6cb3-8d19-46e9-a7bf-c3247a7b752e.jpg"
+        },
+        {
+          "url": "/images/d235f69b-7624-44bd-811c-b24d97c66702.jpg"
+        }
+      ],
+      "address": "85 Stanton St, New York, NY 10002",
+      "website": "https://resy.com/cities/new-york-ny/venues/mojo-east?date=2026-01-04&seats=2",
+      "aboutBusiness": "Placeholder",
+      "vibes": [
+        "Date Night",
+        "Great Service",
+        "Atmosphere",
+        "Tasting Menu",
+        "Short List",
+        "Small Plates"
+      ]
+    },
+    {
       "id": 6,
       "slug": "uluh",
       "name": "uluh",
@@ -229,34 +285,6 @@
       "website": "https://www.sendo.nyc/menu",
       "aboutBusiness": "Sendo Omakase is a low-key, exclusive sushi restaurant in the heart of New York City, offering a traditional omakase experience. Diners are seated around a bar as the chef methodically plates a series of dishes from day-selected, superior examples of fish. The focus is placed on delicate, precise sushi presented one piece at a time, in a serene, attentively personalized setting.",
       "vibes": []
-    },
-    {
-      "id": 7,
-      "slug": "mojo-east",
-      "name": "Mojo East",
-      "cuisine": "Japanese",
-      "location": "Lower East Side, New York, NY",
-      "rating": 4.6,
-      "excerpt": "Casual Japanese eatery specializing in omakase menus featuring salmon and wagyu.",
-      "image": "/images/d1a3c7ae-f6d6-40e1-9fb7-5aa8242b856a.jpg",
-      "priceRange": "$$",
-      "fullReview": "Placeholder",
-      "highlights": [],
-      "atmosphere": "",
-      "mustTry": [],
-      "visitDate": "",
-      "galleryImages": null,
-      "address": "85 Stanton St, New York, NY 10002",
-      "website": "https://resy.com/cities/new-york-ny/venues/mojo-east?date=2026-01-04&seats=2",
-      "aboutBusiness": "Placeholder",
-      "vibes": [
-        "Date Night",
-        "Great Service",
-        "Atmosphere",
-        "Tasting Menu",
-        "Short List",
-        "Small Plates"
-      ]
     }
   ],
   "cuisines": [
@@ -483,6 +511,9 @@
     ],
     "6": [
       7
+    ],
+    "7": [
+      3
     ]
   },
   "reviewNycCategoryMap": {
