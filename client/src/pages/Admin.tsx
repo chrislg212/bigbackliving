@@ -51,7 +51,6 @@ const reviewFormSchema = z.object({
   cuisine: z.string().min(1, "Cuisine is required"),
   location: z.string().min(1, "Location is required"),
   rating: z.coerce.number().min(1).max(5),
-  excerpt: z.string().min(1, "Excerpt is required"),
   priceRange: z.string().min(1, "Price range is required"),
   image: z.string().optional(),
   fullReview: z.string().optional(),
@@ -137,7 +136,6 @@ function ReviewsTab() {
       cuisine: "",
       location: "",
       rating: 4,
-      excerpt: "",
       priceRange: "$$",
       image: "",
       fullReview: "",
@@ -221,7 +219,6 @@ function ReviewsTab() {
         cuisine: review.cuisine,
         location: review.location,
         rating: review.rating,
-        excerpt: review.excerpt,
         priceRange: review.priceRange,
         image: review.image || "",
         fullReview: review.fullReview || "",
@@ -442,25 +439,6 @@ function ReviewsTab() {
                     )}
                   />
                 </div>
-
-                <FormField
-                  control={form.control}
-                  name="excerpt"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Short Excerpt</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="A brief description of the restaurant..."
-                          rows={2}
-                          data-testid="input-excerpt"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
 
                 <div className="space-y-2">
                   <Label>Photo</Label>

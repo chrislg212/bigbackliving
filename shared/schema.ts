@@ -31,7 +31,7 @@ export const reviews = pgTable("reviews", {
   cuisine: text("cuisine").notNull(),
   location: text("location").notNull(),
   rating: real("rating").notNull(),
-  excerpt: text("excerpt").notNull(),
+  excerpt: text("excerpt"),
   image: text("image"),
   priceRange: text("price_range").notNull(),
   fullReview: text("full_review"),

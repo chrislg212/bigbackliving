@@ -261,7 +261,7 @@ export function ObjectUploader({
       </Button>
 
       <Dialog open={showModal} onOpenChange={(open) => !open && handleClose()}>
-        <DialogContent className={isCropping ? "sm:max-w-2xl" : "sm:max-w-md"}>
+        <DialogContent className={isCropping ? "sm:max-w-4xl max-h-[90vh]" : "sm:max-w-md"}>
           <DialogHeader>
             <DialogTitle className="font-serif">
               {isCropping ? "Crop Image" : "Upload Image"}
@@ -294,26 +294,26 @@ export function ObjectUploader({
               </label>
             ) : isCropping && preview ? (
               <div className="space-y-4">
-                <div className="relative w-full max-h-[400px] overflow-auto rounded-lg bg-muted flex items-center justify-center">
+                <div className="relative w-full max-h-[60vh] overflow-auto rounded-lg bg-black/90 flex items-center justify-center p-4">
                   <ReactCrop
                     crop={crop}
                     onChange={(_, percentCrop) => setCrop(percentCrop)}
                     onComplete={(_, percentCrop) => setCompletedCrop(percentCrop)}
                     aspect={aspectRatio}
-                    className="max-w-full"
+                    className="max-w-full [&_.ReactCrop__crop-selection]:border-4 [&_.ReactCrop__crop-selection]:border-white [&_.ReactCrop__crop-selection]:shadow-[0_0_0_9999px_rgba(0,0,0,0.7)] [&_.ReactCrop__drag-handle]:w-5 [&_.ReactCrop__drag-handle]:h-5 [&_.ReactCrop__drag-handle]:bg-white [&_.ReactCrop__drag-handle]:border-2 [&_.ReactCrop__drag-handle]:border-primary [&_.ReactCrop__drag-handle]:rounded-full"
                   >
                     <img
                       ref={imgRef}
                       src={preview}
                       alt="Crop preview"
                       onLoad={onImageLoad}
-                      className="max-w-full max-h-[380px] object-contain"
+                      className="max-w-full max-h-[55vh] object-contain"
                       data-testid="crop-image"
                     />
                   </ReactCrop>
                 </div>
-                <p className="text-xs text-muted-foreground text-center">
-                  Drag to reposition. Drag corners to resize the crop area.
+                <p className="text-sm text-muted-foreground text-center">
+                  Drag inside the box to move. Drag the white circles at corners to resize.
                 </p>
                 <div className="flex gap-3">
                   <Button

@@ -170,6 +170,51 @@
       ]
     },
     {
+      "id": 8,
+      "slug": "coqodaq",
+      "name": "COQODAQ",
+      "cuisine": "Korean",
+      "location": "Flatiron, New York, NY",
+      "rating": 4.4,
+      "excerpt": "f",
+      "image": "/images/e6323356-1353-4e94-8cc1-76ddd5c935b6.jpg",
+      "priceRange": "$$",
+      "fullReview": "",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/140936d7-bfd1-4786-98f5-ffde8da37d03.jpg",
+          "caption": "Chicken Wings"
+        },
+        {
+          "url": "/images/1cdcbcee-5891-4fd2-a1d3-23c2815cab26.jpg",
+          "caption": "Soy Garlic Wings"
+        },
+        {
+          "url": "/images/677ab38a-e650-4847-a009-1bb297369449.jpg",
+          "caption": "Sauces"
+        },
+        {
+          "url": "/images/a65b26f3-02a1-4bc8-b4df-eab25b03f88e.jpg",
+          "caption": "Chicken Nuggets"
+        }
+      ],
+      "address": "12 E 22nd St, New York, NY 10010",
+      "website": "coqodaq.com",
+      "aboutBusiness": "Upscale restaurant and bar serving Korean-style fried chicken along with Champagne.",
+      "vibes": [
+        "Atmosphere",
+        "Sharing",
+        "Great Service",
+        "Date Night",
+        "Cocktails",
+        "Birthdays"
+      ]
+    },
+    {
       "id": 7,
       "slug": "mojo-east",
       "name": "Mojo East",
@@ -285,6 +330,54 @@
       "website": "https://www.sendo.nyc/menu",
       "aboutBusiness": "Sendo Omakase is a low-key, exclusive sushi restaurant in the heart of New York City, offering a traditional omakase experience. Diners are seated around a bar as the chef methodically plates a series of dishes from day-selected, superior examples of fish. The focus is placed on delicate, precise sushi presented one piece at a time, in a serene, attentively personalized setting.",
       "vibes": []
+    },
+    {
+      "id": 9,
+      "slug": "chadol-korean-bbq",
+      "name": "Chadol Korean BBQ",
+      "cuisine": "Korean",
+      "location": "Rockville, MD",
+      "rating": 4.6,
+      "excerpt": "f",
+      "image": "/images/72dcd4f8-fa39-45d6-92a5-2195c22e5730.jpg",
+      "priceRange": "$$",
+      "fullReview": "",
+      "highlights": [],
+      "atmosphere": "",
+      "mustTry": [],
+      "visitDate": "",
+      "galleryImages": [
+        {
+          "url": "/images/53411cd0-8a48-413f-844d-e9f95009db3b.jpg",
+          "caption": "Bulgogi"
+        },
+        {
+          "url": "/images/3755f7cc-a4d4-4701-858e-c6fa9ef6b6ca.jpg",
+          "caption": "Porkbelly"
+        },
+        {
+          "url": "/images/f4e72699-fa07-401e-9919-6767daf435b5.jpg",
+          "caption": "Gyoza"
+        },
+        {
+          "url": "/images/c27ce881-9601-4aa0-9557-cc687bb9a160.jpg",
+          "caption": "Bulgogi"
+        },
+        {
+          "url": "/images/1dc4030a-6674-433c-ada0-448faf847248.jpg",
+          "caption": "Fries"
+        }
+      ],
+      "address": "1403 Research Blvd unit A-8, Rockville, MD 20850",
+      "website": "chadolbbq.com",
+      "aboutBusiness": "",
+      "vibes": [
+        "AYCE",
+        "Date Night",
+        "Sharing",
+        "Large Group",
+        "Casual Dinner"
+      ]
     }
   ],
   "cuisines": [
@@ -514,6 +607,12 @@
     ],
     "7": [
       3
+    ],
+    "8": [
+      1
+    ],
+    "9": [
+      1
     ]
   },
   "reviewNycCategoryMap": {
@@ -597,6 +696,12 @@
     ],
     "7": [
       1
+    ],
+    "8": [
+      1
+    ],
+    "9": [
+      2
     ]
   }
 }
