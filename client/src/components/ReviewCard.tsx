@@ -90,7 +90,7 @@ export default function ReviewCard({ review, variant = "default" }: ReviewCardPr
   return (
     <Link href={`/review/${review.slug}`}>
       <Card
-        className="group cursor-pointer overflow-hidden border-0 shadow-sm card-hover-lift card-hover-zoom"
+        className="group cursor-pointer overflow-hidden border-0 shadow-md hover:shadow-lg transition-shadow card-hover-lift card-hover-zoom"
         data-testid={`review-card-${review.id}`}
       >
         <div className="aspect-[4/3] overflow-hidden rounded-md">
