@@ -49,7 +49,7 @@ export default function Reviews() {
         </div>
       </section>
 
-      <section className="relative mt-8 md:mt-16 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
+      <section className="relative mt-8 md:mt-16 z-10 max-w-[1600px] mx-auto px-4 sm:px-6 pb-16 md:pb-24">
         <AnimatedSection animation="fade-in-up" className="mb-8">
           <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">
             All Reviews
@@ -57,7 +57,7 @@ export default function Reviews() {
         </AnimatedSection>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
           data-testid="all-reviews-grid"
         >
           {reviews.map((review, index) => (
